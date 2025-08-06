@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    html, body {
+      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .scroll-container {
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1;
+    }
+  </style>
+  <meta charset="UTF-8" />
+  <title>People SoftKnit Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.fade-out {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: blur(2px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+  </style>
+  <style>
+    body.fade-out {
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(.5,1.5,.5,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transition: opacity 0.7s cubic-bezier(.5,1.5,.5,1);
+    }
+  </style>
+  <style>
+    .background {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: 0;
+      background: url('images/welcome_background.gif') center center/cover no-repeat;
+      will-change: transform;
+      transform: translate(-50%, -50%);
+      transition: background-image 0.5s, transform 0.5s;
+      pointer-events: none;
+    }
+    .background-static {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: 0;
+      background: url('images/static_background.png') center center/cover no-repeat;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .background-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(17,17,17,0.7); /* dark overlay */
+      z-index: 1;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <div class="background-static" style="display:none;"></div>
+  <div class="background-overlay" style="pointer-events:none;"></div>
+  <div class="scroll-container">
+    <div class="content">
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        document.body.classList.add('fade-in');
+        document.querySelectorAll('a').forEach(link => {
+          if (link.target === '_blank' || link.href.startsWith('mailto:')) return;
+          link.addEventListener('click', function(e) {
+            if (link.hostname === window.location.hostname && link.pathname !== window.location.pathname) {
+              e.preventDefault();
+              document.body.classList.remove('fade-in');
+              document.body.classList.add('fade-out');
+              setTimeout(() => {
+                window.location = link.href;
+              }, 400);
+            }
+          });
+        });
+
+        // Dynamic scaling and rotation for background, matching index.html
+        const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
+        window._backgroundRotation = rot;
+        const bg = document.querySelector('.background');
+        const bgStatic = document.querySelector('.background-static');
+
+        function applyBackgroundTransform() {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+
+          // Calculate the bounding box of the rotated rectangle
+          const angle = (rot % 360) * Math.PI / 180;
+          const sin = Math.abs(Math.sin(angle));
+          const cos = Math.abs(Math.cos(angle));
+
+          const baseW = vw;
+          const baseH = vh;
+
+          const bboxW = baseW * cos + baseH * sin;
+          const bboxH = baseW * sin + baseH * cos;
+
+          // Add a small padding factor to ensure no white edges
+          const paddingFactor = 1.02;
+          const adjustedW = bboxW * paddingFactor;
+          const adjustedH = bboxH * paddingFactor;
+
+          bg.style.width = `${adjustedW}px`;
+          bg.style.height = `${adjustedH}px`;
+          bgStatic.style.width = `${adjustedW}px`;
+          bgStatic.style.height = `${adjustedH}px`;
+
+          // Calculate the minimum scale to cover the viewport
+          const scaleW = vw / bboxW;
+          const scaleH = vh / bboxH;
+          const minScale = Math.max(scaleW, scaleH, 1.12);
+
+          const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${minScale})`;
+          bg.style.transform = transform;
+          bgStatic.style.transform = transform;
+        }
+
+        applyBackgroundTransform();
+
+        window.addEventListener('resize', applyBackgroundTransform);
+        if (window.visualViewport) {
+          window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+        }
+
+        setTimeout(function() {
+          if (bg) bg.style.display = 'none';
+          if (bgStatic) bgStatic.style.display = 'block';
+        }, 5000);
+      });
+    </script>
+    <header>
+      <div class="navbar">
+        <h1>SoftKnit Lab</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="research.html">Research</a>
+          <a href="group.html">People</a>
+          <a href="publications.html">Publications</a>
+          <a href="news.html">News</a>
+          <a href="culture.html">Culture</a>
+          <a href="positions.html">Open Positions</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="group-card" style="
+        background: #111;
+        border-radius: 28px;
+        box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a;
+        border-left: 8px solid #1b7c4b;
+        border-right: 2px solid #1b7c4b;
+        padding: 2.5em 2vw 2.5em 2vw;
+        max-width: 1200px;
+        width: 100%;
+        margin: 2em auto;
+        color: #fff;
+        position: relative;
+        z-index: 3;
+        font-family: 'Segoe UI', 'Arial', sans-serif;
+        letter-spacing: 0.01em;
+        text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000;
+        font-weight: 600;
+      ">
+        <h2 style="color: #1b7c4b; margin-bottom: 0.7em; font-size: 3rem;">Group Members</h2>
+        <div class="people-list"></div>
+      </div>
+    </main>
+    <footer>
+      <p>© 2025 SoftKnit Lab | Institute of Science and Technology Austria</p>
+    </footer>
+    </div>
+  </div>
+</div>
+<script>
+// Fetch and render group members from Google Sheets CSV
+document.addEventListener('DOMContentLoaded', function() {
+  const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJSOxWdkQrwZOF2yEZPPu3I6w0bqZjBmBJRYKf3Ekb6EzP2WXaBYq7OvDxLdUUKrkE9dQ82BwXmT9H/pub?output=csv';
+  fetch(csvUrl)
+    .then(response => response.text())
+    .then(csv => {
+      // Robust CSV parsing (handles commas in quotes)
+      function parseCSV(text) {
+        const rows = [];
+        let row = [], col = '', inQuotes = false;
+        for (let i = 0; i < text.length; i++) {
+          const c = text[i];
+          if (c === '"') {
+            if (inQuotes && text[i+1] === '"') { col += '"'; i++; }
+            else inQuotes = !inQuotes;
+          } else if (c === ',' && !inQuotes) {
+            row.push(col); col = '';
+          } else if ((c === '\n' || c === '\r') && !inQuotes) {
+            if (col !== '' || row.length > 0) { row.push(col); rows.push(row); }
+            row = []; col = '';
+            // handle \r\n
+            if (c === '\r' && text[i+1] === '\n') i++;
+          } else {
+            col += c;
+          }
+        }
+        if (col !== '' || row.length > 0) { row.push(col); rows.push(row); }
+        return rows.filter(r => r.some(cell => cell.trim() !== ''));
+      }
+      const rows = parseCSV(csv.trim());
+      if (!rows.length) return;
+      const headers = rows.shift().map(h => h.trim());
+      const members = rows.map(row => {
+        const obj = {};
+        row.forEach((val, idx) => obj[headers[idx]] = val.trim());
+        return obj;
+      });
+      const container = document.querySelector('.people-list');
+      members.forEach(m => {
+        if (!m.Name) return;
+        const card = document.createElement('div');
+        card.className = 'person-card';
+
+        // Photo
+        const img = document.createElement('img');
+        img.className = 'person-photo';
+        img.alt = m.Name;
+        img.src = m.PictureFile ? (m.PictureFile.startsWith('http') ? m.PictureFile : 'images/' + m.PictureFile) : 'images/cartoon-placeholder.png';
+        card.appendChild(img);
+
+        // Info container
+        const info = document.createElement('div');
+        info.className = 'person-info';
+
+        // Header (name, email, links)
+        const header = document.createElement('div');
+        header.className = 'person-header';
+
+        // Name
+        const name = document.createElement('h3');
+        name.textContent = m.Name;
+        header.appendChild(name);
+
+        // Email
+        if (m["E-Mail"]) {
+          const email = document.createElement('a');
+          email.href = 'mailto:' + m["E-Mail"];
+          email.className = 'person-email';
+          email.textContent = m["E-Mail"];
+          header.appendChild(email);
+        }
+
+        // Links
+        const links = document.createElement('div');
+        links.className = 'person-links';
+        if (m["LinkedIn"]) {
+          const linkedin = document.createElement('a');
+          linkedin.href = m["LinkedIn"].startsWith('http') ? m["LinkedIn"] : 'https://' + m["LinkedIn"];
+          linkedin.target = '_blank';
+          linkedin.innerHTML = '<img src="static/icons/linkedin.svg" alt="LinkedIn" width="24" />';
+          links.appendChild(linkedin);
+        }
+        if (m["Google Scholar"]) {
+          const scholar = document.createElement('a');
+          scholar.href = m["Google Scholar"];
+          scholar.target = '_blank';
+          scholar.innerHTML = '<img src="static/icons/scholar.svg" alt="Scholar" width="24" />';
+          links.appendChild(scholar);
+        }
+        if (m["CV"]) {
+          const cv = document.createElement('a');
+          cv.href = m["CV"].startsWith('http') ? m["CV"] : 'CV/' + m["CV"];
+          cv.target = '_blank';
+          cv.textContent = 'CV';
+          cv.style.fontWeight = 'bold';
+          cv.style.fontSize = '1.1em';
+          cv.style.marginLeft = '0.3em';
+          cv.style.marginRight = '0.3em';
+          cv.style.color = '#1b7c4b';
+          links.appendChild(cv);
+        }
+        // ORCID (now in CSV as 'Orcid' or 'ORCID', case-insensitive)
+        const orcidVal = m.Orcid || m.ORCID || m.orcid;
+        if (orcidVal) {
+          const orcid = document.createElement('a');
+          orcid.href = orcidVal;
+          orcid.target = '_blank';
+          // Official ORCID SVG icon (green)
+          orcid.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><circle cx="128" cy="128" r="128" fill="#A6CE39"/><g fill="#fff"><path d="M86.4 108.6h-13.2v38.7h13.2c12.2 0 19.2-6.6 19.2-19.3 0-12.7-7-19.4-19.2-19.4zm-1.1 33.2h-6.1v-27.7h6.1c8.7 0 13.2 4.7 13.2 13.8 0 9.1-4.5 13.9-13.2 13.9zm41.2-33.2h-6.1v38.7h6.1v-38.7zm36.2 0h-6.1v38.7h6.1v-38.7zm-18.1 0h-6.1v38.7h6.1v-38.7z"/><circle cx="86.4" cy="128" r="6.1"/></g></svg>`;
+          links.appendChild(orcid);
+        }
+        header.appendChild(links);
+
+        info.appendChild(header);
+
+        // Education list
+        const cvList = document.createElement('ul');
+        cvList.className = 'person-cv-list';
+        [m.Ed1, m.Ed2, m.Ed3].forEach(ed => {
+          if (ed) {
+            const li = document.createElement('li');
+            li.textContent = ed;
+            cvList.appendChild(li);
+          }
+        });
+        info.appendChild(cvList);
+
+        // Bio (with expandable logic)
+        const MAX_BIO_LENGTH = 220; // adjust as needed
+        const bio = document.createElement('p');
+        bio.className = 'person-bio';
+
+        if (m.Bio && m.Bio.length > MAX_BIO_LENGTH) {
+          const shortBio = m.Bio.slice(0, MAX_BIO_LENGTH) + '... ';
+          bio.textContent = shortBio;
+
+          const moreLink = document.createElement('a');
+          moreLink.href = '#';
+          moreLink.textContent = 'Show more';
+          moreLink.style.color = '#1b7c4b';
+          moreLink.style.cursor = 'pointer';
+          moreLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (bio.textContent.startsWith(shortBio)) {
+              bio.textContent = m.Bio + ' ';
+              moreLink.textContent = 'Show less';
+              bio.appendChild(moreLink);
+            } else {
+              bio.textContent = shortBio;
+              moreLink.textContent = 'Show more';
+              bio.appendChild(moreLink);
+            }
+          });
+          bio.appendChild(moreLink);
+        } else {
+          bio.textContent = m.Bio || '';
+        }
+        info.appendChild(bio);
+
+        card.appendChild(info);
+        container.appendChild(card);
+      });
+    })
+    .catch(err => console.error('Error loading CSV:', err));
+});
+</script>
+</body>
+</html>

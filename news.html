@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>News | Stricker Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    html, body {
+      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #111 !important;
+      color: #fff !important;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+    }
+    body.static-bg, html.static-bg {
+      background: none !important;
+    }
+    body {
+      min-height: 100vh;
+      height: 100%;
+      position: relative;
+    }
+    body.fade-out {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: blur(2px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+   .background, .background-static {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .background {
+      background-image: url('images/welcome_background.gif');
+    }
+    .background-static {
+      background-image: url('images/static_background.png');
+    }
+
+    .scroll-container {
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 0;
+    }
+    .news-main {
+      position: relative;
+      min-height: 200px;
+      animation: fadein 1.2s;
+      max-width: 900px;
+      margin: 0 auto;
+      padding-bottom: 2em;
+    }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .news-header {
+      font-size: 2.5rem;
+      color: #4eeaaf;
+      letter-spacing: 0.01em;
+      font-weight: 700;
+      text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000;
+      margin-top: 2.5rem;
+      margin-bottom: 1.2rem;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+    }
+ 
+    .news-timeline {
+      position: relative;
+      margin-top: 2.5rem;
+      margin-bottom: 2.5rem;
+      padding-left: 2.5em;
+      border-left: 4px solid #1b7c4b;
+    }
+    .news-timeline-item {
+      position: relative;
+      margin-bottom: 2.2em;
+      padding-left: 0.5em;
+      animation: fadein 1.2s;
+    }
+    .news-timeline-dot {
+      position: absolute;
+      left: -2.1em;
+      top: 0.7em;
+      width: 1.2em;
+      height: 1.2em;
+      background: linear-gradient(135deg, #1b7c4b 60%, #4eeaaf 100%);
+      border-radius: 50%;
+      box-shadow: 0 2px 8px #1b7c4b55;
+      border: 2px solid #fff;
+      z-index: 2;
+    }
+    .news-timeline-date {
+      font-size: 1.1em;
+      color: #4eeaaf;
+      font-weight: 600;
+      margin-bottom: 0.3em;
+      letter-spacing: 0.01em;
+    }
+    .news-timeline-content {
+      background: #181818;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px #1b7c4b22, 0 1px 6px #000a;
+      padding: 1.2em 1.5em;
+      color: #fff;
+      font-size: 1.13em;
+      border: 1px solid #1b7c4b44;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .news-timeline-content a {
+      color: #4eeaaf;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    .news-timeline-content a:hover {
+      color: #1b7c4b;
+    }
+    .news-timeline-item:hover .news-timeline-content {
+      box-shadow: 0 8px 32px #1b7c4b55, 0 2px 12px #000a;
+      transform: translateY(-2px) scale(1.01);
+      border-color: #4eeaaf;
+    }
+    .news-timeline-item:first-child .news-timeline-dot {
+      background: linear-gradient(135deg, #4eeaaf 60%, #1b7c4b 100%);
+      box-shadow: 0 2px 16px #4eeaaf99;
+    }
+    .news-timeline-item:first-child .news-timeline-content {
+      border: 2px solid #4eeaaf;
+      box-shadow: 0 8px 32px #4eeaaf55, 0 2px 12px #000a;
+    }
+    .news-timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .news-main {
+        padding: 0.5em;
+        max-width: 99vw;
+      }
+      .news-header {
+        font-size: 1.7rem;
+      }
+      .news-timeline {
+        padding-left: 1em;
+      }
+      .news-timeline-content {
+        padding: 1em 0.7em;
+      }
+      .navbar {
+        padding: 1em 1em 0.7em 1em;
+      }
+    }
+  </style>
+  <!-- Removed duplicate/old background and transition scripts -->
+</head>
+<body>
+  <div class="background"></div>
+  <div class="background-static" style="display:none;"></div>
+  <div class="background-overlay"></div>
+  <div class="scroll-container" style="min-height:100vh; display:flex; flex-direction:column;">
+    <div class="content" style="flex:1 0 auto;">
+      <header>
+        <div class="navbar">
+          <h1>SoftKnit Lab</h1>
+          <nav>
+            <a href="index.html">Home</a>
+            <a href="research.html">Research</a>
+            <a href="group.html">People</a>
+            <a href="publications.html">Publications</a>
+            <a href="news.html">News</a>
+            <a href="culture.html">Culture</a>
+            <a href="positions.html">Open Positions</a>
+          </nav>
+        </div>
+      </header>
+      <main class="news-main">
+        <div class="news-header">Lab News & Highlights</div>
+        <p style="margin-top:1.2rem; color:#058252; font-size:1.15rem; font-weight:500;">Stay tuned for the latest knittings, research, and news from the Knit Lab!</p>
+        <div class="news-timeline">
+          <div class="news-timeline-item">
+            <div class="news-timeline-dot"></div>
+            <div class="news-timeline-date">Aug 2026</div>
+            <div class="news-timeline-content"><strong>We are excited to launch the SoftKnit Lab at IST Austria!</strong></div>
+          </div>
+          <div class="news-timeline-item">
+            <div class="news-timeline-dot"></div>
+            <div class="news-timeline-date">Jul 2025</div>
+            <div class="news-timeline-content"> Fritz gave a talk at the 74th Lindau Nobel Laureate Meeting in Chemistry! </div>
+          </div>
+          <div class="news-timeline-item">
+            <div class="news-timeline-dot"></div>
+            <div class="news-timeline-date">Jun 2025</div>
+            <div class="news-timeline-content">Nothing to see here... its all new!</div>
+          </div>
+        </div>
+      </main>
+    </div>
+    
+  </div>
+  <script>
+    function toggleMenu() {
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+      const toggleBtn = document.querySelector('.menu-toggle');
+      const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      if (!expanded) {
+        dropdownMenu.classList.add('show');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        dropdownMenu.classList.remove('show');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    // Only close the dropdown if clicked outside or on navigation
+    document.addEventListener('mousedown', function(event) {
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+      const toggleBtn = document.querySelector('.menu-toggle');
+      if (dropdownMenu.classList.contains('show') && !dropdownMenu.contains(event.target) && !toggleBtn.contains(event.target)) {
+        dropdownMenu.classList.remove('show');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close menu on navigation
+    document.querySelectorAll('.dropdown-menu a').forEach(link => {
+      link.addEventListener('click', function() {
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        const toggleBtn = document.querySelector('.menu-toggle');
+        dropdownMenu.classList.remove('show');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Carousel logic (unchanged)
+      const texts = document.querySelectorAll('.carousel-text');
+      const dotsContainer = document.querySelector('.carousel-dots');
+      let current = 0;
+      texts.forEach((_, idx) => {
+        const dot = document.createElement('div');
+        dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
+        dot.addEventListener('click', () => {
+          if (current !== idx) {
+            animateCarouselOut(texts[current]);
+            dotsContainer.children[current].classList.remove('active');
+            current = idx;
+            animateCarouselIn(texts[current]);
+            dotsContainer.children[current].classList.add('active');
+          }
+        });
+        dotsContainer.appendChild(dot);
+      });
+      function animateCarouselOut(el) {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(30px) scale(0.98)';
+        el.style.position = 'absolute';
+        el.style.display = 'none';
+        el.classList.remove('active');
+      }
+      function animateCarouselIn(el) {
+        // Set all slides to absolute and none except the active one
+        texts.forEach(t => {
+          t.style.position = 'absolute';
+          t.style.display = 'none';
+          t.classList.remove('active');
+        });
+        el.classList.add('active');
+        el.style.display = 'flex';
+        el.style.opacity = 1;
+        el.style.transform = 'translateY(0) scale(1)';
+        el.style.position = 'relative';
+      }
+      setInterval(() => {
+        animateCarouselOut(texts[current]);
+        dotsContainer.children[current].classList.remove('active');
+        current = (current + 1) % texts.length;
+        animateCarouselIn(texts[current]);
+        dotsContainer.children[current].classList.add('active');
+      }, 15000);
+
+     function setBackgroundTransform() {
+      const rot = Math.floor(Math.random() * 360);
+      const angleRad = (rot % 360) * Math.PI / 180;
+
+      const sin = Math.abs(Math.sin(angleRad));
+      const cos = Math.abs(Math.cos(angleRad));
+
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      const bg = document.querySelector('.background');
+      const bgStatic = document.querySelector('.background-static');
+
+      // Start with base size matching viewport
+      const baseW = vw;
+      const baseH = vh;
+
+      // Calculate rotated bounding box dimensions
+      const bboxW = baseW * cos + baseH * sin;
+      const bboxH = baseW * sin + baseH * cos;
+
+      // Add a small margin for safety
+        if (bgDiv) bgDiv.classList.add('background-static');
+
+      const adjustedW = bboxW * paddingFactor;
+      const adjustedH = bboxH * paddingFactor;
+
+      // Set the background size dynamically
+  <div class="background"></div>
+      bgStatic.style.width = `${adjustedW}px`;
+      bgStatic.style.height = `${adjustedH}px`;
+
+      // Calculate the scale needed (if any)
+      const scaleW = vw / bboxW;
+      const scaleH = vh / bboxH;
+      const scale = Math.max(scaleW, scaleH, 1);
+
+      // Apply transform
+      const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`;
+      bg.style.transform = transform;
+      bgStatic.style.transform = transform;
+    }
+      setBackgroundTransform();
+      window.addEventListener('resize', setBackgroundTransform);
+      // Listen for zoom (via resize, orientationchange, or visualViewport)
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', setBackgroundTransform);
+      }
+      // After 5s, swap to static background, keeping transform
+      setTimeout(function() {
+        document.querySelector('.background').style.display = 'none';
+        document.querySelector('.background-static').style.display = 'block';
+      }, 5000); // 5 seconds
+    });
+  </script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.body.classList.add('fade-in');
+    document.querySelectorAll('a').forEach(link => {
+      if (link.target === '_blank' || link.href.startsWith('mailto:')) return;
+      link.addEventListener('click', function(e) {
+        if (link.hostname === window.location.hostname && link.pathname !== window.location.pathname) {
+          e.preventDefault();
+          document.body.classList.remove('fade-in');
+          document.body.classList.add('fade-out');
+          setTimeout(() => {
+            window.location = link.href;
+          }, 400);
+        }
+      });
+    });
+    // Dynamic scaling and rotation for background, matching index.html
+    const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
+    window._backgroundRotation = rot;
+    const bg = document.querySelector('.background');
+    const bgStatic = document.querySelector('.background-static');
+
+    function applyBackgroundTransform() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      // Calculate the bounding box of the rotated rectangle
+      const angle = (rot % 360) * Math.PI / 180;
+      const sin = Math.abs(Math.sin(angle));
+      const cos = Math.abs(Math.cos(angle));
+
+      const baseW = vw;
+      const baseH = vh;
+
+      const bboxW = baseW * cos + baseH * sin;
+      const bboxH = baseW * sin + baseH * cos;
+
+      // Add a small padding factor to ensure no white edges
+      const paddingFactor = 1.02;
+      const adjustedW = bboxW * paddingFactor;
+      const adjustedH = bboxH * paddingFactor;
+
+      if (bg) {
+        bg.style.width = `${adjustedW}px`;
+        bg.style.height = `${adjustedH}px`;
+      }
+      if (bgStatic) {
+        bgStatic.style.width = `${adjustedW}px`;
+        bgStatic.style.height = `${adjustedH}px`;
+      }
+
+      // Calculate the minimum scale to cover the viewport
+      const scaleW = vw / bboxW;
+      const scaleH = vh / bboxH;
+      const minScale = Math.max(scaleW, scaleH, 1.12);
+
+      const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${minScale})`;
+      if (bg) bg.style.transform = transform;
+      if (bgStatic) bgStatic.style.transform = transform;
+    }
+
+    applyBackgroundTransform();
+
+    window.addEventListener('resize', applyBackgroundTransform);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+    }
+
+    setTimeout(function() {
+      if (bg) bg.style.display = 'none';
+      if (bgStatic) bgStatic.style.display = 'block';
+      document.body.classList.add('static-bg');
+      document.documentElement.classList.add('static-bg');
+    }, 5000);
+  });
+</script>
+</body>
+</html>

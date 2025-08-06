@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Publications | SoftKnit Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.fade-out {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: blur(2px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    .pub-header-bar {
+      display: block;
+      margin-bottom: 2em;
+      padding-left: 0;
+    }
+    .pub-header-bar h3 {
+      margin: 0;
+      font-size: 2em;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+    }
+    .pub-search-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em 1.5em;
+      align-items: flex-start;
+      background: #fff;
+      padding: 1em 1.5em;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      max-width: 700px;
+      margin: 0;
+    }
+    .pub-search-bar label {
+      font-weight: 500;
+      margin-right: 0.5em;
+      white-space: nowrap;
+    }
+    .pub-search-bar select {
+      min-width: 80px;
+    }
+    .pub-search-bar input[type="text"] {
+      flex: 1 1 100%;
+      min-width: 120px;
+      max-width: 180px;
+      margin-top: 0.5em;
+    }
+    .pub-search-bar button {
+      margin-top: 0.5em;
+    }
+    .pub-layout {
+      display: flex;
+      align-items: flex-start;
+      gap: 2em;
+    }
+    .pub-toc {
+      min-width: 440px;
+      max-width: 440px;
+      background: #f8fafc;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 2em 2.4em;
+      font-size: 1em;
+      position: sticky;
+      top: 2em;
+    }
+    .pub-toc h4 {
+      margin-top: 0;
+      font-size: 1.1em;
+      margin-bottom: 0.6em;
+      font-weight: 700;
+    }
+    .pub-toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .pub-toc li {
+      margin-bottom: 0.5em;
+    }
+    .pub-toc a {
+      color: #1e40af;
+      text-decoration: none;
+      font-size: 0.98em;
+    }
+    .pub-toc a:hover {
+      text-decoration: underline;
+    }
+    .pub-list {
+      flex: 1;
+      min-width: 0;
+    }
+    .pub-year {
+      font-size: 1.3em;
+      font-weight: 700;
+      margin: 2em 0 1em 0;
+      color: #1e293b;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 0.2em;
+    }
+    .publication {
+      display: flex;
+      align-items: flex-start;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+      margin-bottom: 2.5em;
+      padding: 2em 2em;
+      gap: 2em;
+      min-height: 160px;
+      position: relative;
+    }
+    .pub-toc-graphic {
+      width: 220px;
+      min-width: 220px;
+      height: 220px;
+      background: #f3f4f6;
+      border-radius: 10px;
+      margin-right: 1.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+    .pub-toc-graphic img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .pub-info-block {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .pub-number {
+      position: absolute;
+      top: 1.2em;
+      left: 1.2em;
+      background: #1e40af;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1em;
+      border-radius: 50%;
+      width: 2em;
+      height: 2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 4px rgba(30,64,175,0.08);
+      z-index: 2;
+    }
+    .pub-title {
+      font-weight: 600;
+      font-size: 1.13em;
+      margin-bottom: 0.3em;
+      color: #0a2540;
+    }
+    .pub-citation {
+      font-size: 1em;
+      color: #222;
+      margin-bottom: 0.2em;
+    }
+    .pub-doi {
+      font-size: 0.97em;
+      color: #0077cc;
+      text-decoration: underline;
+      margin-left: 0.5em;
+      word-break: break-all;
+    }
+    @media (max-width: 900px) {
+      .pub-layout {
+        flex-direction: column;
+      }
+      .pub-toc {
+        position: static;
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1.5em;
+      }
+      .publication {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.2em 1em;
+      }
+      .pub-toc-graphic {
+        margin: 0 auto 1em auto;
+      }
+      .pub-number {
+        left: 1em;
+        top: 1em;
+      }
+    }
+    html, body {
+      height: 100%;
+      min-height: 100%;
+      background: none !important;
+      background-color: transparent !important;
+    }
+    body {
+      --bg-transform: none;
+      min-height: 100vh;
+      height: 100%;
+      position: relative;
+    }
+    html {
+      --bg-transform: none;
+      height: 100%;
+      min-height: 100%;
+    }
+    html, body {
+      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+      background: none !important;
+      background-color: transparent !important;
+    }
+    .background-image {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: -2;
+      background: url('images/welcome_background.gif') center center/cover no-repeat;
+      will-change: transform;
+      transform: translate(-50%, -50%);
+      transition: background-image 0.5s, transform 0.5s;
+      pointer-events: none;
+    }
+    .static-bg .background-image {
+      background-image: url('images/static_background.png');
+    }
+    .background-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -1;
+      background: rgba(255,255,255,0.7);
+      pointer-events: none;
+    }
+    .scroll-container {
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-image"></div>
+  <div class="background-overlay"></div>
+  <div class="scroll-container">
+    <div class="content">
+    <header>
+      <div class="navbar">
+        <h1>SoftKnit Lab</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="research.html">Research</a>
+          <a href="group.html">People</a>
+          <a href="publications.html">Publications</a>
+          <a href="news.html">News</a>
+          <a href="culture.html">Culture</a>
+          <a href="positions.html">Open Positions</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+
+      <div class="pub-layout">
+        <!-- TOC -->
+        <aside class="pub-toc">
+          <h4>Table of Contents</h4>
+          <!-- Move search bar here -->
+          <form class="pub-search-bar" onsubmit="return false;" style="margin-top:2em;">
+            <label for="year">Year:</label>
+            <select id="year">
+              <option value="">All</option>
+              <option>2025</option>
+              <option>2024</option>
+              <option>2023</option>
+              <option>2022</option>
+              <option>2021</option>
+              <option>2019</option>
+              <option>2018</option>
+              <option>2016</option>
+            </select>
+            <label for="search">Keyword/Title:</label>
+            <input type="text" id="search" placeholder="e.g. Diels–Alder" />
+            <button type="submit">Search</button>
+          </form>
+        </aside>
+
+        <section class="pub-list" id="pub-list">
+          <div class="pub-header-bar" style="margin-bottom:2em;">
+            <h3 id="gs" style="display: flex; align-items: center; gap: 0.6em; color: #fff;">
+              Publications
+              <a href="https://scholar.google.com/citations?user=d6zowQ8AAAAJ&hl=de" target="_blank" title="View on Google Scholar" style="display:inline-flex;align-items:center;">
+                <!-- Google Scholar SVG icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 48 48" style="vertical-align:middle;">
+                  <g>
+                    <circle cx="24" cy="24" r="20" fill="#4285F4"/>
+                    <path d="M24 13c-4.97 0-9 4.03-9 9 0 4.97 4.03 9 9 9s9-4.03 9-9c0-4.97-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" fill="#fff"/>
+                    <circle cx="24" cy="22" r="3" fill="#fff"/>
+                  </g>
+                </svg>
+              </a>
+            </h3>
+          </div>
+        </section>
+<script>
+// Fetch and render publications from CSV
+document.addEventListener('DOMContentLoaded', function() {
+  const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSO8CzP3eWu0I7AXUKfiKN1YuS4BSjtzIrL4jEFU_GIqfYmXfsJf1elK1KxJ1xeisLjmnGRSYzjSY6v/pub?output=csv'; // Replace with your actual CSV link
+
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], col = '', inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (c === '"') {
+        if (inQuotes && text[i+1] === '"') { col += '"'; i++; }
+        else inQuotes = !inQuotes;
+      } else if (c === ',' && !inQuotes) {
+        row.push(col); col = '';
+      } else if ((c === '\n' || c === '\r') && !inQuotes) {
+        if (col !== '' || row.length > 0) { row.push(col); rows.push(row); }
+        row = []; col = '';
+        if (c === '\r' && text[i+1] === '\n') i++;
+      } else {
+        col += c;
+      }
+    }
+    if (col !== '' || row.length > 0) { row.push(col); rows.push(row); }
+    return rows.filter(r => r.some(cell => cell.trim() !== ''));
+  }
+
+  fetch(csvUrl)
+    .then(response => response.text())
+    .then(csv => {
+      const rows = parseCSV(csv.trim());
+      if (!rows.length) return;
+      const headers = rows.shift().map(h => h.trim());
+      const pubs = rows.map(row => {
+        const obj = {};
+        row.forEach((val, idx) => obj[headers[idx]] = val.trim());
+        return obj;
+      }).reverse(); // newest first
+
+      // Group by year
+      const byYear = {};
+      pubs.forEach(pub => {
+        if (!byYear[pub.Year]) byYear[pub.Year] = [];
+        byYear[pub.Year].push(pub);
+      });
+
+      // Sort years descending
+      const years = Object.keys(byYear).sort((a, b) => b - a);
+
+      // Render and enable filtering
+      const pubList = document.getElementById('pub-list');
+      // Remove all except the header bar
+      pubList.innerHTML = pubList.querySelector('.pub-header-bar').outerHTML;
+
+      // Flat list for filtering and numbering
+      let flatPubs = [];
+      years.forEach(year => {
+        byYear[year].forEach(pub => {
+          flatPubs.push({ ...pub, _year: year });
+        });
+      });
+
+      // Numbering: top = highest number
+      flatPubs.forEach((pub, idx) => pub._number = flatPubs.length - idx);
+
+      function renderFilteredPubs() {
+        // Get filter values
+        const searchInput = document.getElementById('search');
+        const yearSelect = document.getElementById('year');
+        const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+        const selectedYear = yearSelect ? yearSelect.value : '';
+
+        // Remove all except the header bar
+        pubList.innerHTML = pubList.querySelector('.pub-header-bar').outerHTML;
+
+        // Group filtered pubs by year
+        const filtered = flatPubs.filter(pub => {
+          const yearMatch = !selectedYear || pub._year === selectedYear;
+          const text = (pub.Title + ' ' + pub.Authors + ' ' + pub.Journal).toLowerCase();
+          const textMatch = !searchTerm || text.includes(searchTerm);
+          return yearMatch && textMatch;
+        });
+        const filteredByYear = {};
+        filtered.forEach(pub => {
+          if (!filteredByYear[pub._year]) filteredByYear[pub._year] = [];
+          filteredByYear[pub._year].push(pub);
+        });
+        const filteredYears = Object.keys(filteredByYear).sort((a, b) => b - a);
+
+        filteredYears.forEach(year => {
+          // Year header
+          const yearDiv = document.createElement('div');
+          yearDiv.className = 'pub-year';
+          yearDiv.id = year;
+          yearDiv.textContent = year;
+          pubList.appendChild(yearDiv);
+
+          filteredByYear[year].forEach(pub => {
+            const pubDiv = document.createElement('div');
+            pubDiv.className = 'publication';
+
+            // TOC image
+            const tocDiv = document.createElement('div');
+            tocDiv.className = 'pub-toc-graphic';
+            if (pub.TOC_Image) {
+              const img = document.createElement('img');
+              img.src = 'images/' + pub.TOC_Image;
+              img.alt = 'TOC Graphic';
+              img.style.width = '100%';
+              img.style.height = '100%';
+              img.style.objectFit = 'contain';
+              tocDiv.appendChild(img);
+            }
+            pubDiv.appendChild(tocDiv);
+
+            // Info block
+            const info = document.createElement('div');
+            info.className = 'pub-info-block';
+
+            // Title
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'pub-title';
+            titleDiv.textContent = pub.Title;
+            info.appendChild(titleDiv);
+
+            // Authors, Journal (italic), Year (bold), Issue (italic), Pages, DOI (ACS style)
+            const citationDiv = document.createElement('div');
+            citationDiv.className = 'pub-citation';
+            let citationHTML = '';
+            if (pub.Authors) citationHTML += `${pub.Authors}, `;
+            if (pub.Journal) citationHTML += `<i>${pub.Journal}</i>, `;
+            if (pub.Year) citationHTML += `<b>${pub.Year}</b>`;
+            if (pub.Issue) citationHTML += `, <i>${pub.Issue}</i>`;
+            if (pub.Pages) citationHTML += `, ${pub.Pages}`;
+            if (pub.DOI) citationHTML += `. <a class="pub-doi" href="${pub.DOI}" target="_blank">DOI</a>`;
+            citationDiv.innerHTML = citationHTML;
+            info.appendChild(citationDiv);
+
+            pubDiv.appendChild(info);
+
+            // Number badge
+            const numSpan = document.createElement('span');
+            numSpan.className = 'pub-number';
+            numSpan.textContent = pub._number;
+            pubDiv.appendChild(numSpan);
+
+            pubList.appendChild(pubDiv);
+          });
+        });
+
+        // --- Cartoon logic: add after rendering publications ---
+        function addCartoonImages() {
+          // Mock_cartoon_1.png: ~20% chance next to "Stricker, F."
+          if (Math.random() < 0.2) {
+            const nameNodes = [];
+            document.querySelectorAll('.pub-citation').forEach(citation => {
+              citation.childNodes.forEach(node => {
+                if (node.nodeType === 3) {
+                  let idx = node.textContent.indexOf("Stricker, F.");
+                  if (idx !== -1) {
+                    nameNodes.push({node, index: idx});
+                  }
+                }
+              });
+            });
+            if (nameNodes.length > 0) {
+              const chosen = nameNodes[Math.floor(Math.random() * nameNodes.length)];
+              const text = chosen.node.textContent;
+              const before = text.slice(0, chosen.index + "Stricker, F.".length);
+              const after = text.slice(chosen.index + "Stricker, F.".length);
+              const parent = chosen.node.parentNode;
+              const beforeNode = document.createTextNode(before);
+              const afterNode = document.createTextNode(after);
+              const img = document.createElement('img');
+              img.src = "images/Mock_cartoon_1.png";
+              img.alt = "Cartoon";
+              img.style.height = "3em";
+              img.style.verticalAlign = "middle";
+              img.style.marginLeft = "0.4em";
+              parent.insertBefore(beforeNode, chosen.node);
+              parent.insertBefore(img, chosen.node);
+              parent.insertBefore(afterNode, chosen.node);
+              parent.removeChild(chosen.node);
+            }
+          }
+
+          // Mock_cartoon_2.png: 50% chance next to a random publication title
+          if (Math.random() < 0.5) {
+            const titles = Array.from(document.querySelectorAll('.pub-title'));
+            if (titles.length > 0) {
+              const chosenTitle = titles[Math.floor(Math.random() * titles.length)];
+              const img2 = document.createElement('img');
+              img2.src = "images/Mock_cartoon_2.png";
+              img2.alt = "Cartoon";
+              img2.style.height = "3em";
+              img2.style.verticalAlign = "middle";
+              img2.style.marginLeft = "0.4em";
+              chosenTitle.appendChild(img2);
+            }
+          }
+        }
+        addCartoonImages();
+      }
+
+      // Initial render
+      renderFilteredPubs();
+
+      // Attach events for search/filter
+      const searchInput = document.getElementById('search');
+      const yearSelect = document.getElementById('year');
+      if (searchInput) searchInput.addEventListener('input', renderFilteredPubs);
+      if (yearSelect) yearSelect.addEventListener('change', renderFilteredPubs);
+      const searchForm = document.querySelector('.pub-search-bar');
+      if (searchForm) searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        renderFilteredPubs();
+      });
+    })
+    .catch(err => console.error('Error loading publications CSV:', err));
+});
+</script>
+      </div>
+    </main>
+    </div>
+  </div>
+    <footer>
+      <p>© 2025 Knit Lab | Institute of Science and Technology Austria</p>
+    </footer>
+  <script>
+    // Automatic numbering: oldest at bottom, newest at top, number in front of title and as badge
+    document.addEventListener("DOMContentLoaded", function() {
+      // Smooth page transition: fade in on load
+      document.body.classList.add('fade-in');
+      // Add fade-out on navigation (only for true page changes, not anchor links)
+      document.querySelectorAll('a').forEach(link => {
+        if (
+          link.target === '_blank' ||
+          link.href.startsWith('mailto:') ||
+          (link.hash && link.pathname === window.location.pathname) // anchor link on same page
+        ) return;
+        link.addEventListener('click', function(e) {
+          // Only fade if navigating to another page (not anchor links)
+          if (
+            link.hostname === window.location.hostname &&
+            link.pathname !== window.location.pathname
+          ) {
+            e.preventDefault();
+            document.body.classList.remove('fade-in');
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+              window.location = link.href;
+            }, 800);
+          }
+        });
+      });
+    // Dynamic scaling and rotation for background, matching index.html
+    const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
+    window._backgroundRotation = rot;
+    const bgDiv = document.querySelector('.background-image');
+
+    function applyBackgroundTransform() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      // Calculate the bounding box of the rotated rectangle
+      const angle = (rot % 360) * Math.PI / 180;
+      const sin = Math.abs(Math.sin(angle));
+      const cos = Math.abs(Math.cos(angle));
+
+      const baseW = vw;
+      const baseH = vh;
+
+      const bboxW = baseW * cos + baseH * sin;
+      const bboxH = baseW * sin + baseH * cos;
+
+      // Add a small padding factor to ensure no white edges
+      const paddingFactor = 1.02;
+      const adjustedW = bboxW * paddingFactor;
+      const adjustedH = bboxH * paddingFactor;
+
+      if (bgDiv) {
+        bgDiv.style.width = `${adjustedW}px`;
+        bgDiv.style.height = `${adjustedH}px`;
+      }
+
+      // Calculate the minimum scale to cover the viewport
+      const scaleW = vw / bboxW;
+      const scaleH = vh / bboxH;
+      const minScale = Math.max(scaleW, scaleH, 1.12);
+
+      const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${minScale})`;
+      if (bgDiv) {
+        bgDiv.style.transform = transform;
+      }
+    }
+
+    applyBackgroundTransform();
+
+    window.addEventListener('resize', applyBackgroundTransform);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+    }
+
+    // After 5 seconds, swap to static background
+    setTimeout(function() {
+      document.body.classList.add('static-bg');
+    }, 5000);
+      // Numbering logic
+      const pubs = Array.from(document.querySelectorAll('.pub-list .publication'));
+      pubs.reverse().forEach((pub, idx) => {
+        const number = idx + 1;
+        // Add or update the .pub-number badge
+        let numSpan = pub.querySelector('.pub-number');
+        if (!numSpan) {
+          numSpan = document.createElement('span');
+          numSpan.className = 'pub-number';
+          pub.appendChild(numSpan);
+        }
+        numSpan.textContent = number;
+
+        // Number in front of title
+       // const titleDiv = pub.querySelector('.pub-title');
+        //if (titleDiv) {
+       //   titleDiv.textContent = titleDiv.textContent.replace(/^\d+\.\s*/, "");
+       //   titleDiv.textContent = number + ". " + titleDiv.textContent.trim();
+       // }
+      });
+
+      // Search/filter logic
+      const searchInput = document.getElementById('search');
+      const yearSelect = document.getElementById('year');
+      const allPublications = Array.from(document.querySelectorAll('.pub-list .publication'));
+      const allYears = Array.from(document.querySelectorAll('.pub-list .pub-year'));
+
+      function filterPublications() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const selectedYear = yearSelect.value;
+
+        // Hide all publications and years by default
+        allPublications.forEach(pub => pub.style.display = "none");
+        allYears.forEach(year => year.style.display = "none");
+
+        // Show only matching publications
+        let anyShown = {};
+        allPublications.forEach(pub => {
+          // Find the year for this publication
+          let prev = pub.previousElementSibling;
+          while (prev && !prev.classList.contains('pub-year')) prev = prev.previousElementSibling;
+          const pubYear = prev ? prev.textContent.trim() : "";
+
+          // Check year filter
+          const yearMatch = !selectedYear || pubYear === selectedYear;
+
+          // Check text filter (search in title + citation)
+          const text = pub.innerText.toLowerCase();
+          const textMatch = !searchTerm || text.includes(searchTerm);
+
+          if (yearMatch && textMatch) {
+            pub.style.display = "";
+            if (prev) {
+              prev.style.display = "";
+              anyShown[pubYear] = true;
+            }
+          }
+        });
+        // Hide year headers with no publications shown
+        allYears.forEach(year => {
+          if (!anyShown[year.textContent.trim()]) year.style.display = "none";
+        });
+      }
+
+      // Attach events
+      searchInput.addEventListener('input', filterPublications);
+      yearSelect.addEventListener('change', filterPublications);
+
+      // Optional: filter on submit as well
+      document.querySelector('.pub-search-bar').addEventListener('submit', function(e) {
+        e.preventDefault();
+        filterPublications();
+      });
+
+      // (removed duplicate random rotation for background)
+    });
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Open Positions | SoftKnit Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    small, .positions-section small, .positions-list small, .positions-note, .positions-section p, .positions-section li, .positions-section ul, .positions-section a, .positions-section span {
+      color: #fff !important;
+    }
+    body, html {
+      background: #111 !important;
+      color: #fff !important;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+    }
+    body.fade-out {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: blur(2px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    .positions-main {
+      position: relative;
+      z-index: 2;
+      padding-bottom: 2rem;
+      animation: fadein 1.2s;
+    }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .positions-section {
+      background: #181818;
+      border-radius: 22px;
+      box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a;
+      margin: 2.5rem 0;
+      padding: 2.5rem 2vw 2.5rem 2vw;
+      position: relative;
+      overflow: hidden;
+      border-left: 8px solid #1b7c4b;
+      border-right: 2px solid #1b7c4b;
+      color: #fff;
+      transition: box-shadow 0.3s;
+    }
+    .positions-section h2, .positions-section h3 {
+      color: #1b7c4b;
+      margin-bottom: 1.1rem;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000;
+      text-align: left;
+      padding-left: 0.2em;
+    }
+    .positions-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .positions-list li {
+      background: #222;
+      border-radius: 14px;
+      margin-bottom: 1.3rem;
+      padding: 1.3rem 1.5rem 1.3rem 1.5rem;
+      box-shadow: 0 2px 12px #1b7c4b22, 0 1px 6px #000a;
+      position: relative;
+      font-size: 1.12rem;
+      color: #fff;
+      transition: box-shadow 0.2s, transform 0.2s;
+      border: 1px solid #1b7c4b44;
+      cursor: pointer;
+    }
+    .positions-list li:hover {
+      box-shadow: 0 8px 32px #1b7c4b55, 0 2px 12px #000a;
+      transform: translateY(-2px) scale(1.01);
+      border-color: #1b7c4b;
+    }
+    .apply-button {
+      display: inline-block;
+      margin-top: 0.7rem;
+      background: linear-gradient(90deg, #1b7c4b 60%, #145c36 100%);
+      color: #fff;
+      padding: 0.5em 1.2em;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      box-shadow: 0 2px 8px #1b7c4b33;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .apply-button:hover {
+      background: linear-gradient(90deg, #145c36 60%, #1b7c4b 100%);
+      box-shadow: 0 4px 16px #1b7c4b55;
+    }
+    .section-divider {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #1b7c4b 0%, #181818 100%);
+      margin: 2.5rem 0 2.5rem 0;
+      border: none;
+    }
+    .positions-note {
+      color: #1b7c4b;
+      font-size: 1.08rem;
+      margin-top: 1.2rem;
+      font-style: italic;
+    }
+    .background {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: 0;
+      background: url('images/welcome_background.gif') center center/cover no-repeat;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .background-static {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: 0;
+      background: url('images/static_background.png') center center/cover no-repeat;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .background-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(17,17,17,0.7);
+      z-index: 0;
+      pointer-events: none;
+    }
+  
+    
+    footer {
+      background: #181818;
+      color: #fff;
+      text-align: center;
+      padding: 1.2em 0;
+      position: sticky;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      z-index: 10;
+      border-top: 2px solid #1b7c4b;
+      box-shadow: 0 -2px 12px #1b7c4b22;
+    }
+    a {
+      color: #1b7c4b;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #4eeaaf;
+    }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .positions-section {
+        padding: 1.2em 0.5em 1em 0.5em;
+        max-width: 98vw;
+      }
+      .positions-list li {
+        padding: 1em 0.7em;
+      }
+      .navbar {
+        padding: 1em 1em 0.7em 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <div class="background-static" style="display:none;"></div>
+  <div class="background-overlay"></div>
+  <div class="content">
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.body.classList.add('fade-in');
+      document.querySelectorAll('a').forEach(link => {
+        if (link.target === '_blank' || link.href.startsWith('mailto:')) return;
+        link.addEventListener('click', function(e) {
+          if (link.hostname === window.location.hostname && link.pathname !== window.location.pathname) {
+            e.preventDefault();
+            document.body.classList.remove('fade-in');
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+              window.location = link.href;
+            }, 400);
+          }
+        });
+      });
+      // Dynamic scaling and rotation for background, matching index.html
+      const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
+      window._backgroundRotation = rot;
+      const bg = document.querySelector('.background');
+      const bgStatic = document.querySelector('.background-static');
+
+      function applyBackgroundTransform() {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+
+        // Calculate the bounding box of the rotated rectangle
+        const angle = (rot % 360) * Math.PI / 180;
+        const sin = Math.abs(Math.sin(angle));
+        const cos = Math.abs(Math.cos(angle));
+
+        const baseW = vw;
+        const baseH = vh;
+
+        const bboxW = baseW * cos + baseH * sin;
+        const bboxH = baseW * sin + baseH * cos;
+
+        // Add a small padding factor to ensure no white edges
+        const paddingFactor = 1.02;
+        const adjustedW = bboxW * paddingFactor;
+        const adjustedH = bboxH * paddingFactor;
+
+        if (bg) {
+          bg.style.width = `${adjustedW}px`;
+          bg.style.height = `${adjustedH}px`;
+        }
+        if (bgStatic) {
+          bgStatic.style.width = `${adjustedW}px`;
+          bgStatic.style.height = `${adjustedH}px`;
+        }
+
+        // Calculate the minimum scale to cover the viewport
+        const scaleW = vw / bboxW;
+        const scaleH = vh / bboxH;
+        const minScale = Math.max(scaleW, scaleH, 1.12);
+
+        const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${minScale})`;
+        if (bg) bg.style.transform = transform;
+        if (bgStatic) bgStatic.style.transform = transform;
+      }
+
+      applyBackgroundTransform();
+
+      window.addEventListener('resize', applyBackgroundTransform);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+      }
+
+      setTimeout(function() {
+        if (bg) bg.style.display = 'none';
+        if (bgStatic) bgStatic.style.display = 'block';
+      }, 5000);
+    });
+  </script>
+    <header>
+      <div class="navbar">
+        <h1>SoftKnit Lab</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="research.html">Research</a>
+          <a href="group.html">People</a>
+          <a href="publications.html">Publications</a>
+          <a href="news.html">News</a>
+          <a href="culture.html">Culture</a>
+          <a href="positions.html">Open Positions</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <main class="positions-main">
+        <section class="positions-section">
+          <h2>Open Positions</h2>
+          <p>We are always looking for talented and motivated individuals to join our lab. If you are interested in any of the positions below, please <a href="mailto:fstricker@seas.harvard.edu">contact us</a>.</p>
+          <ul class="positions-list">
+            <li>
+              <h3>Postdoctoral Researcher</h3>
+              <p>We are seeking a highly skilled and motivated postdoctoral researcher to join our team. The ideal candidate will have a strong background in chemistry, materials science, or a related field, and a passion for creative research.</p>
+              <a href="mailto:fstricker@seas.harvard.edu" class="apply-button">Express Interest</a>
+            </li>
+            <li>
+              <h3>Graduate Research Assistant</h3>
+              Interested in joining the SoftKnit Lab as a graduate student? Applications are handled through the <a href="https://phd.ista.ac.at/" target="_blank">ISTA Graduate School</a>. We welcome students from diverse backgrounds who are passionate about research at the interface of chemistry, physics, and biology.</p>
+          <p class="positions-note">If you are excited about our work, mention your interest in the SoftKnit Lab in your application and feel free to <a href="mailto:fstricker@seas.harvard.edu">reach out</a> with questions!</p>
+              <a href="mailto:fstricker@seas.harvard.edu" class="apply-button">Express Interest</a>
+            </li>
+            <li>
+              <h3>Undergraduate Intern</h3>
+              <p>We offer internship opportunities and thesis projects for undergraduate students who are interested in gaining hands-on research experience. Interns will work closely with lab members on various projects.</p>
+              <a href="mailto:fstricker@seas.harvard.edu" class="apply-button">Express Interest</a>
+            </li>
+          </ul>
+        </section>
+     
+        <hr class="section-divider" />
+        <section class="positions-section">
+          <h2>Postdoctoral Fellows</h2>
+          <p>We are happy to support outstanding postdoctoral candidates in applying for fellowships and external funding. If you are interested in joining the lab as a postdoc at ISTA, please <a href="mailto:fstricker@seas.harvard.edu">contact Friedrich Stricker</a> with your CV and a brief description of your research interests.</p>
+          <p class="positions-note">We are enthusiastic about supporting applications for relevant postdoctoral fellowships and are open to creative, interdisciplinary proposals!</p>
+
+          <h3 style="margin-top:2.2rem;">Potential Funding Sources for Postdocs</h3>
+          <ul class="positions-list">
+            <li><a href="https://marie-sklodowska-curie-actions.ec.europa.eu/" target="_blank">Marie Skłodowska-Curie Fellowships (EU/International)</a></li>
+            <li><a href="https://www.embo.org/funding/" target="_blank">EMBO Fellowships (Life Sciences, Europe/International)</a></li>
+            <li><a href="https://www.hfsp.org/" target="_blank">Human Frontier Science Program Fellowships (International)</a></li>
+            <li><a href="https://axa-research.org/" target="_blank">AXA Fellowships (International)</a></li>
+            <li><a href="https://www.fwf.ac.at/en/funding/portfolio/careers/erwin-schroedinger" target="_blank">FWF Erwin Schrödinger Fellowship (Austria, Outgoing/Returning)</a></li>
+            <li><a href="https://www.fwf.ac.at/en/funding/portfolio/careers/hertha-firnberg-programme" target="_blank">FWF Hertha Firnberg Programme (Austria, Early Career Women)</a></li>
+            <li><a href="https://www.fwf.ac.at/en/funding/portfolio/careers/lise-meitner-programme" target="_blank">FWF Lise Meitner Programme (Austria, International Postdocs)</a></li>
+            <li><a href="https://www.daad.de/en/" target="_blank">DAAD (Germany, International)</a></li>
+            <li><a href="https://www.humboldt-foundation.de/en/" target="_blank">Alexander von Humboldt Foundation Fellowships (Germany, International)</a></li>
+            <li><a href="https://www.dfg.de/en/research-funding/funding-opportunities/programmes/individual/walter-benjamin" target="_blank">DFG Walter Benjamin Programme (Germany)</a></li>
+            <li><a href="https://banting.fellowships-bourses.gc.ca/en/home-accueil.html" target="_blank">Banting Postdoctoral Fellowship (Canada)</a></li>
+            <li><a href="https://www.snf.ch/en/XIZpfY3iVS5KRRoD/funding/careers/postdoc-mobility" target="_blank">Swiss National Science Foundation Postdoc.Mobility (Switzerland)</a></li>
+            <li><a href="https://www.leopoldina.org/en/funding/leopoldina-fellowship-programme/leopoldina-postdoc-scholarship/" target="_blank">Leopoldina Postdoc Scholarship (Germany, Austria, Switzerland)</a></li>
+            <li><a href="https://postdocpooli.fi/en/" target="_blank">Finland: the Foundations' Post Doc Pool</a></li>
+            <li><a href="https://www.vr.se/english.html" target="_blank">Sweden: International Post Doc Grant</a></li>
+            <li><a href="https://www.jsps.go.jp/english/e-ab/index.html" target="_blank">Japan: JSPS Overseas Research Fellowship</a></li>
+            <li><a href="https://www.chinesescholarshipcouncil.com/" target="_blank">China: Chinese Scholarship Council</a></li>
+          </ul>
+
+          <h3 style="margin-top:2.2rem;">PhD & Student Funding</h3>
+          <ul class="positions-list">
+            <li><a href="https://phd.ista.ac.at/" target="_blank">ISTA Graduate School (Austria, PhD Program)</a></li>
+            <li><a href="https://www.fwf.ac.at/en/funding/portfolio/careers/doc-funds" target="_blank">FWF DOC Funds (Austria, PhD Funding)</a></li>
+            <li><a href="https://www.daad.de/en/" target="_blank">DAAD (Germany, International)</a></li>
+            <li><a href="https://www.studienstiftung.de/en/doctoral-scholarships/doctoral-scholarships" target="_blank">Studienstiftung des deutschen Volkes (Germany, Doctoral Scholarships)</a></li>
+          </ul>
+
+          <h3 style="margin-top:2.2rem;">Undergraduate & Research Internships</h3>
+          <ul class="positions-list">
+            <li><a href="https://www.daad.de/rise/en/rise-germany/" target="_blank">DAAD RISE Germany (Research Internships in Science & Engineering)</a></li>
+            <li><a href="https://www.daad.de/en/" target="_blank">DAAD (International Opportunities)</a></li>
+          </ul>
+
+          <p class="positions-note" style="margin-top:2.2rem;">ISTA is an international research institute in Austria. We welcome applicants from all backgrounds and are committed to diversity and inclusion. If you have questions about eligibility or funding, please reach out!</p>
+        </section>
+      </main>
+    </main>
+    <footer>
+      <p>© 2025 SoftKnit Lab | Institute of Science and Technology Austria</p>
+    </footer>
+  </div>
+</body>
+</html>

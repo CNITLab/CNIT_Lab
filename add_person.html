@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Group Member | Stricker Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .navbar, .navbar h1, .navbar nav a {
+      color: #fff !important;
+    }
+    .navbar nav a {
+      text-shadow: 0 2px 8px #1b7c4b55;
+    }
+    .background {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      background: url('images/welcome_background.gif') center center/cover no-repeat;
+      pointer-events: none;
+    }
+    .background-static {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      background: url('images/static_background.png') center center/cover no-repeat;
+      pointer-events: none;
+    }
+    .background-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(255,255,255,0.7);
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <div class="background-static" style="display:none;"></div>
+  <div class="background-overlay"></div>
+  <div class="content">
+    <header>
+      <div class="navbar">
+        <h1>MoDS Lab</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="research.html">Research</a>
+          <a href="group.html">People</a>
+          <a href="publications.html">Publications</a>
+          <a href="news.html">News</a>
+          <a href="culture.html">Culture</a>
+          <a href="positions.html">Open Positions</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <h2>Add Group Member</h2>
+      <form action="/" method="post" enctype="multipart/form-data">
+        <label>Name: <input name="name" required></label><br>
+        <label>Email: <input name="email" type="email"></label><br>
+        <label>Photo: <input type="file" name="photo_file" accept="image/*"></label><br>
+        <label>LinkedIn: <input name="linkedin" type="url"></label><br>
+        <label>Google Scholar: <input name="scholar" type="url"></label><br>
+        <label>CV: <input type="file" name="cv_file" accept=".pdf,.doc,.docx"></label><br>
+        <label>ORCID: <input name="orcid" type="url"></label><br>
+        <label>Degree 1: <input name="degree1"></label><br>
+        <label>Degree 2: <input name="degree2"></label><br>
+        <label>Degree 3: <input name="degree3"></label><br>
+        <label>Short Bio: <input name="bio"></label><br>
+        <label>Section:
+          <select name="section">
+            <option value="current">Current</option>
+            <option value="alumni">Alumni</option>
+          </select>
+        </label><br>
+        <button type="submit">Add Person</button>
+      </form>
+    </main>
+    <footer>
+      <p>© 2025 MoDS Lab | Institute of Science and Technology Austria</p>
+    </footer>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Random rotation and fixed zoom for background (always covers viewport)
+      var rot = Math.floor(Math.random() * 360);
+      var scale = 1.42; // sqrt(2) for diagonal coverage
+      document.querySelector('.background').style.transform = 'rotate(' + rot + 'deg) scale(' + scale + ')';
+      document.querySelector('.background-static').style.transform = 'rotate(' + rot + 'deg) scale(' + scale + ')';
+      setTimeout(function() {
+        document.querySelector('.background').style.display = 'none';
+        document.querySelector('.background-static').style.display = 'block';
+      }, 5000); // 5 seconds
+    });
+  </script>
+</body>
+</html>

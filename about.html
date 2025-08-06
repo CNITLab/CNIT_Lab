@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .background {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      background: url('images/welcome_background.gif') center center/cover no-repeat;
+      pointer-events: none;
+    }
+    .background-static {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      background: url('images/static_background.png') center center/cover no-repeat;
+      pointer-events: none;
+    }
+    .background-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(255,255,255,0.7);
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <div class="background-static" style="display:none;"></div>
+  <div class="background-overlay"></div>
+  <div class="content">
+    <header>
+      <div class="navbar">
+        <h1>MoDS Lab</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="research.html">Research</a>
+          <a href="group.html">People</a>
+          <a href="publications.html">Publications</a>
+          <a href="news.html">News</a>
+          <a href="culture.html">Culture</a>
+          <a href="positions.html">Open Positions</a>
+        </nav>
+      </div>
+    </header>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var rot = Math.floor(Math.random() * 360);
+      var scale = 1.42;
+      document.querySelector('.background').style.transform = 'rotate(' + rot + 'deg) scale(' + scale + ')';
+      document.querySelector('.background-static').style.transform = 'rotate(' + rot + 'deg) scale(' + scale + ')';
+      setTimeout(function() {
+        document.querySelector('.background').style.display = 'none';
+        document.querySelector('.background-static').style.display = 'block';
+      }, 5000);
+    });
+  </script>
+</body>
+</html>

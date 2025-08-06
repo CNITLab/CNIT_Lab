@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    html, body {
+      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #111 !important;
+      color: #fff !important;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+    }
+    .scroll-container {
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1;
+    }
+  </style>
+  <meta charset="UTF-8" />
+  <title>Lab Culture | SoftKnit Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.fade-out {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: blur(2px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    .culture-main {
+      position: relative;
+      z-index: 2;
+      padding-bottom: 2rem;
+      animation: fadein 1.2s;
+    }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .culture-section {
+      background: #181818;
+      border-radius: 22px;
+      box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a;
+      margin: 2.5rem 0;
+      padding: 2.5rem 2vw 2.5rem 2vw;
+      position: relative;
+      overflow: hidden;
+      border-left: 8px solid #1b7c4b;
+      border-right: 2px solid #1b7c4b;
+      color: #fff;
+      transition: box-shadow 0.3s;
+    }
+    .culture-section h2, .culture-section h3 {
+      color: #1b7c4b;
+      margin-bottom: 1.1rem;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000;
+      text-align: left;
+      padding-left: 0.2em;
+    }
+    .culture-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .culture-list li {
+      background: #222;
+      border-radius: 14px;
+      margin-bottom: 1.3rem;
+      padding: 1.3rem 1.5rem 1.3rem 1.5rem;
+      box-shadow: 0 2px 12px #1b7c4b22, 0 1px 6px #000a;
+      position: relative;
+      font-size: 1.12rem;
+      color: #fff;
+      transition: box-shadow 0.2s, transform 0.2s;
+      border: 1px solid #1b7c4b44;
+      cursor: pointer;
+    }
+    .culture-list li:hover {
+      box-shadow: 0 8px 32px #1b7c4b55, 0 2px 12px #000a;
+      transform: translateY(-2px) scale(1.01);
+      border-color: #1b7c4b;
+    }
+    .background {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: 0;
+      background: url('images/welcome_background.gif') center center/cover no-repeat;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .background-static {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: 0;
+      background: url('images/static_background.png') center center/cover no-repeat;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .background-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(17,17,17,0.7);
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    footer {
+      background: #181818;
+      color: #fff;
+      text-align: center;
+      padding: 1.2em 0;
+      position: sticky;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      z-index: 10;
+      border-top: 2px solid #1b7c4b;
+      box-shadow: 0 -2px 12px #1b7c4b22;
+    }
+    a {
+      color: #1b7c4b;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #4eeaaf;
+    }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .culture-section {
+        padding: 1.2em 0.5em 1em 0.5em;
+        max-width: 98vw;
+      }
+      .culture-list li {
+        padding: 1em 0.7em;
+      }
+      .navbar {
+        padding: 1em 1em 0.7em 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <div class="background-static" style="display:none;"></div>
+  <div class="background-overlay"></div>
+  <div class="scroll-container" style="min-height:100vh; display:flex; flex-direction:column;">
+    <div class="content" style="flex:1 0 auto;">
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          document.body.classList.add('fade-in');
+          document.querySelectorAll('a').forEach(link => {
+            if (link.target === '_blank' || link.href.startsWith('mailto:')) return;
+            link.addEventListener('click', function(e) {
+              if (link.hostname === window.location.hostname && link.pathname !== window.location.pathname) {
+                e.preventDefault();
+                document.body.classList.remove('fade-in');
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                  window.location = link.href;
+                }, 400);
+              }
+            });
+          });
+          // Dynamic scaling and rotation for background, matching index.html
+          const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
+          window._backgroundRotation = rot;
+          const bg = document.querySelector('.background');
+          const bgStatic = document.querySelector('.background-static');
+
+          function applyBackgroundTransform() {
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+
+            // Calculate the bounding box of the rotated rectangle
+            const angle = (rot % 360) * Math.PI / 180;
+            const sin = Math.abs(Math.sin(angle));
+            const cos = Math.abs(Math.cos(angle));
+
+            const baseW = vw;
+            const baseH = vh;
+
+            const bboxW = baseW * cos + baseH * sin;
+            const bboxH = baseW * sin + baseH * cos;
+
+            // Add a small padding factor to ensure no white edges
+            const paddingFactor = 1.02;
+            const adjustedW = bboxW * paddingFactor;
+            const adjustedH = bboxH * paddingFactor;
+
+            if (bg) {
+              bg.style.width = `${adjustedW}px`;
+              bg.style.height = `${adjustedH}px`;
+            }
+            if (bgStatic) {
+              bgStatic.style.width = `${adjustedW}px`;
+              bgStatic.style.height = `${adjustedH}px`;
+            }
+
+            // Calculate the minimum scale to cover the viewport
+            const scaleW = vw / bboxW;
+            const scaleH = vh / bboxH;
+            const minScale = Math.max(scaleW, scaleH, 1.12);
+
+            const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${minScale})`;
+            if (bg) bg.style.transform = transform;
+            if (bgStatic) bgStatic.style.transform = transform;
+          }
+
+          applyBackgroundTransform();
+
+          window.addEventListener('resize', applyBackgroundTransform);
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+          }
+
+          setTimeout(function() {
+            if (bg) bg.style.display = 'none';
+            if (bgStatic) bgStatic.style.display = 'block';
+          }, 5000);
+        });
+      </script>
+      <header>
+        <div class="navbar">
+          <h1>SoftKnit Lab</h1>
+          <nav>
+            <a href="index.html">Home</a>
+            <a href="research.html">Research</a>
+            <a href="group.html">People</a>
+            <a href="publications.html">Publications</a>
+            <a href="news.html">News</a>
+            <a href="culture.html">Culture</a>
+            <a href="positions.html">Open Positions</a>
+          </nav>
+        </div>
+      </header>
+      <main class="culture-main">
+        <section class="culture-section">
+          <h2>Mentor First Initiative</h2>
+          <p><b>The SoftKnit Lab is a proud supporter of the the <a href="https://www.mentorfirst.org/" target="_blank">Mentor First</a> initiative.</b> We believe that great science happens when everyone is supported, challenged, and encouraged to grow.</p>
+        </section>
+        <section class="culture-section">
+          <h2>Our Lab Values</h2>
+          <ul class="culture-list">
+            <li><b>Growth Mindset:</b> Mistakes are part of learning. We support each other in taking risks and growing from challenges.</li>
+            <li><b>Creativity:</b> We encourage curiosity, bold ideas, and playful experimentation. There are no bad questions!</li>
+            <li><b>Respect:</b> We treat each other with kindness and respect. Everyone's voice matters, and we listen to each other.</li>
+            <li><b>Integrity:</b> We value honesty and transparency in our work.
+            <li><b>Diversity & Inclusion:</b> We celebrate different backgrounds, perspectives, and experiences. Everyone is welcome and respected.</li>
+            <li><b>Collaboration:</b> Science is a team effort! We value open communication, sharing ideas, and helping each other succeed.</li>
+            
+           
+          </ul>
+        </section>
+      
+      </main>
+    </div>
+    <footer>
+      <p>© 2025 SoftKnit Lab | Institute of Science and Technology Austria</p>
+    </footer>
+  </div>
+</body>
+</html>

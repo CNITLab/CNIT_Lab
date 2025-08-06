@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Research | SoftKnit Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    html,
+    body {
+      min-height: 100vh;
+      height: auto;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: none !important;
+      background-color: transparent !important;
+    }
+
+    body {
+      --bg-transform: none;
+      min-height: 100vh;
+      height: auto;
+      position: relative;
+    }
+
+    .background-image {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      background: url('images/welcome_background.gif') center center/cover no-repeat;
+      will-change: transform;
+      transition: background-image 0.5s, transform 0.5s;
+      pointer-events: none;
+    }
+
+    .static-bg .background-image {
+      background-image: url('images/static_background.png');
+    }
+
+    .scroll-container {
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 0;
+    }
+
+    /* ...retain all other research-specific styles below... */
+    @keyframes fadein {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .floating-molecule {
+      position: absolute;
+      top: 2vw;
+      right: 3vw;
+      width: 90px;
+      opacity: 0.18;
+      z-index: 0;
+      animation: floatmol 8s ease-in-out infinite alternate;
+      filter: hue-rotate(-60deg) saturate(1.2);
+    }
+
+    @keyframes floatmol {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      100% {
+        transform: translateY(18px) rotate(8deg);
+      }
+    }
+
+    .research-section,
+    .research-subsection {
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 22px;
+      box-shadow: 0 4px 24px rgba(27, 124, 75, 0.18);
+      margin: 2.5rem 0;
+      padding: 2.2rem 2.5vw 2.2rem 2.5vw;
+      position: relative;
+      overflow: visible;
+      border-left: 7px solid #1b7c4b;
+      color: #fff;
+    }
+
+    .research-section h2,
+    .research-subsection h3 {
+      color: #1b7c4b;
+      margin-bottom: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000;
+      font-weight: 600;
+      font-size: 2.1rem;
+    }
+
+    /* Removed emoji ::before pseudo-elements from headings */
+    .section-divider {
+      width: 100%;
+      height: 0.7em;
+      background: repeating-linear-gradient(90deg, #1b7c4b 0 12%, #222 12% 24%, #111 24% 36%, #1b7c4b 36% 48%, #222 48% 60%, #111 60% 72%, #1b7c4b 72% 84%, #222 84% 100%);
+      margin: 2.5rem 0 2.5rem 0;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px #1b7c4b33;
+    }
+
+    .research-section .video-embed,
+    .research-subsection .video-embed {
+      margin: 1.5rem 0 0.5rem 0;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.18);
+      border-radius: 18px;
+      box-shadow: 0 2px 12px #1b7c4b33;
+    }
+
+    .video-embed iframe {
+      border-radius: 18px;
+      border: 3px solid #1b7c4b;
+      width: 90vw;
+      max-width: 560px;
+      height: 315px;
+      background: #111;
+      box-shadow: 0 4px 24px #1b7c4b33;
+      transition: box-shadow 0.2s, border 0.2s;
+      color: #fff;
+    }
+
+    .video-embed iframe:hover {
+      box-shadow: 0 8px 32px #1b7c4b;
+      border: 3px solid #1b7c4b;
+    }
+
+    .subsections-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      justify-content: space-between;
+      position: relative;
+      margin-top: 2.5rem;
+    }
+
+    .research-subsection {
+      flex: 1 1 320px;
+      min-width: 280px;
+      max-width: 34vw;
+      margin: 0 -2vw 0 0;
+      border-left: 5px solid #1b7c4b;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      top: 0;
+      z-index: 2;
+      box-shadow: 0 2px 12px #1b7c4b11;
+    }
+
+    .research-subsection:nth-child(2) {
+      top: 2.5rem;
+      z-index: 3;
+      transform: scale(1.04) rotate(-2deg);
+      box-shadow: 0 8px 32px #1b7c4b22;
+      background: rgba(0, 0, 0, 0.672);
+      color: #000000;
+      border-left: 5px solid #1b7c4b;
+    }
+
+    .research-subsection:hover {
+      box-shadow: 0 12px 36px #1b7c4b33;
+      transform: scale(1.05) rotate(-1deg);
+    }
+
+    @media (max-width: 900px) {
+      .subsections-container {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .research-subsection {
+        max-width: 100%;
+        margin: 0 0 2rem 0;
+        top: 0 !important;
+        transform: none !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .subsections-container {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .research-subsection {
+        max-width: 100%;
+      }
+    }
+
+    .background {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: -2;
+      background: url('images/welcome_background.gif') center center/cover no-repeat;
+      background-size: cover;
+      background-position: center center;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: 1;
+    }
+
+    .background-static {
+      display: none;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: -2;
+      background: url('images/static_background.png') center center/cover no-repeat;
+      background-size: cover;
+      background-position: center center;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* .background-overlay styles removed to allow style.css to control overlay color */
+  </style>
+</head>
+
+<body>
+  <div class="background"></div>
+  <div class="background-static" style="display:none;"></div>
+  <div class="background-overlay"></div>
+  <div class="content" style="min-height: 100vh;">
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.body.classList.add('fade-in');
+        document.querySelectorAll('a').forEach(link => {
+          if (link.target === '_blank' || link.href.startsWith('mailto:')) return;
+          link.addEventListener('click', function (e) {
+            if (link.hostname === window.location.hostname && link.pathname !== window.location.pathname) {
+              e.preventDefault();
+              document.body.classList.remove('fade-in');
+              document.body.classList.add('fade-out');
+              setTimeout(() => {
+                window.location = link.href;
+              }, 400);
+            }
+          });
+        });
+
+        // Dynamic scaling and rotation for background, matching index.html
+        const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
+        window._backgroundRotation = rot;
+        const bg = document.querySelector('.background');
+        const bgStatic = document.querySelector('.background-static');
+
+        function applyBackgroundTransform() {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+
+          // Calculate the bounding box of the rotated rectangle
+          const angle = (rot % 360) * Math.PI / 180;
+          const sin = Math.abs(Math.sin(angle));
+          const cos = Math.abs(Math.cos(angle));
+
+          const baseW = vw;
+          const baseH = vh;
+
+          const bboxW = baseW * cos + baseH * sin;
+          const bboxH = baseW * sin + baseH * cos;
+
+          // Add a small padding factor to ensure no white edges
+          const paddingFactor = 1.02;
+          const adjustedW = bboxW * paddingFactor;
+          const adjustedH = bboxH * paddingFactor;
+
+          bg.style.width = `${adjustedW}px`;
+          bg.style.height = `${adjustedH}px`;
+          bgStatic.style.width = `${adjustedW}px`;
+          bgStatic.style.height = `${adjustedH}px`;
+
+          // Calculate the minimum scale to cover the viewport
+          const scaleW = vw / bboxW;
+          const scaleH = vh / bboxH;
+          const minScale = Math.max(scaleW, scaleH, 1.12);
+
+          const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${minScale})`;
+          bg.style.transform = transform;
+          bgStatic.style.transform = transform;
+        }
+
+        applyBackgroundTransform();
+
+        window.addEventListener('resize', applyBackgroundTransform);
+        if (window.visualViewport) {
+          window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+        }
+
+        setTimeout(function () {
+          if (bg) bg.style.display = 'none';
+          if (bgStatic) bgStatic.style.display = 'block';
+        }, 5000);
+      });
+    </script>
+    <header>
+      <div class="navbar">
+        <h1>SoftKnit Lab</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="research.html">Research</a>
+          <a href="group.html">People</a>
+          <a href="publications.html">Publications</a>
+          <a href="news.html">News</a>
+          <a href="culture.html">Culture</a>
+          <a href="positions.html">Open Positions</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <main class="research-main">
+        <div style="position:relative;">
+          <img class="floating-molecule" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Benzol.svg"
+            alt="Molecule SVG" />
+          <section class="research-section">
+            <h2>What if our Materials go from purely existing to acting?</h2>
+            <p style="text-align: justify;">At the SoftKnit Lab, we explore the frontiers of adaptive and smart materials,
+              combining chemistry, physics, and engineering to create solutions for tomorrow. Our main research focus is
+              on the design and synthesis of materials that respond to their environment in novel and useful ways. By
+              harnessing molecular forces and interactions, we program behavior that scales from the nanoscale to
+              macroscopic function. Many of our systems go beyond single-input responses, embracing multistate behavior
+              and overlapping stimuli to create richer, more tunable response dynamics. We love to play with light,
+              shape, and function!</p>
+            <div class="video-embed" style="display: flex; justify-content: center; align-items: center;">
+              <img id="main-research-img" src="images/research.png" alt="Main Research Image" style="
+                max-width: 1200px;
+                width: 100%;
+                height: auto;
+                max-height: 350px;
+                aspect-ratio: 24/7;
+                object-fit: cover;
+                object-position: 0px 0px;
+                border-radius: 22px;
+                border: 3px solid #1b7c4b22;
+                background: #000000;
+                box-shadow: 0 4px 24px #1b7c4b22;
+                transition: box-shadow 0.2s, border 0.2s, transform 0.3s cubic-bezier(.7,.2,.3,1);
+                display: block;
+              "/>
+            </div>
+          </section>
+        </div>
+        <hr class="section-divider" />
+        <div class="subsections-container">
+          <section class="research-subsection">
+            <h3>Fiat Lux – Light responsive molecules and materials</h3>
+            <p style="text-align: justify;">
+              We develop molecules that respond to light with precise changes in structure or properties, and we scale
+              these responses into functional materials. This approach powers applications in soft robotics, sensors,
+              and dynamic systems. Our research connects organic synthesis and mechanistic insight with material
+              architecture and device design.
+            </p>
+            <div class="video-embed" style="display: flex; justify-content: center;">
+              <video src="images/Vid1.mov" autoplay loop muted playsinline style="
+                  width: 300px;
+                  height: 350px;
+                  object-fit: cover;
+                  object-position: 0px -120px;
+                  border-radius: 50% / 40%;
+                  border: 3px solid #1b7c4b22;
+                  background: #e6f4ea;
+                  box-shadow: 0 4px 24px #1b7c4b22;
+                  transition: box-shadow 0.2s, border 0.2s;
+                ">
+              </video>
+            </div>
+          </section>
+          <section class="research-subsection">
+            <h3>Dynamic Matter – Where Molecules Shape Material Properties</h3>
+            <p style="text-align: justify; color: #fff;">We study how light-responsive molecules embedded in structured materials
+              give rise to dynamic behavior. By controlling interactions at the molecular level, we tune phase
+              transitions, manipulate local order, and drive changes in material properties. Our work explores how
+              stimuli—especially light—can modulate structure and function in soft, responsive systems, laying the
+              groundwork for materials that adapt, reorganize, or shift state on demand.</p>
+            <div class="video-embed" style="display: flex; justify-content: center; align-items: center;">
+              <img src="images/research3.gif" alt="Bioinspired Design" style="
+                width: 350px;
+                height: 300px;
+                object-fit: cover;
+                object-position: -75px -0px;
+                border-radius: 22px;
+                border: 3px solid #1b7c4b22;
+                background: #e6f4ea;
+                box-shadow: 0 4px 24px #1b7c4b22;
+                transition: box-shadow 0.2s, border 0.2s;
+              "/>
+            </div>
+          </section>
+          <section class="research-subsection">
+            <h3>Soft Systems – Where Materials Become Agents</h3>
+            <p style="text-align: justify;">We design materials that operate beyond simple stimulus-response, enabling
+              multistate behavior through layered and interacting stimuli. By embracing non-orthogonality—where inputs
+              overlap, compete, or cooperate—we unlock complex, history-dependent functions. These systems respond
+              differently depending on context, sequence, and state, mimicking aspects of agency through chemical and
+              mechanical interplay.</p>
+             <div class="video-embed" style="display: flex; justify-content: center;">
+              <video src="images/vid5.mp4" autoplay loop muted playsinline style="
+                  width: 400px;
+                  height: 300px;
+                  object-fit: cover;
+                  object-position: -0px 00px;
+                  border-radius: 60% / 40%;
+                  border: 3px solid #1b7c4b22;
+                  background: #e6f4ea;
+                  box-shadow: 0 4px 24px #1b7c4b22;
+                  transition: box-shadow 0.2s, border 0.2s;
+                ">
+              </video>
+            </div>
+          </section>
+        </div>
+      </main>
+      <script>
+      // Scale the main research image as you scroll down
+      document.addEventListener('DOMContentLoaded', function() {
+        const img = document.getElementById('main-research-img');
+        if (!img) return;
+        function scaleImageOnScroll() {
+          // How far to scroll before minimum scale (e.g. 300px)
+          const maxScroll = 300;
+          const scrollY = window.scrollY || window.pageYOffset;
+          // Scale from 1 (top) to 0.7 (scrolled maxScroll or more)
+          const minScale = 0.7;
+          const scale = Math.max(minScale, 1 - (scrollY / maxScroll) * (1 - minScale));
+          img.style.transform = `scale(${scale})`;
+        }
+        window.addEventListener('scroll', scaleImageOnScroll);
+        scaleImageOnScroll();
+      });
+      </script>
+    </main>
+    
+    <footer>
+      <p>© 2025 SoftKnit Lab | Institute of Science and Technology Austria</p>
+    </footer>
+</html>
