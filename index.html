@@ -7,7 +7,31 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     @media (max-width: 1300px) {
-      /* Hide all absolutely positioned containers in carousel-text */
+      .carousel-text {
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 1em 0.5em !important;
+        min-width: 0 !important;
+        max-width: 100vw !important;
+        width: 100% !important;
+      }
+      .carousel-text h3 {
+        font-size: 1.6rem !important;
+        word-break: break-word;
+        padding: 0 0.2em;
+      }
+      .carousel-text p {
+        font-size: 1rem !important;
+        padding: 0 0.2em;
+      }
+      .carousel-text img {
+        max-width: 90vw !important;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 auto !important;
+        display: block !important;
+        object-fit: contain !important;
+      }
       .carousel-text [style*="position: absolute"],
       .carousel-text > [style*="position: absolute"] {
         display: none !important;
@@ -94,6 +118,16 @@
       letter-spacing: 0.01em;
       text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000;
       animation: textPop 1.2s cubic-bezier(.5,1.5,.5,1) 0.2s both;
+    }
+    @media (max-width: 900px) {
+      .hero-index h1 {
+        font-size: 4rem !important;
+      }
+    }
+    @media (max-width: 600px) {
+      .hero-index h1 {
+        font-size: 3rem !important;
+  }
     }
     .hero-index p {
       font-size: 0.9rem;
