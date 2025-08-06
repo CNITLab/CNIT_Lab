@@ -6,7 +6,10 @@
   <title>SoftKnit Lab @ ISTA</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    @media (max-width: 1300px) {
+    .content {
+      padding-bottom: 350px;
+    }
+    @media (max-width: 1600px) {
       .carousel-text {
         flex-direction: column !important;
         align-items: center !important;
@@ -34,13 +37,13 @@
       }
       .carousel-text [style*="position: absolute"],
       .carousel-text > [style*="position: absolute"] {
-        display: none !important;
+        display: none;
       }
-      /* Hide all images in carousel-text whose src contains 'gif' or 'cartoon' (case-insensitive) */
-      .carousel-text img[src*="gif" i],
+      /* Remove the rule that hides all images in carousel-text whose src contains 'gif' or 'cartoon' */
+      /* .carousel-text img[src*="gif" i],
       .carousel-text img[src*="cartoon" i] {
-        display: none !important;
-      }
+        display: none;
+      } */
     }
     .navbar, .navbar h1, .navbar nav a {
       color: #fff !important;
@@ -88,14 +91,24 @@
       transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
     }
     html, body {
-      height: 100vh;
+      height: 100%;
       min-height: 100vh;
-      overflow: hidden;
+      width: 100vw;
+      overflow-x: hidden;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     .scroll-container {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
       position: relative;
-      height: 100vh;
-      overflow-y: auto;
+      width: 100%;
+      overflow: visible;
       z-index: 0;
     }
   </style>
@@ -172,7 +185,7 @@
     }
     body.fade-in {
       opacity: 1;
-      transition: opacity 0.7s cubic-bezier(.5,1.5,.5,1);
+      transition: opacity 1.6s cubic-bezier(.5,1.5,.5,1);
     }
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(40px); }
@@ -183,82 +196,65 @@
       position: relative;
       z-index: 2;
     }
-    .carousel-card {
+    .carousel-cards-container {
       position: relative;
-      overflow: visible;
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-card {
       background: #111;
+      color: #fff;
       border-radius: 28px;
       box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a;
       border-left: 8px solid #1b7c4b;
       border-right: 2px solid #1b7c4b;
       padding: 2.5em 0 2.5em 0;
-      margin: 2em auto;
-      min-height: 500px;
-      max-width: 1200px;
+      margin: 0 auto;
+      max-width: 1430px;
       width: 100%;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s cubic-bezier(.5,1.5,.5,1);
+      z-index: 1;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-card.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+    }
+    .carousel-cards-container {
+      min-height: 0;
     }
     .carousel-text {
-      opacity: 0;
-      position: absolute;
-      left: 0; right: 0; top: 0;
-      pointer-events: none;
-      background: transparent;
-      border-radius: 0;
-      box-shadow: none;
-      border: none;
+      position: relative;
+      width: 100%;
       color: #fff;
       padding: 0;
       max-width: 100%;
-      width: 100%;
       margin: 0 auto;
-      filter: blur(8px) brightness(0.7);
-      transform: translateY(60px) scale(0.92) rotateY(40deg);
-      transition: opacity 0.7s cubic-bezier(.5,1.5,.5,1), filter 0.7s cubic-bezier(.5,1.5,.5,1), transform 0.7s cubic-bezier(.5,1.5,.5,1);
-    }
-    .carousel-text.active {
-      opacity: 1;
-      position: relative;
-      filter: blur(0px) brightness(1);
-      transform: translateY(0) scale(1.04) rotateY(0deg);
-      pointer-events: auto;
-      z-index: 2;
-      animation: carouselIn 1.1s cubic-bezier(.5,1.5,.5,1);
-    }
-    .carousel-text.out {
-      opacity: 0;
-      filter: blur(12px) brightness(0.5);
-      transform: translateY(-60px) scale(0.92) rotateY(-40deg);
-      pointer-events: none;
       z-index: 1;
-      animation: carouselOut 0.7s cubic-bezier(.5,1.5,.5,1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    @keyframes carouselIn {
-      0% {
-        opacity: 0;
-        filter: blur(12px) brightness(0.5);
-        transform: translateY(60px) scale(0.92) rotateY(40deg);
-      }
-      60% {
-        filter: blur(2px) brightness(1.1);
-        transform: translateY(-10px) scale(1.08) rotateY(-8deg);
-      }
-      100% {
-        opacity: 1;
-        filter: blur(0px) brightness(1);
-        transform: translateY(0) scale(1.04) rotateY(0deg);
-      }
-    }
-    @keyframes carouselOut {
-      0% {
-        opacity: 1;
-        filter: blur(0px) brightness(1);
-        transform: translateY(0) scale(1.04) rotateY(0deg);
-      }
-      100% {
-        opacity: 0;
-        filter: blur(12px) brightness(0.5);
-        transform: translateY(-60px) scale(0.92) rotateY(-40deg);
-      }
+    .carousel-dots {
+      z-index: 10 !important;
+      position: relative;
     }
     .carousel-dot {
       width: 12px; height: 12px; border-radius: 50%; background: #e6f4ea; border: 2px solid #1b7c4b; margin: 0 4px; display: inline-block; transition: background 0.3s, border 0.3s;
@@ -324,93 +320,101 @@
   <div class="scroll-container">
     <div class="hero-index">
       <h1>Chemistry with Intent: Adaptive Responses from Molecule to Material</h1>
-  
     </div>
     <div class="content">
-      <main>
-      <div class="welcome-block">
-        <div style="background: #111; border-radius: 28px; box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a; border-left: 8px solid #1b7c4b; border-right: 2px solid #1b7c4b; padding: 2.5em 2vw 2.5em 2vw; max-width: 1200px; width: 100%; margin: 2em auto; color: #fff; position: relative; z-index: 3; text-align: center; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">
-          <h2 style="color: #1b7c4b; margin-bottom: 0.7em; font-size: 3rem;">SoftKnit Lab<br>Knitting Molecular Function Across Scales</h2>
-          <p style="color: #fff; font-size: 1.2rem; margin-top: 0;">Our research at the SoftKnit Lab at ISTA bridges organic chemistry and materials science to engineer responsive systems that exhibit purposeful behavior taking molecular functions to macroscopic scales. Our goal is to “knit” chemistry, molecular assembly, materials geometry, and stimuli-responses together into adaptive systems.</p>
+      <main style="flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0;">
+        <div class="welcome-block">
+          <div style="background: #111; border-radius: 28px; box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a; border-left: 8px solid #1b7c4b; border-right: 2px solid #1b7c4b; padding: 2.5em 2vw 2.5em 2vw; max-width: 1200px; width: 100%; margin: 2em auto; color: #fff; position: relative; z-index: 3; text-align: center; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">
+            <h2 style="color: #1b7c4b; margin-bottom: 0.7em; font-size: 3rem;">SoftKnit Lab<br>Knitting Molecular Function Across Scales</h2>
+            <p style="color: #fff; font-size: 1.2rem; margin-top: 0;">Our research at the SoftKnit Lab at ISTA bridges organic chemistry and materials science to engineer responsive systems that exhibit purposeful behavior taking molecular functions to macroscopic scales. Our goal is to “knit” chemistry, molecular assembly, materials geometry, and stimuli-responses together into adaptive systems.</p>
+          </div>
         </div>
-      </div>
-      <section class="carousel-section">
-        <div class="carousel-card" style="max-width: 1600px; width: 100%; position: relative; z-index: 2;">
-          <div class="carousel-text active" style="position: relative; display: flex; flex-direction: row; justify-content: center; align-items: stretch;">
-            <!-- Cartoon absolutely positioned on the far left, not affecting centering -->
-            <div style="position: absolute; left: -50px; top:70%; transform: translateY(-50%); z-index: 2; width: 330px; height: auto; display: flex; align-items: center; justify-content: flex-end; pointer-events: none;">
-              <img src="images/sec1_Cartoon.png" alt="Section 1 Cartoon" style="max-width: 330px; width: 220px; height: auto; background: none; border-radius: 0; box-shadow: none; display: block; margin: auto 0;" />
+        <section class="carousel-section">
+          <div class="carousel-cards-container">
+            <!-- Card 1: Structure to Mechanistic Insight -->
+            <div class="carousel-card active">
+              <div class="carousel-text" style="position: relative; overflow: visible;">
+                <h3 style="margin-bottom: 1.2em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">From Structure to Mechanistic Insight</h3>
+                <img src="images/sec1_gif.gif" alt="Section 1 Animation" style="display: block; width: 100%; max-width: 440px; height: 190px; object-fit: cover; object-position: center -55px; border-radius: 80%/45%; filter: blur(1px) drop-shadow(0 0 3px #1b7c4b22); box-shadow: 0 2px 8px #1b7c4b22; border: 2px solid rgba(30,64,175,0.07); background: none; margin: 0 auto; margin-bottom: 1.2em; margin-top: 0.5em;" />
+                <p style="text-align: justify; width: 100%; max-width: 700px; font-size: 1.2rem; margin: 0 auto 1.2em auto; margin-top: 0;">Through the tools of physical organic and synthetic chemistry, we uncover the mechanistic underpinnings of stimuli-responsive molecular systems. Visible light-responsive molecules are especially compelling for their non-invasive activation and their suitability for biologically and technologically relevant environments.</p>
+                <img src="images/sec1_Cartoon.png" alt="Section 1 Cartoon" style="max-width: 400px; width: 300px; height: auto; background: none; border-radius: 0; box-shadow: none; display: block; position: absolute; left: 0; top: 50px; z-index: 2;" />
+              </div>
             </div>
-            <!-- Centered text box -->
-            <div style="margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 900px; width: 100%;">
-              <h3 style="margin-bottom: 0.7em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">From Structure to Mechanistic Insight</h3>
-              <div style="width: 100%; max-width: 1200px; display: flex; justify-content: center; margin-bottom: 1em;">
-                <div style="display: flex; justify-content: center; width: 100%;">
-                  <img src="images/sec1_gif.gif" alt="Section 1 Animation" style="display: block; width: 440px; height: 190px; object-fit: cover; object-position: center -55px; border-radius: 80%/45%; filter: blur(1px) drop-shadow(0 0 3px #1b7c4b22); box-shadow: 0 2px 8px #1b7c4b22; border: 2px solid rgba(30,64,175,0.07); background: none; margin: 0 auto;" />
+            <!-- Card 2: Molecules to Functional Matter -->
+            <div class="carousel-card">
+              <div class="carousel-text">
+                <h3 style="margin-bottom: -0.2em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">
+                  From Molecules to Functional Matter
+                </h3>
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; width: 100%; max-width: 1400px; margin: 0 auto;">
+                  <!-- Left GIF -->
+                  <div style="width: 350px; display: flex; align-items: center; justify-content: flex-end;">
+                    <img src="images/sec2.gif" alt="Section 2 Animation"
+                      style="max-width: 350px; width: 350px; height: 300px; object-fit: cover; border-radius: 50%; display: block;" />
+                  </div>
+                  <!-- Center Text -->
+                  <div style="width: 700px; display: flex; align-items: center; justify-content: center; padding: 0 2em;">
+                    <p style="text-align: justify; width: 100%; font-size: 1.2rem; margin: 0;">
+                      We translate molecular responsiveness into material performance by guiding how molecules organize, interact, and transform. Through this bottom-up design, emergent properties such as phase change and mechanical adaptation become accessible and tunable.
+                    </p>
+                  </div>
+                  <!-- Right GIF -->
+                  <div style="width: 350px; display: flex; align-items: center; justify-content: flex-start;">
+                    <img src="images/sec2_gif2.gif" alt="Section 2 Cartoon"
+                      style="max-width: 350px; width: 350px; height: 300px; object-fit: cover; border-radius: 50%; display: block;" />
+                  </div>
                 </div>
               </div>
-              <p style="text-align: justify; width: 100%; max-width: 1200px; font-size: 1.2rem;">Through the tools of physical organic and synthetic chemistry, we uncover the mechanistic underpinnings of stimuli-responsive molecular systems. Visible light-responsive molecules are especially compelling for their non-invasive activation and their suitability for biologically and technologically relevant environments.</p>
             </div>
-          </div>
-          <div class="carousel-text">
-            <div style="margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 900px; width: 100%;">
-              <h3 style="margin-bottom: 0.7em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">
-                From Molecules to Functional Matter
-              </h3>
-              <div style="width: 100%; max-width: 1200px; display: flex; justify-content: center; margin-bottom: 1em;">
-                <!-- Add any images here if needed -->
+            <!-- Card 3: Functional Matter to Emergence -->
+            <div class="carousel-card">
+              <div class="carousel-text" style="position: relative; overflow: visible;">
+                <!-- Cartoon fully in view, no fade, no blur -->
+                <img src="images/sec3_cartoon.png" alt="Section 3 Cartoon"
+                  style="position: absolute; right: 0; top: 60; width: 600px; height: 600px; max-width: none; max-height: none; z-index: 2; pointer-events: none;" />
+                <!-- Lowered title below cartoon textbox, minimal margin -->
+                <h3 style="margin-top: 0.5em; margin-bottom: -0.75em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600; position: relative; z-index: 3;">From Functional Matter to Emergence</h3>
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; width: 100%; max-width: 1400px; margin: 0 auto; position: relative; z-index: 4;">
+                  <!-- Left GIF -->
+                  <div style="width: 350px; display: flex; align-items: center; justify-content: flex-end; z-index: 4;">
+                    <img src="images/sec3.gif" alt="Section 3 Animation" style="max-width: 350px; width: 350px; height: 300px; object-fit: cover; border-radius: 50%; display: block;" />
+                  </div>
+                  <!-- Center Text -->
+                  <div style="width: 700px; display: flex; align-items: center; justify-content: center; padding: 0 2em; z-index: 4;">
+                    <p style="text-align: justify; width: 100%; font-size: 1.2rem; margin: 0; background: rgba(17,17,17,0.92); border-radius: 1em; padding: 0.5em 1em;">By orchestrating structure and responsiveness across scales, we enable materials to exhibit higher-order functions—such as memory, adaptation, and selective response—rooted in their physical architecture.</p>
+                  </div>
+                  <!-- Spacer for symmetry -->
+                  <div style="width: 350px;"></div>
+                </div>
               </div>
-              <p style="text-align: justify; width: 100%; max-width: 1200px; font-size: 1.2rem;">
-                We translate molecular responsiveness into material performance by guiding how molecules organize, interact, and transform. Through this bottom-up design, emergent properties such as phase change and mechanical adaptation become accessible and tunable.
-              </p>
             </div>
-            <!-- Cartoon absolutely positioned on the far left -->
-            <div style="position: absolute; left: -25px; top:60%; transform: translateY(-50%); z-index: 0; width: 300px; height: 300px; display: flex; align-items: center; justify-content: flex-end; pointer-events: none;">
-              <img src="images/sec2.gif" alt="Section 2 Animation" style="max-width: 600px; width: 220px; height: 220px; object-fit: cover; object-position: -80px 0px; background: none; border-radius: 50%; box-shadow: none; display: block; margin: auto 0;" />
-            </div>
-            <!-- Cartoon absolutely positioned on the far right -->
-            <div style="position: absolute; right: -100px; top:70%; transform: translateY(-50%); z-index: 2; width: 430px; height: auto; display: flex; align-items: center; justify-content: flex-start; pointer-events: none;">
-              <img src="images/sec2_gif2.gif" alt="Section 2 Cartoon" style="max-width: 430px; width: 300px; height: 325; background: none; border-radius: 0; box-shadow: none; display: block; margin: auto 0; object-fit: cover; object-position: -35px -10px;" />
-            </div>
-          </div>
-          <div class="carousel-text">
-            <div style="position: relative; display: flex; flex-direction: row; justify-content: center; align-items: stretch; width: 100%; max-width: 900px; margin: 0 auto;">
-              <!-- Cartoon absolutely positioned on the far left -->
-              <div style="position: absolute; left: -500px; top:50%; transform: translateY(-50%); z-index: 0; width: 500px; height: 500px; display: flex; align-items: center; justify-content: flex-end; pointer-events: none;">
-                <img src="images/sec3.gif" alt="Section 3 Animation" style="max-width: 350px; width: 300px; height: 375px; object-fit: cover; object-position: -180px -10px; background: none; border-radius: 50%; box-shadow: 0 2px 8px #1b7c4b22; border: 2px solid rgba(30,64,175,0.07); display: block; margin: auto 0;" />
-              </div>
-              <!-- Centered text box -->
-              <div style="margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 900px; width: 100%;">
-                <h3 style="margin-bottom: 0.7em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">From Functional Matter to Emergence</h3>
-                <div style="width: 100%; max-width: 1200px; display: flex; justify-content: center; margin-bottom: 1em;"></div>
-                <p style="text-align: justify; width: 100%; max-width: 1200px; font-size: 1.2rem;">By orchestrating structure and responsiveness across scales, we enable materials to exhibit higher-order functions—such as memory, adaptation, and selective response—rooted in their physical architecture.</p>
-              </div>
-              <!-- Cartoon absolutely positioned on the far right -->
-              <div style="position: absolute; right: -140px; top:70%; transform: translateY(-50%); z-index: 0; width: 430px; height: auto; display: flex; align-items: center; justify-content: flex-start; pointer-events: none;">
-                <img src="images/sec3_cartoon.png" alt="Section 3 Cartoon" style="max-width: 530px; width: 530px; height: auto; background: none; border-radius: 0; box-shadow: none; display: block; margin: auto 0;" />
+            <!-- Card 4: New Voices to New Directions (already good) -->
+            <div class="carousel-card">
+              <div class="carousel-text">
+                <div style="margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 900px; width: 100%;">
+                  <h3 style="margin-bottom: 0.7em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">From New Voices to New Directions</h3>
+                  <div style="width: 100%; max-width: 430px; display: flex; justify-content: center; margin-bottom: 1em;">
+                    <img src="images/Sec5.png" alt="Section 5 Cartoon" style="max-width: 430px; width: 100%; height: auto; background: none; border-radius: 0; box-shadow: none; display: block; margin: 0 auto;" />
+                  </div>
+                  <p style="text-align: center; width: 100%; max-width: 1200px; font-size: 1.2rem;">
+                    From molecules to materials to function—if that arc excites you, we want to hear from you. Join us in exploring what’s possible.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-          <div class="carousel-text">
-            <div style="margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 900px; width: 100%;">
-              <h3 style="margin-bottom: 0.7em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">From New Voices to New Directions</h3>
-              <div style="width: 100%; max-width: 430px; display: flex; justify-content: center; margin-bottom: 1em;">
-                <img src="images/Sec5.png" alt="Section 5 Cartoon" style="max-width: 430px; width: 100%; height: auto; background: none; border-radius: 0; box-shadow: none; display: block; margin: 0 auto;" />
-              </div>
-              <p style="text-align: justify; width: 100%; max-width: 1200px; font-size: 1.2rem;">
-                From molecules to materials to function—if that arc excites you, we want to hear from you. Join us in exploring what’s possible.
-              </p>
-            </div>
-          </div>
-          <div class="carousel-dots"></div>
+        <div class="carousel-dots" style="display: flex; justify-content: center; gap: 0.7em; margin-top: -0.8em; margin-bottom: -5em; z-index: 100; position: relative;"></div>
+        <div style="height: 200px;"></div>
         </div>
-      </section>
+        </section>
+
       </main>
-      
+    </div>
     
-    <footer>
-      <p>© 2025 SoftKnit Lab | Institute of Science and Technology Austria</p>
-    </footer>
+  </div>
+  <footer>
+    <p>© 2025 SoftKnit Lab | Institute of Science and Technology Austria</p>
+  </footer>
   <script>
     function toggleMenu() {
       const dropdownMenu = document.querySelector('.dropdown-menu');
@@ -446,51 +450,50 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-      // Carousel logic (unchanged)
-      const texts = document.querySelectorAll('.carousel-text');
-      const dotsContainer = document.querySelector('.carousel-dots');
+      // Carousel logic (fade entire card, only one visible at a time)
+      const cards = document.querySelectorAll('.carousel-card');
+      const dotsContainer = document.body.querySelector('.carousel-dots');
       let current = 0;
-      texts.forEach((_, idx) => {
+      // Set only first card active
+      cards.forEach((card, idx) => {
+        if (idx === 0) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
+      cards.forEach((_, idx) => {
         const dot = document.createElement('div');
         dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
         dot.addEventListener('click', () => {
           if (current !== idx) {
-            animateCarouselOut(texts[current]);
+            animateCarouselOut(cards[current]);
             dotsContainer.children[current].classList.remove('active');
             current = idx;
-            animateCarouselIn(texts[current]);
-            dotsContainer.children[current].classList.add('active');
+            setTimeout(() => {
+              animateCarouselIn(cards[current]);
+              dotsContainer.children[current].classList.add('active');
+            }, 400); // fade out before fade in
           }
         });
         dotsContainer.appendChild(dot);
       });
-      function animateCarouselOut(el) {
-        el.classList.remove('active');
-        el.classList.add('out');
-        setTimeout(() => {
-          el.classList.remove('out');
-          el.style.display = 'none';
-        }, 700);
+      function animateCarouselOut(card) {
+        card.classList.remove('active');
       }
-      function animateCarouselIn(el) {
-        // Set all slides to absolute and none except the active one
-        texts.forEach(t => {
-          t.style.position = 'absolute';
-          t.style.display = 'none';
-          t.classList.remove('active');
-          t.classList.remove('out');
-        });
-        el.classList.add('active');
-        el.style.display = 'flex';
-        el.style.position = 'relative';
+      function animateCarouselIn(card) {
+        card.classList.add('active');
       }
       setInterval(() => {
-        animateCarouselOut(texts[current]);
+        animateCarouselOut(cards[current]);
         dotsContainer.children[current].classList.remove('active');
-        current = (current + 1) % texts.length;
-        animateCarouselIn(texts[current]);
-        dotsContainer.children[current].classList.add('active');
+        current = (current + 1) % cards.length;
+        setTimeout(() => {
+          animateCarouselIn(cards[current]);
+          dotsContainer.children[current].classList.add('active');
+        }, 400);
       }, 15000);
+    });
 
      function setBackgroundTransform() {
       const rot = Math.floor(Math.random() * 360);
@@ -546,7 +549,6 @@
         document.querySelector('.background').style.display = 'none';
         document.querySelector('.background-static').style.display = 'block';
       }, 5000); // 5 seconds
-    });
   </script>
 </body>
 </html>
