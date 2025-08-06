@@ -15,8 +15,13 @@
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       z-index: 0;
-      background: url('images/welcome_background.gif') center center/cover no-repeat;
       pointer-events: none;
+    }
+    .background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
     }
     .background-static {
       position: fixed;
@@ -35,7 +40,12 @@
   </style>
 </head>
 <body>
-  <div class="background"></div>
+  <div class="background">
+    <video autoplay loop muted>
+      <source src="images/welcome_background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
   <div class="background-static" style="display:none;"></div>
   <div class="background-overlay"></div>
   <div class="content">

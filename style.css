@@ -1,3 +1,385 @@
+/* Carousel image and text scaling for responsive layout */
+.carousel-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* Card 1 Main GIF */
+.main-gif {
+  width: 500px;
+  height: 200px;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 8px 32px rgba(27,124,75,0.2);
+  margin: 1.5em auto 2em auto;
+  display: block;
+}
+
+/* Card 1 GIF cropping controls - EDIT THESE VALUES TO ADJUST CARD 1 GIF CROPPING */
+.card1-gif {
+  /* Cropping behavior options:
+     - cover: Crops the image to fill the container (default)
+     - contain: Shows the full image without cropping (may add letterboxing)
+     - fill: Stretches image to fit (may distort) */
+  object-fit: cover;
+  
+  /* Cropping position options:
+     - center center: Crops from center (default)
+     - top center: Shows top of image, crops bottom
+     - bottom center: Shows bottom of image, crops top
+     - left center: Shows left side, crops right
+     - right center: Shows right side, crops left
+     - 25% 75%: Custom position (25% from left, 75% from top) */
+  object-position: 0% 75%;
+  
+  /* Size controls for Card 1 GIF only */
+  width: 500px;
+  height: 300px;
+}
+
+/* Card 3 left GIF - make it larger */
+.gif-img {
+  max-width: 500px;
+  max-height: 500px;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Card 3 specific GIF - larger size */
+.card3-gif {
+  max-width: 400px !important;
+  max-height: 400px !important;
+  width: 400px !important;
+  height: 400px !important;
+}
+
+/* Video styling for Card 3 */
+video.card3-gif {
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Card 2 side GIFs - keep them smaller */
+.gif-img-small {
+  max-width: 350px;
+  max-height: 350px;
+  width: 350px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.cartoon-img {
+  max-width: 400px;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  height: auto;
+}
+
+/* Card 3 specific cartoon - larger size */
+.card3-cartoon {
+  max-width: 600px !important;
+  width: 600px !important;
+}
+
+.abs-cartoon {
+  position: absolute;
+  left: 0;
+  top: 150px; /* Moved down from 50px */
+  z-index: 2;
+  width: 300px;
+  height: auto;
+}
+
+.abs-cartoon-right {
+  position: absolute;
+  right: 0;
+  top: 60px;
+  z-index: 2;
+  pointer-events: none;
+  width: 600px;
+  height: 600px;
+  max-width: none;
+  max-height: none;
+}
+
+.carousel-img-sec5-cartoon {
+  max-width: 430px;
+  width: 100%;
+  height: auto;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  display: block;
+  margin: 0 auto;
+}
+
+.carousel-textbox {
+  text-align: justify;
+  width: 100%;
+  max-width: 700px;
+  font-size: 1.4rem !important;
+  margin: 0 auto 1.2em auto;
+  margin-top: 0;
+}
+
+.carousel-flex-child.left-gif,
+.carousel-flex-child.right-gif {
+  flex: 1 1 0;
+  max-width: 350px;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.carousel-flex-child.center-text {
+  flex: 2 1 0;
+  max-width: 700px;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.carousel-flex-child.center-img {
+  max-width: 430px;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive scaling for medium screens */
+@media (max-width: 1200px) {
+  .main-gif {
+    max-width: 350px;
+    height: 150px;
+  }
+  
+  .gif-img {
+    max-width: 400px;
+    width: 400px;
+    height: 350px;
+  }
+  
+  /* Card 3 specific responsive sizing */
+  .card3-gif {
+    max-width: 700px !important;
+    width: 700px !important;
+    height: 700px !important;
+  }
+  
+  .card3-cartoon {
+    max-width: 700px !important;
+    width: 700px !important;
+  }
+  
+  .gif-img-small {
+    max-width: 280px;
+    width: 280px;
+    height: 240px;
+  }
+  
+  .cartoon-img {
+    max-width: 320px;
+  }
+  
+  .abs-cartoon {
+    width: 240px;
+  }
+  
+  .abs-cartoon-right {
+    width: 480px;
+    height: 480px;
+  }
+  
+  .carousel-img-sec5-cartoon {
+    max-width: 350px;
+  }
+  
+  .carousel-textbox {
+    max-width: 600px;
+    font-size: 1.4rem; !important
+  }
+}
+
+/* Hide side GIFs only in Cards 2 and 3 when they would wrap */
+@media (max-width: 1100px) {
+  /* Only hide the small side GIFs in Card 2, but keep the large GIF in Card 3 */
+  .gif-img-small {
+    display: none !important;
+  }
+  
+  /* Hide the side containers in Card 2 */
+  .carousel-card .carousel-text > div[style*="flex-direction: row"] > div:first-child,
+  .carousel-card .carousel-text > div[style*="flex-direction: row"] > div:last-child {
+    display: none !important;
+  }
+  
+  /* Center the remaining content */
+  .carousel-card .carousel-text > div[style*="flex-direction: row"] {
+    justify-content: center !important;
+  }
+  
+  .carousel-card .carousel-text > div[style*="flex-direction: row"] > div:nth-child(2) {
+    flex: 1 1 auto !important;
+    max-width: 700px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Responsive scaling for smaller tablets */
+@media (max-width: 900px) {
+  .main-gif {
+    max-width: 300px;
+    height: 120px;
+  }
+  
+  .gif-img {
+    max-width: 350px;
+    width: 350px;
+    height: 300px;
+  }
+  
+  /* Card 3 specific responsive sizing */
+  .card3-gif {
+    max-width: 600px !important;
+    width: 600px !important;
+    height: 600px !important;
+  }
+  
+  .card3-cartoon {
+    max-width: 600px !important;
+    width: 600px !important;
+  }
+  
+  .gif-img-small {
+    max-width: 250px;
+    width: 250px;
+    height: 200px;
+  }
+  
+  .carousel-textbox {
+    font-size: 1.4rem;
+    max-width: 500px;
+  }
+  
+  .carousel-card .carousel-text > div[style*="flex-direction: row"] > div:nth-child(2) {
+    max-width: 600px !important;
+  }
+}
+
+/* Hide images on very small screens */
+@media (max-width: 700px) {
+  .carousel-img,
+  .main-gif,
+  .gif-img,
+  .cartoon-img,
+  .carousel-img-sec5-cartoon,
+  .abs-cartoon,
+  .abs-cartoon-right {
+    display: none !important;
+  }
+  
+  .carousel-textbox {
+    max-width: 98vw;
+    font-size: 1.4rem;
+    margin: 0.5em auto;
+  }
+}
+
+/* Flex row for carousel cards 2 and 3 - only for large screens */
+@media (min-width: 1101px) {
+  .carousel-card .carousel-text > div[style*="flex-direction: row"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 1em;
+  }
+  .carousel-card .carousel-text > div[style*="flex-direction: row"] > div {
+    flex: 1 1 300px;
+    min-width: 220px;
+    max-width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .carousel-card .carousel-text > div[style*="flex-direction: row"] > div:nth-child(2) {
+    flex: 2 1 400px;
+    min-width: 220px;
+    max-width: 700px;
+    padding: 0 2em;
+  }
+}
+
+/* Mobile responsive adjustments - only hide small side images */
+@media (max-width: 700px) {
+  .main-gif {
+    max-width: 250px;
+    width: 250px;
+    height: 100px;
+  }
+  
+  /* Only hide the smaller side GIFs, keep the main GIF */
+  .gif-img-small {
+    display: none !important;
+  }
+  
+  /* Keep Card 3's large GIF but make it smaller */
+  .gif-img {
+    max-width: 280px;
+    width: 280px;
+    height: 240px;
+  }
+  
+  /* Card 3 specific mobile sizing */
+  .card3-gif {
+    max-width: 500px !important;
+    width: 500px !important;
+    height: 500px !important;
+  }
+  
+  .card3-cartoon {
+    max-width: 500px !important;
+    width: 500px !important;
+  }
+  
+  .cartoon-img,
+  .carousel-img-sec5-cartoon,
+  .abs-cartoon,
+  .abs-cartoon-right {
+    display: none !important;
+  }
+  
+  .carousel-textbox {
+    max-width: 98vw;
+    font-size: 1.4rem;
+    margin: 0.5em auto;
+  }
+}
+
+/* Ensure all carousel images and gifs scale responsively but do not stretch when wrapping */
+.carousel-card img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
 /* Consistent sticky footer for all pages */
 html, body {
   height: 100%;
@@ -242,14 +624,20 @@ footer a:hover {
   text-decoration: underline;
 }
 
-/* Background GIF styling */
+/* Background Video styling */
 .background {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: -2;
-  background: url('images/welcome_background.gif') center center/cover no-repeat;
   width: 100vw;
   height: 100vh;
+}
+
+.background video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
 }
 
 /* Background overlay */

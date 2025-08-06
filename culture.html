@@ -96,9 +96,14 @@
       width: 142vw;
       height: 142vh;
       z-index: 0;
-      background: url('images/welcome_background.gif') center center/cover no-repeat;
       transform: translate(-50%, -50%);
       pointer-events: none;
+    }
+    .background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
     }
     .background-static {
       position: fixed;
@@ -156,7 +161,12 @@
   </style>
 </head>
 <body>
-  <div class="background"></div>
+  <div class="background">
+    <video autoplay muted>
+      <source src="images/welcome_background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
   <div class="background-static" style="display:none;"></div>
   <div class="background-overlay"></div>
   <div class="scroll-container" style="min-height:100vh; display:flex; flex-direction:column;">
@@ -228,11 +238,6 @@
           if (window.visualViewport) {
             window.visualViewport.addEventListener('resize', applyBackgroundTransform);
           }
-
-          setTimeout(function() {
-            if (bg) bg.style.display = 'none';
-            if (bgStatic) bgStatic.style.display = 'block';
-          }, 5000);
         });
       </script>
       <header>

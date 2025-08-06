@@ -236,11 +236,16 @@
       width: 142vw;
       height: 142vh;
       z-index: -2;
-      background: url('images/welcome_background.gif') center center/cover no-repeat;
       will-change: transform;
       transform: translate(-50%, -50%);
-      transition: background-image 0.5s, transform 0.5s;
+      transition: transform 0.5s;
       pointer-events: none;
+    }
+    .background-image video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
     }
     .static-bg .background-image {
       background-image: url('images/static_background.png');
@@ -262,7 +267,13 @@
   </style>
 </head>
 <body>
-  <div class="background-image"></div>
+  <div class="background-image">
+    <video autoplay muted>
+      <source src="images/welcome_background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="background-static" style="display:none; position: fixed; left: 50%; top: 50%; width: 142vw; height: 142vh; z-index: -2; background: url('images/static_background.png') center center/cover no-repeat; transform: translate(-50%, -50%); pointer-events: none;"></div>
   <div class="background-overlay"></div>
   <div class="scroll-container">
     <div class="content">
@@ -626,10 +637,6 @@ document.addEventListener('DOMContentLoaded', function() {
       window.visualViewport.addEventListener('resize', applyBackgroundTransform);
     }
 
-    // After 5 seconds, swap to static background
-    setTimeout(function() {
-      document.body.classList.add('static-bg');
-    }, 5000);
       // Numbering logic
       const pubs = Array.from(document.querySelectorAll('.pub-list .publication'));
       pubs.reverse().forEach((pub, idx) => {

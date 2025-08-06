@@ -33,27 +33,28 @@
       filter: blur(0px);
       transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
     }
-   .background, .background-static {
+    .background, .background-static {
       position: fixed;
       left: 50%;
       top: 50%;
       width: 100vw;
       height: 100vh;
       z-index: -2;
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
       transform: translate(-50%, -50%);
       pointer-events: none;
     }
-    .background {
-      background-image: url('images/welcome_background.gif');
+    .background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
     }
     .background-static {
       background-image: url('images/static_background.png');
-    }
-
-    .scroll-container {
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }    .scroll-container {
       position: relative;
       height: 100vh;
       overflow-y: auto;
@@ -175,7 +176,12 @@
   <!-- Removed duplicate/old background and transition scripts -->
 </head>
 <body>
-  <div class="background"></div>
+  <div class="background">
+    <video autoplay muted>
+      <source src="images/welcome_background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
   <div class="background-static" style="display:none;"></div>
   <div class="background-overlay"></div>
   <div class="scroll-container" style="min-height:100vh; display:flex; flex-direction:column;">
@@ -327,7 +333,6 @@
       const adjustedH = bboxH * paddingFactor;
 
       // Set the background size dynamically
-  <div class="background"></div>
       bgStatic.style.width = `${adjustedW}px`;
       bgStatic.style.height = `${adjustedH}px`;
 
@@ -421,13 +426,6 @@
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', applyBackgroundTransform);
     }
-
-    setTimeout(function() {
-      if (bg) bg.style.display = 'none';
-      if (bgStatic) bgStatic.style.display = 'block';
-      document.body.classList.add('static-bg');
-      document.documentElement.classList.add('static-bg');
-    }, 5000);
   });
 </script>
 </body>

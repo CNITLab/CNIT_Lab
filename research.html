@@ -23,23 +23,6 @@
       position: relative;
     }
 
-    .background-image {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -2;
-      background: url('images/welcome_background.gif') center center/cover no-repeat;
-      will-change: transform;
-      transition: background-image 0.5s, transform 0.5s;
-      pointer-events: none;
-    }
-
-    .static-bg .background-image {
-      background-image: url('images/static_background.png');
-    }
-
     .scroll-container {
       position: relative;
       height: 100vh;
@@ -218,11 +201,15 @@
       width: 142vw;
       height: 142vh;
       z-index: -2;
-      background: url('images/welcome_background.gif') center center/cover no-repeat;
-      background-size: cover;
-      background-position: center center;
       transform: translate(-50%, -50%);
       pointer-events: none;
+    }
+    .background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
       opacity: 1;
     }
 
@@ -246,7 +233,12 @@
 </head>
 
 <body>
-  <div class="background"></div>
+  <div class="background">
+    <video autoplay muted>
+      <source src="images/welcome_background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
   <div class="background-static" style="display:none;"></div>
   <div class="background-overlay"></div>
   <div class="content" style="min-height: 100vh;">
@@ -314,11 +306,6 @@
         if (window.visualViewport) {
           window.visualViewport.addEventListener('resize', applyBackgroundTransform);
         }
-
-        setTimeout(function () {
-          if (bg) bg.style.display = 'none';
-          if (bgStatic) bgStatic.style.display = 'block';
-        }, 5000);
       });
     </script>
     <header>
