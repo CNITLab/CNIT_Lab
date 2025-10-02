@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    html, body {
+      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .scroll-container {
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1;
+    }
+  </style>
+  <meta charset="UTF-8" />
+  <title>People Knit Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.fade-out {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: blur(2px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+  </style>
+  <style>
+    body.fade-out {
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(.5,1.5,.5,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transition: opacity 0.7s cubic-bezier(.5,1.5,.5,1);
+    }
+  </style>
+  <style>
+    .background {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: 0;
+      will-change: transform;
+      transform: translate(-50%, -50%);
+      transition: transform 0.5s;
+      pointer-events: none;
+    }
+    .background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+    .background-static {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: 0;
+      background: url('images/static_background.png') center center/cover no-repeat;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .background-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(17,17,17,0.7); /* dark overlay */
+      z-index: 1;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <video autoplay loop muted>
+      <source src="images/welcome_background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="background-static" style="display:none;"></div>
+  <div class="background-overlay" style="pointer-events:none;"></div>
+  <div class="scroll-container">
+    <div class="content">
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        document.body.classList.add('fade-in');
+        document.querySelectorAll('a').forEach(link => {
+          if (link.target === '_blank' || link.href.startsWith('mailto:')) return;
+          link.addEventListener('click', function(e) {
+            if (link.hostname === window.location.hostname && link.pathname !== window.location.pathname) {
+              e.preventDefault();
+              document.body.classList.remove('fade-in');
+              document.body.classList.add('fade-out');
+              setTimeout(() => {
+                window.location = link.href;
+              }, 400);
+            }
+          });
+        });
+
+        // Dynamic scaling and rotation for background, matching index.html
+        const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
+        window._backgroundRotation = rot;
+        const bg = document.querySelector('.background');
+        const bgStatic = document.querySelector('.background-static');
+
+        function applyBackgroundTransform() {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+
+          // Calculate the bounding box of the rotated rectangle
+          const angle = (rot % 360) * Math.PI / 180;
+          const sin = Math.abs(Math.sin(angle));
+          const cos = Math.abs(Math.cos(angle));
+
+          const baseW = vw;
+          const baseH = vh;
+
+          const bboxW = baseW * cos + baseH * sin;
+          const bboxH = baseW * sin + baseH * cos;
+
+          // Add a small padding factor to ensure no white edges
+          const paddingFactor = 1.02;
+          const adjustedW = bboxW * paddingFactor;
+          const adjustedH = bboxH * paddingFactor;
+
+          bg.style.width = `${adjustedW}px`;
+          bg.style.height = `${adjustedH}px`;
+          bgStatic.style.width = `${adjustedW}px`;
+          bgStatic.style.height = `${adjustedH}px`;
+
+          // Calculate the minimum scale to cover the viewport
+          const scaleW = vw / bboxW;
+          const scaleH = vh / bboxH;
+          const minScale = Math.max(scaleW, scaleH, 1.12);
+
+          const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${minScale})`;
+          bg.style.transform = transform;
+          bgStatic.style.transform = transform;
+        }
+
+        applyBackgroundTransform();
+
+        window.addEventListener('resize', applyBackgroundTransform);
+        if (window.visualViewport) {
+          window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+        }
+
+        setTimeout(function() {
+          if (bg) bg.style.display = 'none';
+          if (bgStatic) bgStatic.style.display = 'block';
+        }, 5000);
+      });
+    </script>
+    <header>
+      <div class="navbar">
+        <h1>SoftKnit Lab</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="research.html">Research</a>
+          <a href="group.html">People</a>
+          <a href="publications.html">Publications</a>
+          <a href="news.html">News</a>
+          <a href="culture.html">Culture</a>
+          <a href="positions.html">Open Positions</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="group-card" style="
+        background: #111;
+        border-radius: 28px;
+        box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a;
+        border-left: 8px solid #1b7c4b;
+        border-right: 2px solid #1b7c4b;
+        padding: 2.5em 2vw 2.5em 2vw;
+        max-width: 1200px;
+        width: 100%;
+        margin: 2em auto;
+        color: #fff;
+        position: relative;
+        z-index: 3;
+        font-family: 'Segoe UI', 'Arial', sans-serif;
+        letter-spacing: 0.01em;
+        text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000;
+        font-weight: 600;
+      ">
+        <h2 style="color: #1b7c4b; margin-bottom: 0.7em; font-size: 3rem;">Group Members</h2>
+        <div class="people-list">
+          <!-- Dummy Person 1 -->
+          <div class="person-card">
+            <img src="images/cartoon-placeholder.png" alt="Jane Doe" class="person-photo" />
+            <div class="person-info">
+              <div class="person-header">
+                <h3>This could be you!</h3>
+                <a href="" class="person-email">you@ista.ac.at</a>
+                <div class="person-links">
+                  <a href="https://linkedin.com/in/janedoe" target="_blank"><img src="static/icons/linkedin.svg" alt="LinkedIn" width="24" /></a>
+                  <a href="https://scholar.google.com/citations?user=janedoe" target="_blank"><img src="static/icons/scholar.svg" alt="Scholar" width="24" /></a>
+                  <a href="CV/CV_JaneDoe.pdf" target="_blank"><img src="static/icons/email.svg" alt="CV" width="24" /></a>
+                  <a href="https://orcid.org/0000-0001-2345-6789" target="_blank"><img src="static/icons/orcid.svg" alt="ORCID" width="24" /></a>
+                </div>
+              </div>
+              <ul class="person-cv-list">
+                <li>Get in touch with Fritz below!</li>
+                <li>We are looking for postdocs, PhD students, and interns!</li>
+              </ul>
+              <p class="person-bio"></p>
+            </div>
+          </div>
+          
+          <!-- Friedrich Stricker -->
+          <div class="person-card">
+            <img src="images/FS_Headshot.png" alt="Friedrich Stricker" class="person-photo" />
+            <div class="person-info">
+              <div class="person-header">
+                <h3>Friedrich Stricker</h3>
+                <a href="mailto:fstricker@seas.harvard.edu" class="person-email">fstricker@seas.harvard.edu</a>
+                <div class="person-links">
+                  <a href="https://linkedin.com/in/friedrich-stricker" target="_blank"><img src="static/icons/linkedin.svg" alt="LinkedIn" width="24" /></a>
+                  <a href="https://scholar.google.com/citations?user=d6zowQ8AAAAJ&hl=de" target="_blank"><img src="static/icons/scholar.svg" alt="Scholar" width="24" /></a>
+                  <a href="CV/CV_FriedrichStricker.pdf" target="_blank"><img src="static/icons/email.svg" alt="CV" width="24" /></a>
+                  <a href="https://orcid.org/0000-0002-7324-6840" target="_blank"><img src="static/icons/orcid.svg" alt="ORCID" width="24" /></a>
+                </div>
+              </div>
+              <ul class="person-cv-list">
+                <li>2016 BSc Biomedical Chemistry, JGU Mainz</li>
+                <li>2018 MSc Biomedical Chemistry, JGU Mainz</li>
+                <li>2022 PhD Chemistry, UC Santa Barbara</li>
+              </ul>
+              <p class="person-bio">Friedrich Stricker is a chemist and materials scientist fascinated by how molecules can be coaxed into doing useful things. His research plays at the intersection of chemistry, soft matter, and responsive systems — designing materials that move, adapt, and even make decisions (sort of). Whether it’s a polymer that bends in sunlight or a material that juggles multiple states at once, the goal is to push the boundaries of what “stuff” can do. Before starting his lab at IST Austria, Friedrich trained at Harvard and UC Santa Barbara, diving deep into molecular switches, soft actuators, and dynamic materials.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>© 2025 SoftKnit Lab | Institute of Science and Technology Austria</p>
+    </footer>
+    </div>
+  </div>
+</body>
+</html>

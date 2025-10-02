@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Publications | Knit Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.fade-out {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: blur(2px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    .pub-header-bar {
+      display: block;
+      margin-bottom: 2em;
+      padding-left: 0;
+    }
+    .pub-header-bar h3 {
+      margin: 0;
+      font-size: 2em;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+    }
+    .pub-search-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em 1.5em;
+      align-items: flex-start;
+      background: #fff;
+      padding: 1em 1.5em;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      max-width: 700px;
+      margin: 0;
+    }
+    .pub-search-bar label {
+      font-weight: 500;
+      margin-right: 0.5em;
+      white-space: nowrap;
+    }
+    .pub-search-bar select {
+      min-width: 80px;
+    }
+    .pub-search-bar input[type="text"] {
+      flex: 1 1 100%;
+      min-width: 120px;
+      max-width: 180px;
+      margin-top: 0.5em;
+    }
+    .pub-search-bar button {
+      margin-top: 0.5em;
+    }
+    .pub-layout {
+      display: flex;
+      align-items: flex-start;
+      gap: 2em;
+    }
+    .pub-toc {
+      min-width: 220px;
+      max-width: 220px;
+      background: #f8fafc;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 1em 1.2em;
+      font-size: 1em;
+      position: sticky;
+      top: 2em;
+    }
+    .pub-toc h4 {
+      margin-top: 0;
+      font-size: 1.1em;
+      margin-bottom: 0.6em;
+      font-weight: 700;
+    }
+    .pub-toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .pub-toc li {
+      margin-bottom: 0.5em;
+    }
+    .pub-toc a {
+      color: #1e40af;
+      text-decoration: none;
+      font-size: 0.98em;
+    }
+    .pub-toc a:hover {
+      text-decoration: underline;
+    }
+    .pub-list {
+      flex: 1;
+      min-width: 0;
+    }
+    .pub-year {
+      font-size: 1.3em;
+      font-weight: 700;
+      margin: 2em 0 1em 0;
+      color: #1e293b;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 0.2em;
+    }
+    .publication {
+      display: flex;
+      align-items: flex-start;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+      margin-bottom: 2.5em;
+      padding: 2em 2em;
+      gap: 2em;
+      min-height: 160px;
+      position: relative;
+    }
+    .pub-toc-graphic {
+      width: 110px;
+      min-width: 110px;
+      height: 110px;
+      background: #f3f4f6;
+      border-radius: 10px;
+      margin-right: 1.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+    .pub-toc-graphic img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .pub-info-block {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .pub-number {
+      position: absolute;
+      top: 1.2em;
+      left: 1.2em;
+      background: #1e40af;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1em;
+      border-radius: 50%;
+      width: 2em;
+      height: 2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 4px rgba(30,64,175,0.08);
+      z-index: 2;
+    }
+    .pub-title {
+      font-weight: 600;
+      font-size: 1.13em;
+      margin-bottom: 0.3em;
+      color: #0a2540;
+    }
+    .pub-citation {
+      font-size: 1em;
+      color: #222;
+      margin-bottom: 0.2em;
+    }
+    .pub-doi {
+      font-size: 0.97em;
+      color: #0077cc;
+      text-decoration: underline;
+      margin-left: 0.5em;
+      word-break: break-all;
+    }
+    @media (max-width: 900px) {
+      .pub-layout {
+        flex-direction: column;
+      }
+      .pub-toc {
+        position: static;
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1.5em;
+      }
+      .publication {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.2em 1em;
+      }
+      .pub-toc-graphic {
+        margin: 0 auto 1em auto;
+      }
+      .pub-number {
+        left: 1em;
+        top: 1em;
+      }
+    }
+    html, body {
+      height: 100%;
+      min-height: 100%;
+      background: none !important;
+      background-color: transparent !important;
+    }
+    body {
+      --bg-transform: none;
+      min-height: 100vh;
+      height: 100%;
+      position: relative;
+    }
+    html {
+      --bg-transform: none;
+      height: 100%;
+      min-height: 100%;
+    }
+    html, body {
+      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+      background: none !important;
+      background-color: transparent !important;
+    }
+    .background-image {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 142vw;
+      height: 142vh;
+      z-index: -2;
+      will-change: transform;
+      transform: translate(-50%, -50%);
+      transition: transform 0.5s;
+      pointer-events: none;
+    }
+    .background-image video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+    .static-bg .background-image {
+      background-image: url('images/static_background.png');
+    }
+    .background-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -1;
+      background: rgba(255,255,255,0.7);
+      pointer-events: none;
+    }
+    .scroll-container {
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-image">
+    <video autoplay loop muted>
+      <source src="images/welcome_background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="background-static" style="display:none; position: fixed; left: 50%; top: 50%; width: 142vw; height: 142vh; z-index: -2; background: url('images/static_background.png') center center/cover no-repeat; transform: translate(-50%, -50%); pointer-events: none;"></div>
+  <div class="background-overlay"></div>
+  <div class="scroll-container">
+    <div class="content">
+    <header>
+      <div class="navbar">
+        <h1>SoftKnit Lab</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="research.html">Research</a>
+          <a href="group.html">People</a>
+          <a href="publications.html">Publications</a>
+          <a href="news.html">News</a>
+          <a href="culture.html">Culture</a>
+          <a href="positions.html">Open Positions</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+
+      <div class="pub-layout">
+        <!-- TOC -->
+        <aside class="pub-toc">
+          <h4>Table of Contents</h4>
+          <!-- Move search bar here -->
+          <form class="pub-search-bar" onsubmit="return false;" style="margin-top:2em;">
+            <label for="year">Year:</label>
+            <select id="year">
+              <option value="">All</option>
+              <option>2025</option>
+              <option>2024</option>
+              <option>2023</option>
+              <option>2022</option>
+              <option>2021</option>
+              <option>2019</option>
+              <option>2018</option>
+              <option>2016</option>
+            </select>
+            <label for="search">Keyword/Title:</label>
+            <input type="text" id="search" placeholder="e.g. Diels–Alder" />
+            <button type="submit">Search</button>
+          </form>
+        </aside>
+
+        <section class="pub-list" id="pub-list">
+          <div class="pub-header-bar" style="margin-bottom:2em;">
+            <h3 id="gs" style="display: flex; align-items: center; gap: 0.6em; color: #fff;">
+              Publications
+              <a href=https://scholar.google.com/citations?user=d6zowQ8AAAAJ&hl=de" target="_blank" title="View on Google Scholar" style="display:inline-flex;align-items:center;">
+                <!-- Google Scholar SVG icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 48 48" style="vertical-align:middle;">
+                  <g>
+                    <circle cx="24" cy="24" r="20" fill="#4285F4"/>
+                    <path d="M24 13c-4.97 0-9 4.03-9 9 0 4.97 4.03 9 9 9s9-4.03 9-9c0-4.97-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" fill="#fff"/>
+                    <circle cx="24" cy="22" r="3" fill="#fff"/>
+                  </g>
+                </svg>
+              </a>
+            </h3>
+          </div>
+
+          <!-- 2024 -->
+          <div class="pub-year" id="2024">2024</div>
+          <div class="publication">
+            <div class="pub-toc-graphic">  <img src="images/toc21.png" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Programming liquid crystal elastomers for multi-step ambidirectional deformability.</div>
+              <div class="pub-citation">
+                Yao, Y.*, Wilborn, M.*, Lemaire, B., Trigka, F., Stricker, F., Li, S., Grinthal, A., Zhernenkov, M., Freychet, G., Wasik, P., Bennet, R., Tung, C., Kozinsky, B., Lerch, M., Wang, X., Aizenberg, J. <i>Science</i>, 2024, 386, 1161–1168.
+                <a class="pub-doi" href="https://doi.org/10.1126/science.adq6434" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"> <img src="images/Toc20.jpeg" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Photo-responsive Diels–Alder based azobenzene-functionalized main-chain liquid crystal networks.</div>
+              <div class="pub-citation">
+                Park, M., Campos, J., Stricker, F., Read de Alaniz, J. <i>Journal of Materials Chemistry C</i>, 2024, 12, 11976–11981.
+                <a class="pub-doi" href="https://doi.org/10.1039/D4TC01281J" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2023 -->
+          <div class="pub-year" id="2023">2023</div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc19.jpg" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Selective control of donor-acceptor Stenhouse adduct populations with non-selective stimuli.</div>
+              <div class="pub-citation">
+                Stricker, F.*, Peterson, J.*, Sandlass, S., de Tagyos, A., Sroda, M., Seshadri, S., Gordon, M., Read de Alaniz, J. <i>Chem</i>, 2023, 9, 1994–2005.
+                <a class="pub-doi" href="https://doi.org/10.1016/j.chempr.2023.05.011" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc18.jpg" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Controlled Diels–Alder “Click” Strategy to Access Mechanically Aligned Main‐Chain Liquid Crystal Networks.</div>
+              <div class="pub-citation">
+                Stricker, F.*, Campos, J.*, Clark, K. D., Park, M., Bailey, S. J., Kuenstler, A. S., Hayward, R. C., Read de Alaniz, J. <i>Angew. Chem. Int. Ed.</i>, 2023, 135, e202214339.
+                <a class="pub-doi" href="https://doi.org/10.1002/anie.202214339" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc17.jpg" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Effect of polymer host matrix on multi-stage isomerization kinetics of DASA photochromes.</div>
+              <div class="pub-citation">
+                Sandlass, S., Stricker, F., Fragoso, D., Read de Alaniz, J., Gordon, M. <i>Journal of Photochemistry and Photobiology A: Chemistry</i>, 2023, 444, 114964.
+                <a class="pub-doi" href="https://doi.org/10.1016/j.jphotochem.2023.114964" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc16.png" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Flexible fluid-based encapsulation platform for water-sensitive materials.</div>
+              <div class="pub-citation">
+                Lemaire, B., Yu, Y., Molinari, N., Wu, H., Goodwin, Z., Stricker, F., Kozinsky, B., Aizenberg, J. <i>Proceedings of the National Academy of Sciences</i>, 2023, 120, e2308804120.
+                <a class="pub-doi" href="https://doi.org/10.1073/pnas.2308804120" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc15.gif" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Design of Surface-Aligned Main-Chain Liquid-Crystal Networks Prepared under Ambient, Light-Free Conditions Using the Diels–Alder Cycloaddition.</div>
+              <div class="pub-citation">
+                Park, M., Stricker, F., Campos, J., Clark, K., Lee, J., Kwon, Y., Valentine, M., Read de Alaniz, J. <i>ACS Macro Letters</i>, 2023, 12, 33–39.
+                <a class="pub-doi" href="https://doi.org/10.1021/acsmacrolett.2c00616" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2022 -->
+          <div class="pub-year" id="2022">2022</div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc14.webp" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">A multi-stage single photochrome system for controlled photoswitching responses.</div>
+              <div class="pub-citation">
+                Stricker, F., Sanchez, D., Raucci, U., Dolinski, N., Zayas, M., Hawker, C., Martinez, T., Read de Alaniz, J. <i>Nature Chemistry</i>, 2022, 14, 942–948.
+                <a class="pub-doi" href="https://doi.org/10.1038/s41557-022-00947-8" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc13.gif" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Preparation of a Donor-Acceptor Stenhouse Adduct.</div>
+              <div class="pub-citation">
+                Stricker, F., Peterson, J., Read de Alaniz, J. <i>Org. Synth.</i> 2022, 99, 79.
+                <a class="pub-doi" href="https://doi.org/10.15227/orgsyn.099.0079" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc12.webp" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Donor-acceptor Stenhouse Adducts. In Molecular Photoswitches: Synthesis, Properties, and Applications.</div>
+              <div class="pub-citation">
+                Stricker, F., Seshadri, S., Read de Alaniz, J., In: Pianowski, P., Wiley-VCH, 2022, 304–325.
+                <a class="pub-doi" href="https://doi.org/10.1002/9783527827626.ch14" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc11.gif" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Role of material composition in photothermal actuation of DASA-based polymers.</div>
+              <div class="pub-citation">
+                Sroda, M., Lee, J., Kwon, Y., Stricker, F., Park, M., Valentine, M., Read de Alaniz, J. <i>ACS Applied Polymer Materials</i>, 2022, 4, 141–149.
+                <a class="pub-doi" href="https://doi.org/10.1021/acsapm.1c01108" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc10.jpeg" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Improving the kinetics and dark equilibrium of donor–acceptor Stenhouse adduct by triene backbone design.</div>
+              <div class="pub-citation">
+                Peterson, J., Stricker, F., Read de Alaniz, J. <i>Chemical Communication</i>, 2022, 58, 2303–2306.
+                <a class="pub-doi" href="https://doi.org/10.1039/D1CC06235B" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc9.gif" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Controlling the Isomerization of Photoresponsive Molecules through a Limiting Tautomerization Strategy.</div>
+              <div class="pub-citation">
+                Duan, Y., Zhao, H., Yue, G., Sun, F., Stricker, F., Wang, Z., Mao, L., He. C., Read de Alaniz, J., Zheng, Y., Wang, D. <i>The Journal of Physical Chemistry B</i>, 2022, 126, 3347–3354.
+                <a class="pub-doi" href="https://doi.org/10.1021/acs.jpcb.2c02005" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2021 -->
+          <div class="pub-year" id="2021">2021</div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc1.jpg" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Promoting the Furan Ring‐Opening Reaction to Access New Donor–Acceptor Stenhouse Adducts with Hexafluoroisopropanol.</div>
+              <div class="pub-citation">
+                Stricker, F.*, Clerc, M.*, Ulrich, S., Sroda, M., Bruns, N., Boesel, L., Read de Alaniz J. <i>Angew. Chem. Int. Ed.</i>, 2021, 60, 10219–10227.
+                <a class="pub-doi" href="https://doi.org/10.1002/anie.202100115" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc8.jpeg" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Facile access to foldable redox-active flavin-peptide conjugates.</div>
+              <div class="pub-citation">
+                Stricker, F., Koelsch, J., Beil, S., Preiss, S., Waldvogel, S., Opatz, T., Besenius, P. <i>Org. Biomol. Chem.</i>, 2021, 19, 4483–4486.
+                <a class="pub-doi" href="https://doi.org/10.1039/D1OB00414J" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc7.jpg" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Donor–acceptor Stenhouse adducts: exploring the effects of ionic character.</div>
+              <div class="pub-citation">
+                Stricker, F.*, Sroda, M.*, Peterson, J., Bernal, A., Read de Alaniz, J. <i>Chem. Eur. J.</i>, 2021, 27, 4183–4190.
+                <a class="pub-doi" href="https://doi.org/10.1002/chem.202005110" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc6.gif" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Influence of Polarity Change and Photophysical Effects on Photosurfactant-Driven Wetting.</div>
+              <div class="pub-citation">
+                Seshadri, S., Bailey, S., Zhao, L., Fisher, J., Sroda, M., Chiu, M., Stricker, F., Valentine, M., Read de Alaniz, J., Helgeson, M. <i>Langmuir</i>, 2021, 37, 9939–9951.
+                <a class="pub-doi" href="https://doi.org/10.1021/acs.langmuir.1c00769" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc5.gif" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Shining Light on Cyclopentadienone–Norbornadiene Diels–Alder Adducts to Enable Photoinduced Click Chemistry with Cyclopentadiene.</div>
+              <div class="pub-citation">
+                Bailey, S., Stricker F., Hopkins, E., Wilson, M., Read de Alaniz, J. <i>ACS Applied Materials and Interfaces</i>, 2021, 13, 35422–35430.
+                <a class="pub-doi" href="https://doi.org/10.1021/acsami.1c08670" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2019 -->
+          <div class="pub-year" id="2019">2019</div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc4.gif" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Photoinduced deadhesion of a polymer film using a photochromic donor–acceptor Stenhouse adduct.</div>
+              <div class="pub-citation">
+                Mostafavi, S., Li, W., Clark, K., Stricker, F., Read de Alaniz, J., Bardeen, C. <i>Macromolecules</i>, 2019, 52, 6311–6317.
+                <a class="pub-doi" href="https://doi.org/10.1021/acs.macromol.9b00882" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2018 -->
+          <div class="pub-year" id="2018">2018</div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc2.gif" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Controlling dark equilibria and enhancing donor–acceptor Stenhouse adduct photoswitching properties through carbon acid design.</div>
+              <div class="pub-citation">
+                Hemmer, J., Page, Z., Clark, K., Stricker, F., Dolinski, N., Hawker, J., Read de Alaniz, J. <i>Journal of the American Chemical Society</i>, 2018, 140, 10425–10429.
+                <a class="pub-doi" href="https://doi.org/10.1021/jacs.8b06067" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2016 -->
+          <div class="pub-year" id="2016">2016</div>
+          <div class="publication">
+            <div class="pub-toc-graphic"><img src="images/toc3.jpg" alt="TOC 2021 Graphic" style="width:100%; height:100%; object-fit:contain;" /></div>
+            <div class="pub-info-block">
+              <div class="pub-title">Kinetically Controlled Sequential Growth of Surface‐Grafted Chiral Supramolecular Copolymers.</div>
+              <div class="pub-citation">
+                Frisch, H., Fritz, E., Stricker, F., Schmueser, L., Spitzer, D., Weidner, T., Ravoo, B., Besenius, P. <i>Angew. Chem. Int. Ed.</i>, 2016, 55, 7242–7246.
+                <a class="pub-doi" href="https://doi.org/10.1002/anie.201601048" target="_blank">DOI</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    </div>
+  </div>
+    <footer>
+      <p>© 2025 SoftKnit Lab | Institute of Science and Technology Austria</p>
+    </footer>
+  <script>
+    // Automatic numbering: oldest at bottom, newest at top, number in front of title and as badge
+    document.addEventListener("DOMContentLoaded", function() {
+      // Smooth page transition: fade in on load
+      document.body.classList.add('fade-in');
+      // Add fade-out on navigation (only for true page changes, not anchor links)
+      document.querySelectorAll('a').forEach(link => {
+        if (
+          link.target === '_blank' ||
+          link.href.startsWith('mailto:') ||
+          (link.hash && link.pathname === window.location.pathname) // anchor link on same page
+        ) return;
+        link.addEventListener('click', function(e) {
+          // Only fade if navigating to another page (not anchor links)
+          if (
+            link.hostname === window.location.hostname &&
+            link.pathname !== window.location.pathname
+          ) {
+            e.preventDefault();
+            document.body.classList.remove('fade-in');
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+              window.location = link.href;
+            }, 800);
+          }
+        });
+      });
+    // Dynamic scaling and rotation for background, matching index.html
+    const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
+    window._backgroundRotation = rot;
+    const bgDiv = document.querySelector('.background-image');
+
+    function applyBackgroundTransform() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      // Calculate the bounding box of the rotated rectangle
+      const angle = (rot % 360) * Math.PI / 180;
+      const sin = Math.abs(Math.sin(angle));
+      const cos = Math.abs(Math.cos(angle));
+
+      const baseW = vw;
+      const baseH = vh;
+
+      const bboxW = baseW * cos + baseH * sin;
+      const bboxH = baseW * sin + baseH * cos;
+
+      // Add a small padding factor to ensure no white edges
+      const paddingFactor = 1.02;
+      const adjustedW = bboxW * paddingFactor;
+      const adjustedH = bboxH * paddingFactor;
+
+      if (bgDiv) {
+        bgDiv.style.width = `${adjustedW}px`;
+        bgDiv.style.height = `${adjustedH}px`;
+      }
+
+      // Calculate the minimum scale to cover the viewport
+      const scaleW = vw / bboxW;
+      const scaleH = vh / bboxH;
+      const minScale = Math.max(scaleW, scaleH, 1.12);
+
+      const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${minScale})`;
+      if (bgDiv) {
+        bgDiv.style.transform = transform;
+      }
+    }
+
+    applyBackgroundTransform();
+
+    window.addEventListener('resize', applyBackgroundTransform);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+    }
+
+    // After 5 seconds, swap to static background
+    setTimeout(function() {
+      const bg = document.querySelector('.background-image');
+      const bgStatic = document.querySelector('.background-static');
+      if (bg) bg.style.display = 'none';
+      if (bgStatic) bgStatic.style.display = 'block';
+    }, 5000);
+      // Numbering logic
+      const pubs = Array.from(document.querySelectorAll('.pub-list .publication'));
+      pubs.reverse().forEach((pub, idx) => {
+        const number = idx + 1;
+        // Add or update the .pub-number badge
+        let numSpan = pub.querySelector('.pub-number');
+        if (!numSpan) {
+          numSpan = document.createElement('span');
+          numSpan.className = 'pub-number';
+          pub.appendChild(numSpan);
+        }
+        numSpan.textContent = number;
+
+        // Number in front of title
+       // const titleDiv = pub.querySelector('.pub-title');
+        //if (titleDiv) {
+       //   titleDiv.textContent = titleDiv.textContent.replace(/^\d+\.\s*/, "");
+       //   titleDiv.textContent = number + ". " + titleDiv.textContent.trim();
+       // }
+      });
+
+      // Search/filter logic
+      const searchInput = document.getElementById('search');
+      const yearSelect = document.getElementById('year');
+      const allPublications = Array.from(document.querySelectorAll('.pub-list .publication'));
+      const allYears = Array.from(document.querySelectorAll('.pub-list .pub-year'));
+
+      function filterPublications() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const selectedYear = yearSelect.value;
+
+        // Hide all publications and years by default
+        allPublications.forEach(pub => pub.style.display = "none");
+        allYears.forEach(year => year.style.display = "none");
+
+        // Show only matching publications
+        let anyShown = {};
+        allPublications.forEach(pub => {
+          // Find the year for this publication
+          let prev = pub.previousElementSibling;
+          while (prev && !prev.classList.contains('pub-year')) prev = prev.previousElementSibling;
+          const pubYear = prev ? prev.textContent.trim() : "";
+
+          // Check year filter
+          const yearMatch = !selectedYear || pubYear === selectedYear;
+
+          // Check text filter (search in title + citation)
+          const text = pub.innerText.toLowerCase();
+          const textMatch = !searchTerm || text.includes(searchTerm);
+
+          if (yearMatch && textMatch) {
+            pub.style.display = "";
+            if (prev) {
+              prev.style.display = "";
+              anyShown[pubYear] = true;
+            }
+          }
+        });
+        // Hide year headers with no publications shown
+        allYears.forEach(year => {
+          if (!anyShown[year.textContent.trim()]) year.style.display = "none";
+        });
+      }
+
+      // Attach events
+      searchInput.addEventListener('input', filterPublications);
+      yearSelect.addEventListener('change', filterPublications);
+
+      // Optional: filter on submit as well
+      document.querySelector('.pub-search-bar').addEventListener('submit', function(e) {
+        e.preventDefault();
+        filterPublications();
+      });
+
+      // (removed duplicate random rotation for background)
+    });
+
+    // --- Mock_cartoon_1.png: ~20% chance next to "Stricker, F." ---
+    if (Math.random() < 0.2) { // 20% chance
+      const nameNodes = [];
+      document.querySelectorAll('.pub-citation').forEach(citation => {
+        citation.childNodes.forEach(node => {
+          if (node.nodeType === 3) {
+            let idx = node.textContent.indexOf("Stricker, F.");
+            if (idx !== -1) {
+              nameNodes.push({node, index: idx});
+            }
+          }
+        });
+      });
+      if (nameNodes.length > 0) {
+        const chosen = nameNodes[Math.floor(Math.random() * nameNodes.length)];
+        const text = chosen.node.textContent;
+        const before = text.slice(0, chosen.index + "Stricker, F.".length);
+        const after = text.slice(chosen.index + "Stricker, F.".length);
+        const parent = chosen.node.parentNode;
+        const beforeNode = document.createTextNode(before);
+        const afterNode = document.createTextNode(after);
+        const img = document.createElement('img');
+        img.src = "images/Mock_cartoon_1.png";
+        img.alt = "Cartoon";
+        img.style.height = "3em"; // doubled from 1.5em to 3em
+        img.style.verticalAlign = "middle";
+        img.style.marginLeft = "0.4em";
+        parent.insertBefore(beforeNode, chosen.node);
+        parent.insertBefore(img, chosen.node);
+        parent.insertBefore(afterNode, chosen.node);
+        parent.removeChild(chosen.node);
+      }
+    }
+
+    // --- Mock_cartoon_2.png: 50% chance next to a random publication title ---
+    if (Math.random() < 0.5) { // 50% chance
+      const titles = Array.from(document.querySelectorAll('.pub-title'));
+      if (titles.length > 0) {
+        const chosenTitle = titles[Math.floor(Math.random() * titles.length)];
+        const img2 = document.createElement('img');
+        img2.src = "images/Mock_cartoon_2.png";
+        img2.alt = "Cartoon";
+        img2.style.height = "3em"; // doubled from 1.5em to 3em
+        img2.style.verticalAlign = "middle";
+        img2.style.marginLeft = "0.4em";
+        chosenTitle.appendChild(img2);
+      }
+    }
+
+    // (no longer needed: background div swap)
+  </script>
+</body>
+</html>

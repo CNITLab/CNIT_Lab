@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoDS Lab</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="index-page">
+  <div class="background"></div>
+  <div class="menu-container floating-menu">
+    <button class="menu-toggle" onclick="toggleMenu()">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    <nav class="dropdown-menu">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="group.html">People</a>
+      <a href="publications.html">Publications</a>
+      <a href="news.html">News</a>
+      <a href="culture.html">Culture</a>
+      <a href="positions.html">Open Positions</a>
+    </nav>
+  </div>
+
+  <div class="hero-index">
+    <h1>Adaptive Materials &amp; Soft Robotics</h1>
+    <p>Innovating at the interface of chemistry, physics, and biology.</p>
+  </div>
+
+  <div class="content">
+
+    <main>
+    <div class="welcome-block">
+      <h2>WELCOME</h2>
+      <p>This is the MoDS Lab at ISTA. Our research focuses on adaptive materials and soft robotics, innovating at the interface of chemistry, physics, and biology.</p>
+    </div>
+
+    <section class="team-section">
+      <h2>Our Team</h2>
+      <div id="members" class="team-list"></div>
+    </section>
+
+    <section class="carousel-section">
+      <div class="carousel-notch"></div>
+      <div class="carousel-card">
+        <div class="carousel-text active">
+          <h3>Section 1 Title</h3>
+          <p>Dummy text for section 1. Replace with your own content.</p>
+        </div>
+        <div class="carousel-text">
+          <h3>Section 2 Title</h3>
+          <p>Dummy text for section 2. Replace with your own content.</p>
+        </div>
+        <div class="carousel-text">
+          <h3>Section 3 Title</h3>
+          <p>Dummy text for section 3. Replace with your own content.</p>
+        </div>
+        <div class="carousel-text">
+          <h3>Section 4 Title</h3>
+          <p>Dummy text for section 4. Replace with your own content.</p>
+        </div>
+        <div class="carousel-text">
+          <h3>Section 5 Title</h3>
+          <p>Dummy text for section 5. Replace with your own content.</p>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+    </section>
+    </main>
+
+    <footer>
+      <p>© 2025 MoDS Lab | Institute of Science and Technology Austria</p>
+      <p>Email: <a href="mailto:yourname@university.edu">yourname@university.edu</a></p>
+    </footer>
+  </div>
+  <script>
+    function toggleMenu() {
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+      dropdownMenu.classList.toggle('show');
+    }
+
+    // Close the dropdown if clicked outside
+    window.onclick = function(event) {
+      if (!event.target.matches('.menu-toggle') && !event.target.matches('.hamburger-line')) {
+        const dropdowns = document.getElementsByClassName("dropdown-menu");
+        for (let i = 0; i < dropdowns.length; i++) {
+          const openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const texts = document.querySelectorAll('.carousel-text');
+      const dotsContainer = document.querySelector('.carousel-dots');
+      let current = 0;
+
+      // Create dots
+      texts.forEach((_, idx) => {
+        const dot = document.createElement('div');
+        dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
+        dot.addEventListener('click', () => {
+          texts[current].classList.remove('active');
+          dotsContainer.children[current].classList.remove('active');
+          current = idx;
+          texts[current].classList.add('active');
+          dotsContainer.children[current].classList.add('active');
+        });
+        dotsContainer.appendChild(dot);
+      });
+
+      setInterval(() => {
+        texts[current].classList.remove('active');
+        dotsContainer.children[current].classList.remove('active');
+        current = (current + 1) % texts.length;
+        texts[current].classList.add('active');
+        dotsContainer.children[current].classList.add('active');
+      }, 10000);
+    });
+
+    // Replace with your actual published CSV link from Google Sheets
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJSOxWdkQrwZOF2yEZPPu3I6w0bqZjBmBJRYKf3Ekb6EzP2WXaBYq7OvDxLdUUKrkE9dQ82BwXmT9H/pub?output=csv';
+
+    fetch(csvUrl)
+      .then(response => response.text())
+      .then(csv => {
+        const rows = csv.trim().split('\n').map(row => row.split(','));
+        const headers = rows.shift();
+        const members = rows.map(row => {
+          const obj = {};
+          row.forEach((val, idx) => obj[headers[idx].trim()] = val.trim());
+          return obj;
+        });
+
+        const container = document.getElementById('members');
+        members.forEach(m => {
+          if (m.Name) {
+            const card = document.createElement('div');
+            card.className = 'member-card';
+
+            // Picture
+            if (m.PictureFile) {
+              const img = document.createElement('img');
+              img.src = m.PictureFile;
+              img.alt = m.Name;
+              img.className = 'member-photo';
+              card.appendChild(img);
+            }
+
+            // Name
+            const name = document.createElement('h3');
+            name.textContent = m.Name;
+            card.appendChild(name);
+
+            // Education
+            const eduList = document.createElement('ul');
+            [m.Ed1, m.Ed2, m.Ed3].forEach(ed => {
+              if (ed) {
+                const li = document.createElement('li');
+                li.textContent = ed;
+                eduList.appendChild(li);
+              }
+            });
+            if (eduList.children.length > 0) {
+              card.appendChild(eduList);
+            }
+
+            // Bio
+            if (m.Bio) {
+              const bio = document.createElement('p');
+              bio.textContent = m.Bio;
+              card.appendChild(bio);
+            }
+
+            // Links
+            const links = document.createElement('div');
+            links.className = 'member-links';
+            if (m["Google Scholar"]) {
+              const gs = document.createElement('a');
+              gs.href = m["Google Scholar"];
+              gs.textContent = "Google Scholar";
+              gs.target = "_blank";
+              links.appendChild(gs);
+            }
+            if (m["LinkedIn"]) {
+              const li = document.createElement('a');
+              li.href = m["LinkedIn"].startsWith('http') ? m["LinkedIn"] : 'https://' + m["LinkedIn"];
+              li.textContent = "LinkedIn";
+              li.target = "_blank";
+              links.appendChild(li);
+            }
+            if (links.children.length > 0) {
+              card.appendChild(links);
+            }
+
+            container.appendChild(card);
+          }
+        });
+      })
+      .catch(err => console.error('Error loading CSV:', err));
+  </script>
+</body>
+</html>

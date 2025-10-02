@@ -338,6 +338,28 @@
 // Fetch and render publications from CSV
 document.addEventListener('DOMContentLoaded', function() {
   const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSO8CzP3eWu0I7AXUKfiKN1YuS4BSjtzIrL4jEFU_GIqfYmXfsJf1elK1KxJ1xeisLjmnGRSYzjSY6v/pub?output=csv'; // Replace with your actual CSV link
+  
+  // Try direct fetch first, fallback to CORS proxy if needed
+  const corsProxy = 'https://api.allorigins.win/raw?url=';
+  
+  async function fetchCSV() {
+    try {
+      // First try direct fetch
+      const response = await fetch(csvUrl);
+      if (response.ok) {
+        return await response.text();
+      }
+      throw new Error('Direct fetch failed');
+    } catch (error) {
+      console.log('Direct fetch failed, trying CORS proxy...');
+      // Fallback to CORS proxy
+      const response = await fetch(corsProxy + encodeURIComponent(csvUrl));
+      if (!response.ok) {
+        throw new Error('CORS proxy fetch failed');
+      }
+      return await response.text();
+    }
+  }
 
   function parseCSV(text) {
     const rows = [];

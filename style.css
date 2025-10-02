@@ -208,7 +208,7 @@ video.card3-gif {
   
   .carousel-textbox {
     max-width: 600px;
-    font-size: 1.4rem; !important
+    font-size: 1.4rem !important;
   }
 }
 
@@ -1050,6 +1050,7 @@ body.publications-page, html.publications-page {
 .pub-search-bar {
   background: #222 !important;
   box-shadow: 0 2px 12px #1b7c4b33;
+}
 
 .pub-search-bar label,
 .pub-search-bar input,
@@ -1095,4 +1096,62 @@ a:hover {
   width: 100vw;
   z-index: 1000;
   pointer-events: auto;
-}}
+}
+
+/* Card 3 helpers (migrated from inline styles; no visual change) */
+.card3-title {
+  position: absolute;
+  top: 50px; /* was 120px; move higher so it doesn't overlap center text */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+  z-index: 10;
+}
+.card3-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 4;
+  gap: 0.5em;
+  padding: 2em 1em;
+}
+.card3-video-wrap {
+  flex: 1 1 400px;
+  min-width: 300px;
+  max-width: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -190px; /* requested left shift; preserves current layout */
+}
+.card3-text-wrap {
+  flex: 1 1 400px;
+  max-width: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0em;
+}
+.card3-cartoon-wrap {
+  flex: 0 0 340px;      /* a bit wider */
+  min-width: 280px;
+  margin-left: 3em;     /* more gap from the paragraph */
+  margin-top: -70px;    /* lift bubble to sit over the title line */
+  transform: none;
+  align-items: flex-start;
+  position: relative;
+  z-index: 12;          /* ensure bubble overlays the title */
+}
+.card3-cartoon-img {
+  width: 100%;
+  max-width: 520px;     /* larger cartoon */
+  position: relative;
+  z-index: 12;          /* above title */
+  pointer-events: none; /* avoid intercepting clicks */
+}
