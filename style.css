@@ -52,12 +52,12 @@
   display: block;
 }
 
-/* Card 3 specific GIF - larger size */
+/* Card 3 specific GIF - smaller size to stay within limits */
 .card3-gif {
-  max-width: 400px !important;
-  max-height: 400px !important;
-  width: 400px !important;
-  height: 400px !important;
+  max-width: 300px !important;
+  max-height: 300px !important;
+  width: 300px !important;
+  height: 300px !important;
 }
 
 /* Video styling for Card 3 - Enhanced for Firefox compatibility */
@@ -66,10 +66,10 @@ video.card3-gif {
   object-fit: cover;
   display: block;
   /* Firefox-specific fixes */
-  width: 100% !important;
-  height: auto !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
+  width: 300px !important;
+  height: 300px !important;
+  max-width: 300px !important;
+  max-height: 300px !important;
   /* Ensure consistent aspect ratio across browsers */
   aspect-ratio: 1 / 1;
 }
@@ -93,10 +93,10 @@ video.card3-gif {
   height: auto;
 }
 
-/* Card 3 specific cartoon - larger size */
+/* Card 3 specific cartoon - larger size to fill available space */
 .card3-cartoon {
-  max-width: 600px !important;
-  width: 600px !important;
+  max-width: 800px !important;
+  width: 800px !important;
 }
 
 .abs-cartoon {
@@ -1158,8 +1158,8 @@ a:hover {
   min-width: 0; /* Important for Firefox text wrapping */
 }
 .card3-cartoon-wrap {
-  flex: 0 0 340px;      /* a bit wider */
-  min-width: 280px;
+  flex: 0 0 400px;      /* wider to accommodate larger cartoon */
+  min-width: 350px;
   margin-left: 3em;     /* more gap from the paragraph */
   margin-top: -70px;    /* lift bubble to sit over the title line */
   transform: none;
@@ -1173,7 +1173,7 @@ a:hover {
 }
 .card3-cartoon-img {
   width: 100%;
-  max-width: 520px;     /* larger cartoon */
+  max-width: 650px;     /* even larger cartoon to fill space */
   position: relative;
   z-index: 12;          /* above title */
   pointer-events: none; /* avoid intercepting clicks */
@@ -1200,8 +1200,8 @@ a:hover {
   
   video.card3-gif {
     /* Firefox video element fixes */
-    width: 400px !important;
-    height: 400px !important;
+    width: 300px !important;
+    height: 300px !important;
     object-fit: cover !important;
   }
 }
