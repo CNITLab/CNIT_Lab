@@ -60,11 +60,18 @@
   height: 400px !important;
 }
 
-/* Video styling for Card 3 */
+/* Video styling for Card 3 - Enhanced for Firefox compatibility */
 video.card3-gif {
   border-radius: 50%;
   object-fit: cover;
   display: block;
+  /* Firefox-specific fixes */
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  /* Ensure consistent aspect ratio across browsers */
+  aspect-ratio: 1 / 1;
 }
 
 /* Card 2 side GIFs - keep them smaller */
@@ -1120,6 +1127,10 @@ a:hover {
   z-index: 4;
   gap: 0.5em;
   padding: 2em 1em;
+  /* Firefox compatibility fixes */
+  flex-wrap: nowrap;
+  min-height: 0;
+  box-sizing: border-box;
 }
 .card3-video-wrap {
   flex: 1 1 400px;
@@ -1129,6 +1140,10 @@ a:hover {
   align-items: center;
   justify-content: center;
   margin-left: -190px; /* requested left shift; preserves current layout */
+  /* Firefox compatibility fixes */
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .card3-text-wrap {
   flex: 1 1 400px;
@@ -1137,6 +1152,10 @@ a:hover {
   align-items: center;
   justify-content: center;
   padding: 0 0em;
+  /* Firefox compatibility fixes */
+  flex-shrink: 1;
+  box-sizing: border-box;
+  min-width: 0; /* Important for Firefox text wrapping */
 }
 .card3-cartoon-wrap {
   flex: 0 0 340px;      /* a bit wider */
@@ -1147,6 +1166,10 @@ a:hover {
   align-items: flex-start;
   position: relative;
   z-index: 12;          /* ensure bubble overlays the title */
+  /* Firefox compatibility fixes */
+  flex-shrink: 0;
+  box-sizing: border-box;
+  display: flex;
 }
 .card3-cartoon-img {
   width: 100%;
@@ -1154,4 +1177,31 @@ a:hover {
   position: relative;
   z-index: 12;          /* above title */
   pointer-events: none; /* avoid intercepting clicks */
+  /* Firefox compatibility fixes */
+  height: auto;
+  display: block;
+  box-sizing: border-box;
+}
+
+/* Firefox-specific fixes */
+@-moz-document url-prefix() {
+  .card3-row {
+    gap: 1em; /* Increase gap for Firefox */
+  }
+  
+  .card3-video-wrap {
+    margin-left: -150px; /* Less aggressive negative margin for Firefox */
+  }
+  
+  .card3-cartoon-wrap {
+    margin-top: -50px; /* Less aggressive negative margin for Firefox */
+    margin-left: 2em;
+  }
+  
+  video.card3-gif {
+    /* Firefox video element fixes */
+    width: 400px !important;
+    height: 400px !important;
+    object-fit: cover !important;
+  }
 }
