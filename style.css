@@ -95,8 +95,9 @@ video.card3-gif {
 
 /* Card 3 specific cartoon - larger size to fill available space */
 .card3-cartoon {
-  max-width: 800px !important;
-  width: 800px !important;
+  max-width: 500px !important;
+  width: 500px !important;
+  height: auto !important;
 }
 
 .abs-cartoon {
@@ -1094,8 +1095,8 @@ a:hover {
   color: #fff !important;
 }
 
-/* Ensure menu does not affect layout */
-.menu-container {
+/* Ensure menu does not affect layout - only apply on non-index pages */
+body:not(.index-page) .menu-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -1122,63 +1123,58 @@ a:hover {
   justify-content: center;
   width: 100%;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: 4em auto 0 auto;
   position: relative;
   z-index: 4;
-  gap: 0.5em;
-  padding: 2em 1em;
+  gap: 1em; /* REDUCED: from 2em to 1em - elements get closer */
+  padding: 2em 0.5em; /* REDUCED: side padding from 1em to 0.5em */
   /* Firefox compatibility fixes */
   flex-wrap: nowrap;
   min-height: 0;
   box-sizing: border-box;
 }
 .card3-video-wrap {
-  flex: 1 1 400px;
-  min-width: 300px;
-  max-width: 450px;
+  flex: 0 0 280px; /* REDUCED: from 300px to 280px */
+  width: 280px; /* REDUCED: from 300px to 280px */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: -190px; /* requested left shift; preserves current layout */
   /* Firefox compatibility fixes */
   flex-shrink: 0;
   box-sizing: border-box;
   overflow: hidden;
 }
 .card3-text-wrap {
-  flex: 1 1 400px;
-  max-width: 550px;
+  flex: 1;
+  max-width: 800px; /* REDUCED: from 1000px to 800px */
+  min-width: 400px !important; /* REDUCED: from 600px to 400px */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0em;
+  padding: 0 0.5em; /* REDUCED: from 1em to 0.5em */
   /* Firefox compatibility fixes */
   flex-shrink: 1;
   box-sizing: border-box;
   min-width: 0; /* Important for Firefox text wrapping */
 }
 .card3-cartoon-wrap {
-  flex: 0 0 400px;      /* wider to accommodate larger cartoon */
-  min-width: 350px;
-  margin-left: 3em;     /* more gap from the paragraph */
-  margin-top: -70px;    /* lift bubble to sit over the title line */
-  transform: none;
-  align-items: flex-start;
-  position: relative;
-  z-index: 12;          /* ensure bubble overlays the title */
+  flex: 0 0 450px; /* REDUCED: from 500px to 450px */
+  width: 450px; /* REDUCED: from 500px to 450px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
   /* Firefox compatibility fixes */
   flex-shrink: 0;
   box-sizing: border-box;
-  display: flex;
 }
 .card3-cartoon-img {
-  width: 100%;
-  max-width: 650px;     /* even larger cartoon to fill space */
-  position: relative;
-  z-index: 12;          /* above title */
-  pointer-events: none; /* avoid intercepting clicks */
-  /* Firefox compatibility fixes */
+  width: 450px !important; /* REDUCED: from 500px to 450px */
+  max-width: 450px !important; /* REDUCED: from 500px to 450px */
   height: auto;
+  position: relative;
+  pointer-events: none;
+  /* Firefox compatibility fixes */
   display: block;
   box-sizing: border-box;
 }
@@ -1186,16 +1182,7 @@ a:hover {
 /* Firefox-specific fixes */
 @-moz-document url-prefix() {
   .card3-row {
-    gap: 1em; /* Increase gap for Firefox */
-  }
-  
-  .card3-video-wrap {
-    margin-left: -150px; /* Less aggressive negative margin for Firefox */
-  }
-  
-  .card3-cartoon-wrap {
-    margin-top: -50px; /* Less aggressive negative margin for Firefox */
-    margin-left: 2em;
+    gap: 2em; /* Maintain consistent gap for Firefox */
   }
   
   video.card3-gif {
