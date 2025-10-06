@@ -132,38 +132,154 @@ video.card3-gif {
   margin: 0 auto;
 }
 
-.carousel-textbox {
-  text-align: justify;
+.carousel-heading {
+  font-size: 3rem; /* restored size to match Card 4 */
+  margin: 0 0 0.8em 0;
+  text-align: center;
   width: 100%;
-  max-width: 700px;
-  font-size: 1.4rem !important;
-  margin: 0 auto 1.2em auto;
-  margin-top: 0;
+  color: #1b7c4b;
+  text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000;
+  font-weight: 600;
 }
 
-.carousel-flex-child.left-gif,
-.carousel-flex-child.right-gif {
-  flex: 1 1 0;
-  max-width: 350px;
-  min-width: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.carousel-textbox {
+  max-width: 820px;
+  margin: 0.8em auto 0.6em auto;
+  padding: 0;
+  text-align: justify;
+  font-size: 1.12rem; /* slightly larger than default */
+  line-height: 1.6;
 }
-.carousel-flex-child.center-text {
-  flex: 2 1 0;
-  max-width: 700px;
-  min-width: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+.card3-textbox {
+  background: rgba(17,17,17,0.92);
+  border-radius: 1em;
+  padding: 1em 1.5em;
+  line-height: 1.4;
+  text-align: justify;
+  font-size: 1.12rem;
+  line-height: 1.6;
 }
-.carousel-flex-child.center-img {
-  max-width: 430px;
-  min-width: 120px;
+
+/* Normalize carousel media wrapper: remove white framed ::before and ensure media backgrounds are transparent */
+.carousel-media {
+  position: relative;
+  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 900px;
+  height: auto; /* let media define height */
+  background: transparent;
+  padding: 0;
+  overflow: visible;
+  border-radius: 14px;
+}
+
+/* remove white frame entirely */
+.carousel-media::before {
+  display: none !important;
+}
+
+/* Put media above the (now frameless) container and ensure transparent backgrounds */
+.carousel-media .carousel-media-item {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  max-height: none;
+  width: auto;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 10px;
+  background: transparent !important;
+}
+
+.carousel-media img.carousel-media-item,
+.carousel-media video.carousel-media-item {
+  background: transparent !important;
+}
+
+/* Keep card3 scale behavior */
+.carousel-card.card3 .carousel-media .carousel-media-item {
+  object-fit: cover; /* fill the box */
+  width: 110%;
+  height: 110%;
+  max-width: none;
+  max-height: none;
+  transform-origin: center center;
+}
+
+@media (max-width: 900px) {
+  .carousel-media { height: auto; }
+  .carousel-card.card3 .carousel-media .carousel-media-item { object-fit: contain; width: 100%; height: auto; }
+}
+
+/* Make video behave like images inside the same box */
+.carousel-media video.carousel-media-item {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Specific adjustments so card 2 media doesn't get extra padding from old selectors */
+.carousel-card.card2 .carousel-media .carousel-media-item {
+  max-width: 720px;
+}
+
+/* Ensure vertical rhythm remains consistent */
+.carousel-text .carousel-heading { margin-bottom: 0.8em; }
+.carousel-media { margin-top: 0.6em; margin-bottom: 0.9em; }
+
+/* Uniform vertical rhythm for carousel cards (title → media → text) */
+.carousel-text .carousel-heading {
+  margin-bottom: 0.8em; /* consistent gap below title */
+}
+
+.carousel-text .carousel-img.single-media,
+.carousel-text video.single-media {
+  margin-top: 0.6em;    /* small gap above media */
+  margin-bottom: 0.9em; /* gap between media and text */
+  display: block;
+}
+
+.carousel-text .carousel-textbox {
+  margin-top: 0; /* text sits directly after media gap */
+  padding-top: 0; /* spacing controlled by media margin-bottom */
+}
+
+/* Ensure card3 textbox uses same top spacing as others */
+.card3-textbox {
+  margin-top: 0; /* controlled by media's margin-bottom */
+}
+
+/* Keep responsive adjustments but preserve the same rhythm on small screens */
+@media (max-width: 900px) {
+  .carousel-text .carousel-heading { margin-bottom: 0.6em; }
+  .carousel-text .carousel-img.single-media,
+  .carousel-text video.single-media { margin-top: 0.5em; margin-bottom: 0.8em; }
+  .carousel-text .carousel-textbox { margin-top: 0; }
+  .carousel-heading { font-size: 2.2rem; }
+}
+
+@media (max-width: 600px) {
+  .carousel-heading { font-size: 1.8rem; }
+}
+
+/* Ensure consistent vertical rhythm for all cards */
+.carousel-text .carousel-heading + .carousel-img.single-media,
+.carousel-text .carousel-heading + video.single-media {
+  margin-top: 0.6em;
+}
+
+/* Small screen adjustments */
+@media (max-width: 900px) {
+  .carousel-heading { margin-bottom: 0.6em; }
+  .carousel-textbox { margin: 0.6em auto; font-size: 1.05rem; }
+  .card3-textbox { padding: 0.9em 1.1em; }
 }
 
 /* Responsive scaling for medium screens */
@@ -692,38 +808,6 @@ footer a:hover {
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  box-shadow: 0 -2px 12px rgba(0,0,0,0.10);
-}
-
-/* Carousel card */
-.carousel-card {
-  background: #111;
-  color: #fff;
-  border-radius: 28px;
-  box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a;
-  border-left: 8px solid #1b7c4b;
-  border-right: 2px solid #1b7c4b;
-  padding: 2.5em 0 2.5em 0;
-  margin: 0 auto;
-  max-width: 1200px;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.7s cubic-bezier(.5,1.5,.5,1);
-  z-index: 1;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 .carousel-card.active {
   opacity: 1;
@@ -747,7 +831,7 @@ footer a:hover {
 }
 .carousel-text h3 {
   margin: 0 0 0.5em 0;
-  font-size: 1.3em;
+  /* font-size intentionally removed so .carousel-heading sets size */
   font-weight: 700;
 }
 .carousel-text p {
@@ -1108,14 +1192,16 @@ body:not(.index-page) .menu-container {
 
 /* Card 3 helpers (migrated from inline styles; no visual change) */
 .card3-title {
-  position: absolute;
-  top: 50px; /* was 120px; move higher so it doesn't overlap center text */
-  left: 50%;
-  transform: translateX(-50%);
+  /* Make card3 title behave like other carousel headings (no absolute positioning) */
+  position: static;
+  left: auto;
+  transform: none;
   text-align: center;
   width: 100%;
+  margin: 0 0 0.8em 0;
   z-index: 10;
 }
+
 .card3-row {
   display: flex;
   flex-direction: row;
@@ -1190,5 +1276,290 @@ body:not(.index-page) .menu-container {
     width: 300px !important;
     height: 300px !important;
     object-fit: cover !important;
+  }
+}
+
+/* Unified carousel card and media sizing for index page */
+body.index-page .carousel-card {
+  /* make all index carousel cards the same visual size */
+  max-width: 1200px; /* match welcome block width */
+  width: 100%;
+  min-height: 520px; /* consistent card height to align content */
+  padding: 2.5em 2em; /* consistent internal spacing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Single central media used by Cards 1-3 */
+.carousel-img.single-media,
+video.single-media {
+  width: 400px; /* default visual size */
+  max-width: 90%;
+  height: auto; /* scale proportionally */
+  object-fit: contain; /* scale without cropping */
+  border-radius: 12px;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.35);
+  margin: 0.8em auto 1.2em auto; /* consistent spacing under heading */
+  display: block;
+}
+
+/* Per-card overrides */
+.carousel-card.card1 .carousel-img.single-media,
+.carousel-card.card1 video.single-media {
+  width: 360px;
+}
+
+.carousel-card.card2 .carousel-img.single-media,
+.carousel-card.card2 video.single-media {
+  width: 500px; /* ~25% larger than 400px base */
+}
+
+.carousel-card.card3 .carousel-img.single-media,
+.carousel-card.card3 video.single-media {
+  width: 400px;
+  border-radius: 60% / 40%;
+  border: 3px solid #1b7c4b22;
+  background: #e6f4ea;
+  box-shadow: 0 4px 24px #1b7c4b22;
+}
+
+/* Tweak: scale up Card 2 media by ~15% and reduce padding for Cards 2 & 3 */
+.carousel-card.card2 .carousel-img.single-media,
+.carousel-card.card2 video.single-media {
+  width: 575px; /* 500px * 1.15 ≈ 575px */
+  max-width: 94%;
+}
+
+/* Card 2: reduce media container by ~15% and increase media element by ~10% */
+.carousel-card.card2 .carousel-media {
+  /* previously max-width: 900px on general .carousel-media; reduce for card2 */
+  max-width: 765px; /* 900px * 0.85 = 765px */
+}
+
+.carousel-card.card2 .carousel-media .carousel-media-item.carousel-img.single-media,
+.carousel-card.card2 .carousel-media .carousel-media-item.video.single-media,
+.carousel-card.card2 .carousel-img.single-media,
+.carousel-card.card2 video.single-media {
+  /* increase image size by ~10% from 575px -> ~633px */
+  width: 633px !important;
+  max-width: 92% !important; /* keep responsive cap */
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+/* Further tweak: scale Card 2 container down another 20% and increase media element by ~10% */
+.carousel-card.card2 .carousel-media {
+  /* tighten container further from 765px to ~612px (765 * 0.8) */
+  max-width: 612px; /* ~15%+20% cumulative reduction from original 900px */
+}
+
+.carousel-card.card2 .carousel-media .carousel-media-item.carousel-img.single-media,
+.carousel-card.card2 .carousel-media .carousel-media-item.video.single-media,
+.carousel-card.card2 .carousel-img.single-media,
+.carousel-card.card2 video.single-media {
+  /* increase image size by ~10% from 633px -> ~696px */
+  width: 696px !important;
+  max-width: 94% !important; /* keep responsive cap */
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+/* Make Card 2 image fill its container, then set the container to the image size */
+.carousel-card.card2 .carousel-media {
+  max-width: 696px; /* container matches desired image width */
+  width: 100%;
+}
+
+/* Force the media element to fill the container (horizontal fill) and preserve aspect ratio */
+.carousel-card.card2 .carousel-media .carousel-media-item,
+.carousel-card.card2 .carousel-media img.carousel-media-item,
+.carousel-card.card2 .carousel-media video.carousel-media-item,
+.carousel-card.card2 .carousel-img.single-media,
+.carousel-card.card2 video.single-media {
+  width: 100% !important; /* fill container width */
+  height: auto !important;  /* keep intrinsic aspect ratio */
+  object-fit: cover !important; /* crop if necessary to fill visually */
+}
+
+/* Card 2: ensure no letterboxing or visible background; force crop and focal point */
+.carousel-card.card2 .carousel-media {
+  /* keep the container size set previously but explicitly hide overflow so cropped media is clean */
+  max-width: 696px;
+  width: 100%;
+  background: transparent !important; /* ensure container shows page background */
+  overflow: hidden !important; /* clip any letterboxing or extra media area */
+}
+
+
+
+/* Responsive fallback: keep same behaviour but scale down */
+@media (max-width: 900px) {
+  .carousel-card.card2 .carousel-media { max-width: 92%; }
+  .carousel-card.card2 .carousel-media .carousel-media-item { width: 92% !important; }
+}
+
+/* Responsive: reduce sizes on smaller viewports */
+@media (max-width: 900px) {
+  .carousel-img.single-media,
+  video.single-media {
+    width: 92%;
+    margin: 0.8em auto 1.0em auto;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  }
+  
+  .carousel-card.card2 .carousel-img.single-media,
+  .carousel-card.card2 video.single-media {
+    width: 200%;
+  }
+}
+
+@media (max-width: 700px) {
+  /* On very small screens, keep media smaller and stacked */
+  .carousel-img.single-media,
+  video.single-media {
+    width: 98%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: none;
+  }
+  body.index-page .carousel-card {
+    padding: 1em 0.8em;
+  }
+}
+
+/* Tighter Card 2 sizing: scale image down ~10% and make its container fit snugly */
+.carousel-card.card2 {
+  /* reduce the card padding so the surrounding box doesn't add excess space */
+  padding: 1.2em 1em !important; /* was larger; smaller for card2 only */
+  box-sizing: border-box;
+}
+
+.carousel-card.card2 .carousel-media {
+  /* scale container down ~10% from 696px -> ~627px so image appears 10% smaller */
+  max-width: 627px !important;
+  width: 200% !important; /* keeps responsive behavior */
+  padding: 0 !important; /* remove internal container padding */
+  margin: 0.6em auto 0.9em auto !important; /* preserve vertical rhythm but centered */
+  overflow: hidden !important; /* clip any overflow cleanly */
+  background: transparent !important;
+}
+
+.carousel-card.card2 .carousel-media .carousel-media-item,
+.carousel-card.card2 .carousel-media img.carousel-media-item,
+.carousel-card.card2 .carousel-media video.carousel-media-item,
+.carousel-card.card2 .carousel-img.single-media,
+.carousel-card.card2 video.single-media {
+  width: 150% !important; /* fill the (now smaller) container */
+  height: 150% !important;
+  object-fit: cover !important;
+  object-position: 50% 50% !important;
+  display: block !important;
+}
+
+@media (max-width: 900px) {
+  .carousel-card.card2 { padding: 1em 0.6em !important; }
+  .carousel-card.card2 .carousel-media { max-width: 200% !important; }
+  .carousel-card.card2 .carousel-media .carousel-media-item { width: 200% !important; }
+}
+
+/* Make Card 2 behave like Card 1: same media size, fit, and padding */
+.carousel-card.card2 {
+  /* match the default index-page card padding so box doesn't feel tight or loose */
+  padding: 2.5em 2em !important; /* same as body.index-page .carousel-card */
+  box-sizing: border-box;
+}
+
+.carousel-card.card2 .carousel-media {
+  /* reset container sizing so media defines the visual size */
+  max-width: 900px !important; /* restore general carousel-media max */
+  width: auto !important;
+  padding: 0 !important;
+  margin: 0.6em auto 0.6em auto !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+/* Make the media itself match Card 1's dimensions and behaviour */
+.carousel-card.card2 .carousel-media .carousel-media-item,
+.carousel-card.card2 .carousel-img.single-media,
+.carousel-card.card2 video.single-media {
+  width: 360px !important; /* same visual size as card1 */
+  max-width: 90% !important;
+  height: auto !important;
+  object-fit: contain !important; /* do not crop */
+  object-position: center center !important;
+  border-radius: 12px !important;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.35) !important;
+  margin: 0.8em auto 1.2em auto !important;
+  display: block !important;
+}
+
+@media (max-width: 900px) {
+  .carousel-card.card2 .carousel-media .carousel-media-item,
+  .carousel-card.card2 .carousel-img.single-media,
+  .carousel-card.card2 video.single-media {
+    width: 200% !important;
+    max-width: 250% !important;
+  }
+}
+
+/* Final: make Card 2 media match Card 1/3 size and crop to the inner focal area (zoomed in more) */
+.carousel-card.card2 .carousel-media {
+  position: relative !important;
+  overflow: hidden !important; /* clip excess so inner area is visible */
+  max-width: 360px !important; /* match Card 1 visual width */
+  width: 200% !important;
+  margin: 0.8em auto 1.0em auto !important;
+  height: auto !important;
+  background: transparent !important;
+}
+
+.carousel-card.card2 .carousel-media .carousel-media-item,
+.carousel-card.card2 .carousel-media img.carousel-media-item,
+.carousel-card.card2 .carousel-media video.carousel-media-item,
+.carousel-card.card2 .carousel-img.single-media,
+.carousel-card.card2 video.single-media {
+  position: relative !important;
+  left: -0% !important; /* shift left so expanded image centers visually */
+  top: 0 !important;
+  width: 250% !important;   /* enlarge so ~20% is cropped each side (zoom in more) */
+  max-width: none !important;
+  height: auto !important;
+  object-fit: cover !important; /* crop while preserving center */
+  object-position: center center !important;
+  display: block !important;
+  margin: 0 !important;
+  /* Added transform to scale the media by 1.25 and keep the focal point centered */
+  transform: scale(1.25) !important;
+  transform-origin: center center !important;
+}
+
+/* On medium screens use a gentler crop */
+@media (max-width: 900px) {
+  .carousel-card.card2 .carousel-media { max-width: 92% !important; }
+  .carousel-card.card2 .carousel-media .carousel-media-item,
+  .carousel-card.card2 .carousel-media img.carousel-media-item,
+  .carousel-card.card2 .carousel-media video.carousel-media-item,
+  .carousel-card.card2 .carousel-img.single-media,
+  .carousel-card.card2 video.single-media {
+    left: -12% !important;
+    width: 200% !important;
+  }
+}
+
+/* On small screens reduce crop to avoid cutting important content */
+@media (max-width: 700px) {
+  .carousel-card.card2 .carousel-media { max-width: 98% !important; }
+  .carousel-card.card2 .carousel-media .carousel-media-item,
+  .carousel-card.card2 .carousel-media img.carousel-media-item,
+  .carousel-card.card2 .carousel-media video.carousel-media-item,
+  .carousel-card.card2 .carousel-img.single-media,
+  .carousel-card.card2 video.single-media {
+    left: -6% !important;
+    width: 112% !important;
   }
 }

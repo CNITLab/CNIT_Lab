@@ -177,7 +177,7 @@
       box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a;
       border-left: 8px solid #1b7c4b;
       border-right: 2px solid #1b7c4b;
-      padding: 2.5em 0 2.5em 0;
+      padding: 0.9em 0; /* reduced further from 1.6em */
       margin: 0 auto;
       max-width: 1430px;
       width: 100%;
@@ -301,62 +301,41 @@
         <section class="carousel-section">
           <div class="carousel-cards-container">
             <!-- Card 1: Structure to Mechanistic Insight -->
-            <div class="carousel-card active">
+            <div class="carousel-card active card1">
               <div class="carousel-text" style="position: relative; overflow: visible;">
-                <h3 style=" top: 150px; margin-bottom: 1.2em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">From Structure to Mechanistic Insight</h3>
-                <img src="images/sec1_gif.gif" alt="Section 1 Animation" class="carousel-img main-gif card1-gif" />
+                <h3 class="carousel-heading">From Structure to Mechanistic Insight</h3>
+                <div class="carousel-media">
+                  <img src="images/sec1_gif.gif" alt="Section 1 Animation" class="carousel-img single-media carousel-media-item" />
+                </div>
                 <p class="carousel-textbox">Through the tools of physical organic and synthetic chemistry, we uncover the mechanistic underpinnings of stimuli-responsive molecular systems. Visible light-responsive molecules are especially compelling for their non-invasive activation and their suitability for biologically and technologically relevant environments.</p>
-                <img src="images/sec1_Cartoon.png" alt="Section 1 Cartoon" class="carousel-img cartoon-img abs-cartoon" />
+                <!-- Card1 cartoon removed per request -->
               </div>
             </div>
-            <!-- Card 2: Molecules to Functional Matter -->
-            <div class="carousel-card">
-              <div class="carousel-text">
-                <h3 style="margin-bottom: -0.2em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">
-                  From Molecules to Functional Matter
-                </h3>
-                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; width: 100%; max-width: 1400px; margin: 0 auto;">
-                  <!-- Left GIF -->
-                  <div style="width: 350px; display: flex; align-items: center; justify-content: flex-end;">
-                    <img src="images/sec2.gif" alt="Section 2 Animation" class="carousel-img gif-img-small" />
-                  </div>
-                  <!-- Center Text -->
-                  <div style="width: 700px; display: flex; align-items: center; justify-content: center; padding: 0 2em;">
-                    <p class="carousel-textbox">
-                      We translate molecular responsiveness into material performance by guiding how molecules organize, interact, and transform. Through this bottom-up design, emergent properties such as phase change and mechanical adaptation become accessible and tunable.
-                    </p>
-                  </div>
-                  <!-- Right GIF -->
-                  <div style="width: 350px; display: flex; align-items: center; justify-content: flex-start;">
-                    <img src="images/sec2_gif2.gif" alt="Section 2 Cartoon" class="carousel-img gif-img-small" />
-                  </div>
+
+            <!-- Card 2: Molecules to Functional Matter (use right element as central image) -->
+            <div class="carousel-card card2">
+              <div class="carousel-text" style="position: relative; overflow: visible;">
+                <h3 class="carousel-heading">From Molecules to Functional Matter</h3>
+                <div class="carousel-media">
+                  <img src="images/sec2_gif2.gif" alt="Section 2 Animation" class="carousel-img single-media carousel-media-item" />
                 </div>
+                <p class="carousel-textbox">We translate molecular responsiveness into material performance by guiding how molecules organize, interact, and transform. Through this bottom-up design, emergent properties such as phase change and mechanical adaptation become accessible and tunable.</p>
+                <!-- Left GIF removed per request -->
               </div>
             </div>
-            <!-- Card 3: Functional Matter to Emergence -->
-            <div class="carousel-card">
+
+            <!-- Card 3: Functional Matter to Emergence (center video, delete cartoon) -->
+            <div class="carousel-card card3">
               <div class="carousel-text" style="position: relative; overflow: visible; width: 100%;">
-                <!-- Title positioned lower to overlap with cartoon -->
-                <h3 class="card3-title" style="font-size: 2.8rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 3px 15px #1b7c4b, 0 3px 15px #000; font-weight: 600; margin: 0;">From Functional Matter to Emergence</h3>
-                
-                <div class="card3-row">
-                  <!-- Left Video - moved left -->
-                  <div class="card3-video-wrap">
-                    <video src="images/sec3gif.mp4" autoplay loop muted class="carousel-img gif-img card3-gif" style="width: 300px; height: 300px; border-radius: 12px; object-fit: cover; display: block;"></video>
-                  </div>
-                  
-                  <!-- Center Text - made broader -->
-                  <div class="card3-text-wrap">
-                    <p class="carousel-textbox" style="background: rgba(17,17,17,0.92); border-radius: 1em; padding: 1em 1.5em; line-height: 1.4; text-align: justify;">By orchestrating structure and responsiveness across scales, we enable materials to exhibit higher-order functions—such as memory, adaptation, and selective response—rooted in their physical architecture.</p>
-                  </div>
-                  
-                  <!-- Right Cartoon - using different approach to get closer -->
-                  <div class="card3-cartoon-wrap">
-                    <img src="images/sec3_cartoon.png" alt="Section 3 Cartoon" class="carousel-img cartoon-img card3-cartoon-img" />
-                  </div>
+                <h3 class="card3-title carousel-heading">From Functional Matter to Emergence</h3>
+                <div class="carousel-media">
+                  <video src="images/vid5.mp4" autoplay loop muted playsinline class="carousel-img single-media carousel-media-item"></video>
                 </div>
+                <p class="carousel-textbox card3-textbox">By orchestrating structure and responsiveness across scales, we enable materials to exhibit higher-order functions—such as memory, adaptation, and selective response—rooted in their physical architecture.</p>
+                <!-- Card3 cartoon removed per request -->
               </div>
             </div>
+
             <!-- Card 4: New Voices to New Directions (already good) -->
             <div class="carousel-card">
               <div class="carousel-text">
