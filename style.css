@@ -137,7 +137,7 @@ video.card3-gif {
   margin: 0 0 0.8em 0;
   text-align: center;
   width: 100%;
-  color: #1b7c4b;
+  color: #4eeaaf;
   text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000;
   font-weight: 600;
 }
@@ -533,7 +533,7 @@ footer {
   margin-top: 0;
 }
 footer a {
-  color: #1b7c4b;
+  color: #4eeaaf;
   text-decoration: underline;
 }
 /* Hero section for index page */
@@ -1111,7 +1111,7 @@ body.publications-page, html.publications-page {
   color: #ffffff !important;
 }
 .pub-year {
-  color: #1b7c4b !important;
+  color: #4eeaaf !important;
   border-bottom: 1px solid #1b7c4b !important;
 }
 
@@ -1168,7 +1168,7 @@ body.publications-page, html.publications-page {
 
 /* Adjust links for visibility */
 a {
-  color: #1b7c4b !important;
+  color: #4eeaaf !important;
 }
 a:hover {
   text-decoration: underline;

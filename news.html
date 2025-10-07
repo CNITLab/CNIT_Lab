@@ -153,6 +153,22 @@
       margin-bottom: 0;
     }
 
+    /* Navbar styles */
+    .navbar {
+      background: #111;
+      color: #fff;
+      padding: 1.5em 2em 1em 2em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Ensure nav links match global site sizing and font on the News page */
+    .navbar nav a {
+      font-size: 1.1em; /* match style.css */
+      font-family: 'Helvetica Neue', sans-serif; /* match other pages */
+    }
+
     /* Responsive */
     @media (max-width: 900px) {
       .news-main {
@@ -202,7 +218,7 @@
       </header>
       <main class="news-main">
         <div class="news-header">Lab News & Highlights</div>
-        <p style="margin-top:1.2rem; color:#058252; font-size:1.15rem; font-weight:500;">Stay tuned for the latest knittings, research, and news from the CNIT Lab!</p>
+        <p style="margin-top:1.2rem; color:#4eeaaf; font-size:1.15rem; font-weight:500;">Stay tuned for the latest knittings, research, and news from the CNIT Lab!</p>
         <div class="news-timeline">
           <div class="news-timeline-item">
             <div class="news-timeline-dot"></div>
