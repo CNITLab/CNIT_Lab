@@ -522,7 +522,7 @@ body {
 footer {
   width: 100vw;
   background: #111;
-  color: #ffffe6;
+  color: #ffffeb;
   text-align: center;
   padding: 1.2em 0;
   font-size: 1.1em;
@@ -587,20 +587,20 @@ body {
 /* Navigation (default for all pages except index.html) */
 .navbar {
   background: #111;
-  color: #ffffe6;
+  color: #ffffeb;
   padding: 1.5em 2em 1em 2em;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .navbar h1 {
-  color: #ffffe6;
+  color: #ffffeb;
   margin: 0;
   font-size: 2.2em;
   letter-spacing: 2px;
 }
 .navbar nav a {
-  color: #ffffe6;
+  color: #ffffeb;
   text-decoration: none;
   margin-left: 2em;
   font-weight: 500;
@@ -652,7 +652,7 @@ body.index-page .dropdown-menu.show {
   display: block;
 }
 body.index-page .dropdown-menu a {
-  color: #ffffe6;
+  color: #ffffeb;
   text-decoration: none;
   display: block;
   padding: 14px 28px;
@@ -703,7 +703,7 @@ body.index-page .dropdown-menu a:hover {
 }
 .section.dark {
   background: rgba(30, 64, 175, 0.7); /* blue, mostly transparent */
-  color: #ffffe6;
+  color: #ffffeb;
   border-radius: 12px;
   padding: 1.5em;
   margin: 2em 0;
@@ -819,7 +819,7 @@ footer a:hover {
 .carousel-text {
   position: relative;
   width: 100%;
-  color: #ffffe6;
+  color: #ffffeb;
   padding: 0;
   max-width: 100%;
   margin: 0 auto;
@@ -921,7 +921,7 @@ footer a:hover {
   box-shadow: 0 2px 16px #1b7c4b33, 0 1px 6px #000a;
   border-left: 4px solid #1b7c4b;
   border-right: 2px solid #1b7c4b;
-  color: #ffffe6;
+  color: #ffffeb;
   margin-bottom: 2em;
   padding: 1.5em;
   display: flex;
@@ -963,7 +963,7 @@ footer a:hover {
   margin: 0 0 0.2em 0;
   font-size: 1.5em;
   font-weight: 700;
-  color: #ffffe6;
+  color: #ffffeb;
   /* Ensure name is not cut off */
   word-break: break-word;
 }
@@ -998,7 +998,7 @@ footer a:hover {
 .person-bio {
   margin-top: 0.5em;
   font-size: 1em;
-  color: #ffffe6;
+  color: #ffffeb;
   text-align: justify;
 }
 
@@ -1039,7 +1039,7 @@ footer a:hover {
 }
 .person-cv-icon {
   background: #2563eb;
-  color: #ffffe6;
+  color: #ffffeb;
   border: 1px solid #2563eb;
 }
 .person-cv-icon:hover {
@@ -1048,7 +1048,7 @@ footer a:hover {
 }
 .person-orcid {
   background: #A6CE39;
-  color: #ffffe6;
+  color: #ffffeb;
   border: 1px solid #A6CE39;
 }
 .person-orcid:hover {
@@ -1088,7 +1088,7 @@ footer a:hover {
 /* Dark background for page */
 body.publications-page, html.publications-page {
   background: #111 !important;
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
 }
 
 /* Overlay should be dark */
@@ -1099,7 +1099,7 @@ body.publications-page, html.publications-page {
 /* Publication cards dark */
 .publication {
   background: #111 !important;
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
   border-radius: 16px;
   box-shadow: 0 2px 16px #1b7c4b33, 0 1px 6px #000a;
   border-left: 4px solid #1b7c4b;
@@ -1108,7 +1108,7 @@ body.publications-page, html.publications-page {
 
 /* Publication title and year green or white */
 .pub-title {
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
 }
 .pub-year {
   color: #4eeaaf !important;
@@ -1117,25 +1117,25 @@ body.publications-page, html.publications-page {
 
 /* Citation and other text white */
 .pub-citation, .pub-info-block, .pub-doi {
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
 }
 
 /* Table of contents dark */
 .pub-toc {
   background: #222 !important;
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
   border-left: 4px solid #1b7c4b;
   border-right: 2px solid #1b7c4b;
 }
 .pub-toc a {
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
 }
 .pub-toc h4 {
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
 }
 
 .pub-header-bar {
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
 }
 
 /* Search bar dark */
@@ -1148,7 +1148,7 @@ body.publications-page, html.publications-page {
 .pub-search-bar input,
 .pub-search-bar select,
 .pub-search-bar button {
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
 }
 .pub-search-bar input,
 .pub-search-bar select {
@@ -1157,13 +1157,13 @@ body.publications-page, html.publications-page {
 }
 .pub-search-bar button {
   background: #000000 !important;
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
 }
 
 /* Publication number badge blue for contrast */
 .pub-number {
   background: #1e40af !important;
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
 }
 
 /* Adjust links for visibility */
@@ -1176,7 +1176,7 @@ a:hover {
 
 /* Make sure all text is readable */
 .publication * {
-  color: #ffffe6 !important;
+  color: #ffffeb !important;
 }
 
 /* Ensure menu does not affect layout - only apply on non-index pages */
