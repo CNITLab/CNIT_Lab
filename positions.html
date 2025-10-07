@@ -117,7 +117,7 @@
       top: 50%;
       width: 142vw;
       height: 142vh;
-      z-index: 0;
+      z-index: -2;
       transform: translate(-50%, -50%);
       pointer-events: none;
     }
@@ -133,7 +133,7 @@
       top: 50%;
       width: 142vw;
       height: 142vh;
-      z-index: 0;
+      z-index: -2;
       background: url('images/static_background.png') center center/cover no-repeat;
       transform: translate(-50%, -50%);
       pointer-events: none;
@@ -142,8 +142,23 @@
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(17,17,17,0.7);
-      z-index: 0;
+      z-index: -1;
       pointer-events: none;
+    }
+    .scroll-container {
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 0;
+    }
+    .content {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 0;
+    }
+    .content > main {
+      flex: 1 1 auto;
     }
   
     
@@ -152,13 +167,12 @@
       color: #ffffef;
       text-align: center;
       padding: 1.2em 0;
-      position: sticky;
-      left: 0;
-      bottom: 0;
+      position: relative;
       width: 100%;
       z-index: 10;
       border-top: 2px solid #1b7c4b;
       box-shadow: 0 -2px 12px #1b7c4b22;
+      margin-top: auto;
     }
     a {
       color: #1b7c4b;
@@ -198,7 +212,8 @@
   </div>
   <div class="background-static" style="display:none;"></div>
   <div class="background-overlay"></div>
-  <div class="content">
+  <div class="scroll-container">
+    <div class="content">
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       document.body.classList.add('fade-in');
@@ -354,6 +369,7 @@
     <footer>
       <p>© 2025 CNIT Lab | Institute of Science and Technology Austria</p>
     </footer>
+    </div>
   </div>
 </body>
 </html>
