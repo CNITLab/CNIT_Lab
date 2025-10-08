@@ -170,6 +170,42 @@
       align-items: center;
       justify-content: center;
     }
+    .carousel-side-cartoon {
+      position: absolute;
+      left: -120px;
+      top: 50%;
+      transform: translateY(20%);
+      width: 500px;
+      height: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s cubic-bezier(.5,1.5,.5,1);
+      z-index: 3;
+    }
+    .carousel-side-cartoon.show {
+      opacity: 1;
+    }
+    .carousel-side-cartoon-right {
+      position: absolute;
+      right: -120px;
+      top: 50%;
+      transform: translateY(20%);
+      width: 650px;
+      height: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s cubic-bezier(.5,1.5,.5,1);
+      z-index: 3;
+    }
+    .carousel-side-cartoon-right.show {
+      opacity: 1;
+    }
+    @media (max-width: 1800px) {
+      .carousel-side-cartoon,
+      .carousel-side-cartoon-right {
+        display: none;
+      }
+    }
     .carousel-card {
       background: #111;
       color: #ffffef;
@@ -300,6 +336,8 @@
         </div>
         <section class="carousel-section">
           <div class="carousel-cards-container">
+            <img src="images/Cartoon_Switches.png" alt="Cartoon Switches" class="carousel-side-cartoon" id="sideCartoon" />
+            <img src="images/cartoon_emergence.png" alt="Cartoon Emergence" class="carousel-side-cartoon-right" id="sideCartoonRight" />
             <!-- Card 1: Structure to Mechanistic Insight -->
             <div class="carousel-card active card1">
               <div class="carousel-text" style="position: relative; overflow: visible;">
@@ -410,6 +448,14 @@
           card.classList.remove('active');
         }
       });
+      // Show side cartoon for card 1 on page load
+      const sideCartoon = document.getElementById('sideCartoon');
+      const sideCartoonRight = document.getElementById('sideCartoonRight');
+      if (cards[0].classList.contains('card1')) {
+        sideCartoon.classList.add('show');
+      }
+      // Hide right cartoon initially (card 1 is active by default)
+      sideCartoonRight.classList.remove('show');
       cards.forEach((_, idx) => {
         const dot = document.createElement('div');
         dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
@@ -431,6 +477,20 @@
       }
       function animateCarouselIn(card) {
         card.classList.add('active');
+        // Show side cartoon only for card 1
+        const sideCartoon = document.getElementById('sideCartoon');
+        const sideCartoonRight = document.getElementById('sideCartoonRight');
+        if (card.classList.contains('card1')) {
+          sideCartoon.classList.add('show');
+        } else {
+          sideCartoon.classList.remove('show');
+        }
+        // Show right cartoon only for card 3
+        if (card.classList.contains('card3')) {
+          sideCartoonRight.classList.add('show');
+        } else {
+          sideCartoonRight.classList.remove('show');
+        }
       }
       setInterval(() => {
         animateCarouselOut(cards[current]);
