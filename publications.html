@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const rows = [];
     let row = [], col = '', inQuotes = false;
     for (let i = 0; i < text.length; i++) {
-      const c = text[i];10425–
+      const c = text[i];
       if (c === '"') {
         if (inQuotes && text[i+1] === '"') { col += '"'; i++; }
         else inQuotes = !inQuotes;
