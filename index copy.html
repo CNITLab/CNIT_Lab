@@ -3,11 +3,272 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MoDS Lab</title>
+  <title>CNIT Lab @ ISTA</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .content {
+      padding-bottom: 350px;
+    }
+    .navbar, .navbar h1, .navbar nav a {
+      color: #fff !important;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: auto;
+      background: #1e293b;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      padding: 1em 1.5em;
+      z-index: 100;
+      min-width: 180px;
+      max-width: 90vw;
+      flex-direction: column;
+      gap: 0.5em;
+      overflow-x: auto;
+      opacity: 0;
+      transform: translateY(-20px) scale(0.98);
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(.5,1.5,.5,1), transform 0.4s cubic-bezier(.5,1.5,.5,1);
+    }
+    .dropdown-menu.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      transition: opacity 0.4s cubic-bezier(.5,1.5,.5,1), transform 0.4s cubic-bezier(.5,1.5,.5,1);
+    }
+    .menu-toggle[aria-expanded="true"] .hamburger-line {
+      background: #1e40af;
+    }
+    body.fade-out {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: blur(2px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+      transition: opacity 0.8s cubic-bezier(.7,.2,.3,1), transform 0.8s cubic-bezier(.7,.2,.3,1), filter 0.8s cubic-bezier(.7,.2,.3,1);
+    }
+    html, body {
+      height: 100%;
+      min-height: 100vh;
+      width: 100vw;
+      overflow-x: hidden;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .scroll-container {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      position: relative;
+      width: 100%;
+      overflow: visible;
+      z-index: 0;
+    }
+  </style>
+  <style>
+    .hero-index {
+      text-align: center;
+      margin-top: 4.5rem;
+      margin-bottom: 2.5rem;
+      animation: heroFadeIn 1.2s cubic-bezier(.5,1.5,.5,1) both;
+      position: relative;
+      z-index: 2;
+    }
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(-40px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .hero-index h1 {
+      font-size: 5rem !important;
+      color: #ffffff;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000;
+      animation: textPop 1.2s cubic-bezier(.5,1.5,.5,1) 0.2s both;
+    }
+    @media (max-width: 900px) {
+      .hero-index h1 {
+        font-size: 4rem !important;
+      }
+    }
+    @media (max-width: 600px) {
+      .hero-index h1 {
+        font-size: 3rem !important;
+  }
+    }
+    .hero-index p {
+      font-size: 0.9rem;
+      color: #fff;
+      margin-top: 0.7em;
+      opacity: 0.95;
+      text-shadow: 0 2px 8px #1b7c4b, 0 1px 4px #000;
+      animation: textPop 1.2s cubic-bezier(.5,1.5,.5,1) 0.4s both;
+    }
+    @keyframes textPop {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .floating-molecule-index {
+      position: absolute;
+      z-index: 1;
+      opacity: 0.13;
+      pointer-events: none;
+      animation: floatmolindex 8s ease-in-out infinite alternate;
+    }
+    .floating-molecule-index.mol1 {
+      top: 2vw; left: 4vw; width: 90px; animation-delay: 0s;
+    }
+    .floating-molecule-index.mol2 {
+      top: 12vw; right: 6vw; width: 70px; animation-delay: 2s;
+    }
+    .floating-molecule-index.mol3 {
+      bottom: 8vw; left: 10vw; width: 60px; animation-delay: 1.5s;
+    }
+    @keyframes floatmolindex {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(18px) rotate(8deg); }
+    }
+    .welcome-block {
+      animation: fadeInUp 1.2s 0.7s both;
+      position: relative;
+      z-index: 2;
+    }
+    body.fade-out {
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(.5,1.5,.5,1);
+    }
+    body.fade-in {
+      opacity: 1;
+      transition: opacity 1.6s cubic-bezier(.5,1.5,.5,1);
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .carousel-section {
+      animation: fadeInUp 1.2s 1.1s both;
+      position: relative;
+      z-index: 2;
+    }
+    .carousel-cards-container {
+      position: relative;
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-card {
+      background: #111;
+      color: #fff;
+      border-radius: 28px;
+      box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a;
+      border-left: 8px solid #1b7c4b;
+      border-right: 2px solid #1b7c4b;
+      padding: 2.5em 0 2.5em 0;
+      margin: 0 auto;
+      max-width: 1430px;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s cubic-bezier(.5,1.5,.5,1);
+      z-index: 1;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-card.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+    }
+    .carousel-cards-container {
+      min-height: 0;
+    }
+    .carousel-text {
+      position: relative;
+      width: 100%;
+      color: #fff;
+      padding: 0;
+      max-width: 100%;
+      margin: 0 auto;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-dots {
+      z-index: 10 !important;
+      position: relative;
+    }
+    .carousel-dot {
+      width: 12px; height: 12px; border-radius: 50%; background: #e6f4ea; border: 2px solid #1b7c4b; margin: 0 4px; display: inline-block; transition: background 0.3s, border 0.3s;
+    }
+    .carousel-dot.active {
+      background: #1b7c4b;
+      border: 2px solid #e6f4ea;
+    }
+    .menu-toggle {
+      transition: transform 0.3s cubic-bezier(.5,1.5,.5,1);
+    }
+    .menu-toggle:active {
+      transform: scale(1.1) rotate(8deg);
+    }
+    .dropdown-menu a {
+      color: #fff !important;
+    }
+    /* Removed duplicate dropdown-menu rules above. JS for fade-in/out remains below. */
+    /* Background video container styling */
+    .background, .background-static {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+    /* .background-static removed: no longer used */
+  </style>
 </head>
 <body class="index-page">
-  <div class="background"></div>
+  <div class="background">
+    <video autoplay muted>
+      <source src="images/welcome_background.mp4" type="video/mp4">
+      <!-- Fallback for browsers that don't support video -->
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <!-- .background-static removed: no longer needed -->
+  <img class="floating-molecule-index mol1" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Benzol.svg" alt="Molecule SVG" />
+  <img class="floating-molecule-index mol2" src="images/Mock_cartoon_1.png" alt="Cartoon 1" />
+  <img class="floating-molecule-index mol3" src="images/Mock_cartoon_2.png" alt="Cartoon 2" />
   <div class="menu-container floating-menu">
     <button class="menu-toggle" onclick="toggleMenu()">
       <span class="hamburger-line"></span>
@@ -25,184 +286,229 @@
     </nav>
   </div>
 
-  <div class="hero-index">
-    <h1>Adaptive Materials &amp; Soft Robotics</h1>
-    <p>Innovating at the interface of chemistry, physics, and biology.</p>
-  </div>
-
-  <div class="content">
-
-    <main>
-    <div class="welcome-block">
-      <h2>WELCOME</h2>
-      <p>This is the MoDS Lab at ISTA. Our research focuses on adaptive materials and soft robotics, innovating at the interface of chemistry, physics, and biology.</p>
+  <div class="scroll-container">
+    <div class="hero-index">
+      <h1>Chemistry with Intent: Adaptive Responses from Molecule to Material</h1>
     </div>
+    <div class="content">
+      <main style="flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0;">
+        <div class="welcome-block">
+          <div style="background: #111; border-radius: 28px; box-shadow: 0 4px 32px #1b7c4b33, 0 2px 12px #000a; border-left: 8px solid #1b7c4b; border-right: 2px solid #1b7c4b; padding: 2.5em 2vw 2.5em 2vw; max-width: 1200px; width: 100%; margin: 2em auto; color: #fff; position: relative; z-index: 3; text-align: center; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">
+            <h2 style="color: #1b7c4b; margin-bottom: 0.7em; font-size: 3rem;">CNIT Lab<br>Knitting Molecular Function Across Scales</h2>
+            <p style="color: #fff; font-size: 1.4rem; margin-top: 0;">Our research at the Chemistry-driven Non-orthogonal Interactions in Tunable Materials (CNIT) Lab at ISTA bridges organic chemistry and materials science to engineer responsive systems that exhibit purposeful behavior taking molecular functions to macroscopic scales. Our goal is to “knit” chemistry, molecular assembly, materials geometry, and stimuli-responses together into adaptive systems.</p>
+          </div>
+        </div>
+        <section class="carousel-section">
+          <div class="carousel-cards-container">
+            <!-- Card 1: Structure to Mechanistic Insight -->
+            <div class="carousel-card active">
+              <div class="carousel-text" style="position: relative; overflow: visible;">
+                <h3 style=" top: 150px; margin-bottom: 1.2em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">From Structure to Mechanistic Insight</h3>
+                <img src="images/sec1_gif.gif" alt="Section 1 Animation" class="carousel-img main-gif card1-gif" />
+                <p class="carousel-textbox">Through the tools of physical organic and synthetic chemistry, we uncover the mechanistic underpinnings of stimuli-responsive molecular systems. Visible light-responsive molecules are especially compelling for their non-invasive activation and their suitability for biologically and technologically relevant environments.</p>
+                <img src="images/sec1_Cartoon.png" alt="Section 1 Cartoon" class="carousel-img cartoon-img abs-cartoon" />
+              </div>
+            </div>
+            <!-- Card 2: Molecules to Functional Matter -->
+            <div class="carousel-card">
+              <div class="carousel-text">
+                <h3 style="margin-bottom: -0.2em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">
+                  From Molecules to Functional Matter
+                </h3>
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; width: 100%; max-width: 1400px; margin: 0 auto;">
+                  <!-- Left GIF -->
+                  <div style="width: 350px; display: flex; align-items: center; justify-content: flex-end;">
+                    <img src="images/sec2.gif" alt="Section 2 Animation" class="carousel-img gif-img-small" />
+                  </div>
+                  <!-- Center Text -->
+                  <div style="width: 700px; display: flex; align-items: center; justify-content: center; padding: 0 2em;">
+                    <p class="carousel-textbox">
+                      We translate molecular responsiveness into material performance by guiding how molecules organize, interact, and transform. Through this bottom-up design, emergent properties such as phase change and mechanical adaptation become accessible and tunable.
+                    </p>
+                  </div>
+                  <!-- Right GIF -->
+                  <div style="width: 350px; display: flex; align-items: center; justify-content: flex-start;">
+                    <img src="images/sec2_gif2.gif" alt="Section 2 Cartoon" class="carousel-img gif-img-small" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Card 3: Functional Matter to Emergence -->
+            <div class="carousel-card">
+              <div class="carousel-text" style="position: relative; overflow: visible; width: 100%;">
+                <!-- Title positioned lower to overlap with cartoon -->
+                <h3 class="card3-title" style="font-size: 2.8rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 3px 15px #1b7c4b, 0 3px 15px #000; font-weight: 600; margin: 0;">From Functional Matter to Emergence</h3>
+                
+                <div class="card3-row">
+                  <!-- Left Video - moved left -->
+                  <div class="card3-video-wrap">
+                    <video src="images/sec3gif.mp4" autoplay loop muted class="carousel-img gif-img card3-gif" style="width: 300px; height: 300px; border-radius: 12px; object-fit: cover; display: block;"></video>
+                  </div>
+                  
+                  <!-- Center Text - made broader -->
+                  <div class="card3-text-wrap">
+                    <p class="carousel-textbox" style="background: rgba(17,17,17,0.92); border-radius: 1em; padding: 1em 1.5em; line-height: 1.4; text-align: justify;">By orchestrating structure and responsiveness across scales, we enable materials to exhibit higher-order functions—such as memory, adaptation, and selective response—rooted in their physical architecture.</p>
+                  </div>
+                  
+                  <!-- Right Cartoon - using different approach to get closer -->
+                  <div class="card3-cartoon-wrap">
+                    <img src="images/sec3_cartoon.png" alt="Section 3 Cartoon" class="carousel-img cartoon-img card3-cartoon-img" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Card 4: New Voices to New Directions (already good) -->
+            <div class="carousel-card">
+              <div class="carousel-text">
+                <div style="margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 900px; width: 100%;">
+                  <h3 style="margin-bottom: 0.7em; text-align: center; width: 100%; font-size: 3rem; color: #1b7c4b; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">From New Voices to New Directions</h3>
+                  <div style="width: 100%; max-width: 430px; display: flex; justify-content: center; margin-bottom: 1em;">
+                    <img src="images/Sec5.png" alt="Section 5 Cartoon" style="max-width: 430px; width: 100%; height: auto; background: none; border-radius: 0; box-shadow: none; display: block; margin: 0 auto;" />
+                  </div>
+                  <p style="text-align: center; width: 100%; max-width: 1200px;">
+                    From molecules to materials to function—if that arc excites you, we want to hear from you. Join us in exploring what’s possible.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="carousel-dots" style="display: flex; justify-content: center; gap: 0.7em; margin-top: -0.8em; margin-bottom: -5em; z-index: 100; position: relative;"></div>
+        <div style="height: 200px;"></div>
+        </div>
+        </section>
 
-    <section class="team-section">
-      <h2>Our Team</h2>
-      <div id="members" class="team-list"></div>
-    </section>
-
-    <section class="carousel-section">
-      <div class="carousel-notch"></div>
-      <div class="carousel-card">
-        <div class="carousel-text active">
-          <h3>Section 1 Title</h3>
-          <p>Dummy text for section 1. Replace with your own content.</p>
-        </div>
-        <div class="carousel-text">
-          <h3>Section 2 Title</h3>
-          <p>Dummy text for section 2. Replace with your own content.</p>
-        </div>
-        <div class="carousel-text">
-          <h3>Section 3 Title</h3>
-          <p>Dummy text for section 3. Replace with your own content.</p>
-        </div>
-        <div class="carousel-text">
-          <h3>Section 4 Title</h3>
-          <p>Dummy text for section 4. Replace with your own content.</p>
-        </div>
-        <div class="carousel-text">
-          <h3>Section 5 Title</h3>
-          <p>Dummy text for section 5. Replace with your own content.</p>
-        </div>
-        <div class="carousel-dots"></div>
-      </div>
-    </section>
-    </main>
-
-    <footer>
-      <p>© 2025 MoDS Lab | Institute of Science and Technology Austria</p>
-      <p>Email: <a href="mailto:yourname@university.edu">yourname@university.edu</a></p>
-    </footer>
+      </main>
+    </div>
+    
   </div>
+  <footer>
+    <p>© 2025 CNIT Lab | Institute of Science and Technology Austria</p>
+  </footer>
   <script>
     function toggleMenu() {
       const dropdownMenu = document.querySelector('.dropdown-menu');
-      dropdownMenu.classList.toggle('show');
-    }
-
-    // Close the dropdown if clicked outside
-    window.onclick = function(event) {
-      if (!event.target.matches('.menu-toggle') && !event.target.matches('.hamburger-line')) {
-        const dropdowns = document.getElementsByClassName("dropdown-menu");
-        for (let i = 0; i < dropdowns.length; i++) {
-          const openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
-        }
+      const toggleBtn = document.querySelector('.menu-toggle');
+      const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      if (!expanded) {
+        dropdownMenu.classList.add('show');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        dropdownMenu.classList.remove('show');
+        toggleBtn.setAttribute('aria-expanded', 'false');
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const texts = document.querySelectorAll('.carousel-text');
-      const dotsContainer = document.querySelector('.carousel-dots');
-      let current = 0;
+    // Only close the dropdown if clicked outside or on navigation
+    document.addEventListener('mousedown', function(event) {
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+      const toggleBtn = document.querySelector('.menu-toggle');
+      if (dropdownMenu.classList.contains('show') && !dropdownMenu.contains(event.target) && !toggleBtn.contains(event.target)) {
+        dropdownMenu.classList.remove('show');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
 
-      // Create dots
-      texts.forEach((_, idx) => {
+    // Close menu on navigation
+    document.querySelectorAll('.dropdown-menu a').forEach(link => {
+      link.addEventListener('click', function() {
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        const toggleBtn = document.querySelector('.menu-toggle');
+        dropdownMenu.classList.remove('show');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Carousel logic (fade entire card, only one visible at a time)
+      const cards = document.querySelectorAll('.carousel-card');
+      const dotsContainer = document.body.querySelector('.carousel-dots');
+      let current = 0;
+      // Set only first card active
+      cards.forEach((card, idx) => {
+        if (idx === 0) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
+      cards.forEach((_, idx) => {
         const dot = document.createElement('div');
         dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
         dot.addEventListener('click', () => {
-          texts[current].classList.remove('active');
-          dotsContainer.children[current].classList.remove('active');
-          current = idx;
-          texts[current].classList.add('active');
-          dotsContainer.children[current].classList.add('active');
+          if (current !== idx) {
+            animateCarouselOut(cards[current]);
+            dotsContainer.children[current].classList.remove('active');
+            current = idx;
+            setTimeout(() => {
+              animateCarouselIn(cards[current]);
+              dotsContainer.children[current].classList.add('active');
+            }, 400); // fade out before fade in
+          }
         });
         dotsContainer.appendChild(dot);
       });
-
+      function animateCarouselOut(card) {
+        card.classList.remove('active');
+      }
+      function animateCarouselIn(card) {
+        card.classList.add('active');
+      }
       setInterval(() => {
-        texts[current].classList.remove('active');
+        animateCarouselOut(cards[current]);
         dotsContainer.children[current].classList.remove('active');
-        current = (current + 1) % texts.length;
-        texts[current].classList.add('active');
-        dotsContainer.children[current].classList.add('active');
-      }, 10000);
+        current = (current + 1) % cards.length;
+        setTimeout(() => {
+          animateCarouselIn(cards[current]);
+          dotsContainer.children[current].classList.add('active');
+        }, 400);
+      }, 15000);
     });
 
-    // Replace with your actual published CSV link from Google Sheets
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJSOxWdkQrwZOF2yEZPPu3I6w0bqZjBmBJRYKf3Ekb6EzP2WXaBYq7OvDxLdUUKrkE9dQ82BwXmT9H/pub?output=csv';
+    function setBackgroundTransform() {
+      const rot = Math.floor(Math.random() * 360);
+      const angleRad = (rot % 360) * Math.PI / 180;
 
-    fetch(csvUrl)
-      .then(response => response.text())
-      .then(csv => {
-        const rows = csv.trim().split('\n').map(row => row.split(','));
-        const headers = rows.shift();
-        const members = rows.map(row => {
-          const obj = {};
-          row.forEach((val, idx) => obj[headers[idx].trim()] = val.trim());
-          return obj;
-        });
+      const sin = Math.abs(Math.sin(angleRad));
+      const cos = Math.abs(Math.cos(angleRad));
 
-        const container = document.getElementById('members');
-        members.forEach(m => {
-          if (m.Name) {
-            const card = document.createElement('div');
-            card.className = 'member-card';
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
 
-            // Picture
-            if (m.PictureFile) {
-              const img = document.createElement('img');
-              img.src = m.PictureFile;
-              img.alt = m.Name;
-              img.className = 'member-photo';
-              card.appendChild(img);
-            }
+      const bg = document.querySelector('.background');
 
-            // Name
-            const name = document.createElement('h3');
-            name.textContent = m.Name;
-            card.appendChild(name);
+      // Start with base size matching viewport
+      const baseW = vw;
+      const baseH = vh;
 
-            // Education
-            const eduList = document.createElement('ul');
-            [m.Ed1, m.Ed2, m.Ed3].forEach(ed => {
-              if (ed) {
-                const li = document.createElement('li');
-                li.textContent = ed;
-                eduList.appendChild(li);
-              }
-            });
-            if (eduList.children.length > 0) {
-              card.appendChild(eduList);
-            }
+      // Calculate rotated bounding box dimensions
+      const bboxW = baseW * cos + baseH * sin;
+      const bboxH = baseW * sin + baseH * cos;
 
-            // Bio
-            if (m.Bio) {
-              const bio = document.createElement('p');
-              bio.textContent = m.Bio;
-              card.appendChild(bio);
-            }
+      // Add a small margin for safety
+      const paddingFactor = 1.02;
 
-            // Links
-            const links = document.createElement('div');
-            links.className = 'member-links';
-            if (m["Google Scholar"]) {
-              const gs = document.createElement('a');
-              gs.href = m["Google Scholar"];
-              gs.textContent = "Google Scholar";
-              gs.target = "_blank";
-              links.appendChild(gs);
-            }
-            if (m["LinkedIn"]) {
-              const li = document.createElement('a');
-              li.href = m["LinkedIn"].startsWith('http') ? m["LinkedIn"] : 'https://' + m["LinkedIn"];
-              li.textContent = "LinkedIn";
-              li.target = "_blank";
-              links.appendChild(li);
-            }
-            if (links.children.length > 0) {
-              card.appendChild(links);
-            }
+      const adjustedW = bboxW * paddingFactor;
+      const adjustedH = bboxH * paddingFactor;
 
-            container.appendChild(card);
-          }
-        });
-      })
-      .catch(err => console.error('Error loading CSV:', err));
+      // Set the background size dynamically
+      bg.style.width = `${adjustedW}px`;
+      bg.style.height = `${adjustedH}px`;
+
+      // Calculate the scale needed (if any)
+      const scaleW = vw / bboxW;
+      const scaleH = vh / bboxH;
+      const scale = Math.max(scaleW, scaleH, 1);
+
+      // Apply transform
+      const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`;
+      bg.style.transform = transform;
+    }
+    setBackgroundTransform();
+    window.addEventListener('resize', setBackgroundTransform);
+    // Listen for zoom (via resize, orientationchange, or visualViewport)
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', setBackgroundTransform);
+    }
   </script>
 </body>
 </html>
