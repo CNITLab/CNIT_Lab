@@ -123,13 +123,38 @@
         if (playPromise !== undefined) {
           playPromise.catch(error => {
             console.log('Video autoplay prevented, using static background');
+            // Copy transform from video container to static background
+            if (videoContainer && staticBg) {
+              staticBg.style.transform = videoContainer.style.transform;
+              staticBg.style.width = videoContainer.style.width;
+              staticBg.style.height = videoContainer.style.height;
+            }
             if (videoContainer) videoContainer.style.display = 'none';
             if (staticBg) staticBg.style.display = 'block';
           });
         }
         
+        // When video ends, switch to static background
+        video.addEventListener('ended', function() {
+          console.log('Video ended, switching to static background');
+          // Copy transform from video container to static background
+          if (videoContainer && staticBg) {
+            staticBg.style.transform = videoContainer.style.transform;
+            staticBg.style.width = videoContainer.style.width;
+            staticBg.style.height = videoContainer.style.height;
+          }
+          if (videoContainer) videoContainer.style.display = 'none';
+          if (staticBg) staticBg.style.display = 'block';
+        });
+        
         video.addEventListener('error', function() {
           console.log('Video error, using static background');
+          // Copy transform from video container to static background
+          if (videoContainer && staticBg) {
+            staticBg.style.transform = videoContainer.style.transform;
+            staticBg.style.width = videoContainer.style.width;
+            staticBg.style.height = videoContainer.style.height;
+          }
           if (videoContainer) videoContainer.style.display = 'none';
           if (staticBg) staticBg.style.display = 'block';
         });
@@ -139,7 +164,7 @@
 </head>
 <body>
   <div class="background">
-    <video autoplay muted loop playsinline preload="auto">
+    <video autoplay muted playsinline preload="auto">
       <source src="images/welcome_background.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
