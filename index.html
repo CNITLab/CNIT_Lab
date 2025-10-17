@@ -289,18 +289,72 @@
       height: 100%;
       object-fit: cover;
       object-position: center center;
+      -webkit-object-fit: cover;
     }
-    /* .background-static removed: no longer used */
+    .scroll-container {
+      -webkit-overflow-scrolling: touch;
+    }
+    @media (max-width: 768px) {
+      .background,
+      .background-static {
+        width: 100vw !important;
+        height: 100vh !important;
+        height: calc(var(--vh, 1vh) * 100) !important;
+        transform: translate(-50%, -50%) !important;
+      }
+    }
+    @supports (-webkit-touch-callout: none) {
+      .background video {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+      }
+    }
   </style>
+  <script>
+    // Mobile viewport height fix
+    function setViewportHeight() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+
+    // Video fallback for mobile
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.querySelector('.background video');
+      const videoContainer = document.querySelector('.background');
+      const staticBg = document.querySelector('.background-static');
+      
+      if (video) {
+        const playPromise = video.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log('Video autoplay prevented, using static background');
+            if (videoContainer) videoContainer.style.display = 'none';
+            if (staticBg) staticBg.style.display = 'block';
+          });
+        }
+        
+        video.addEventListener('error', function() {
+          console.log('Video error, using static background');
+          if (videoContainer) videoContainer.style.display = 'none';
+          if (staticBg) staticBg.style.display = 'block';
+        });
+      }
+    });
+  </script>
 </head>
 <body class="index-page">
   <div class="background">
-    <video autoplay muted>
+    <video autoplay muted loop playsinline preload="auto">
       <source src="images/welcome_background.mp4" type="video/mp4">
       <!-- Fallback for browsers that don't support video -->
       Your browser does not support the video tag.
     </video>
   </div>
+  <div class="background-static" style="display:none; position: fixed; left: 50%; top: 50%; width: 142vw; height: 142vh; z-index: -2; background: url('images/static_background.png') center center/cover no-repeat; transform: translate(-50%, -50%); pointer-events: none;"></div>
   <!-- .background-static removed: no longer needed -->
   <img class="floating-molecule-index mol1" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Benzol.svg" alt="Molecule SVG" />
   <img class="floating-molecule-index mol2" src="images/Mock_cartoon_1.png" alt="Cartoon 1" />
