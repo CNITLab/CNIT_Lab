@@ -580,8 +580,11 @@
       }, 15000);
     });
 
-    function setBackgroundTransform() {
-      const rot = Math.floor(Math.random() * 360);
+    // Store rotation so it doesn't change on resize
+    const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
+    window._backgroundRotation = rot;
+    
+    function applyBackgroundTransform() {
       const angleRad = (rot % 360) * Math.PI / 180;
 
       const sin = Math.abs(Math.sin(angleRad));
@@ -623,11 +626,11 @@
       bg.style.transform = transform;
       bgStatic.style.transform = transform;
     }
-    setBackgroundTransform();
-    window.addEventListener('resize', setBackgroundTransform);
+    applyBackgroundTransform();
+    window.addEventListener('resize', applyBackgroundTransform);
     // Listen for zoom (via resize, orientationchange, or visualViewport)
     if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', setBackgroundTransform);
+      window.visualViewport.addEventListener('resize', applyBackgroundTransform);
     }
   </script>
 </body>
