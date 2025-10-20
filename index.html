@@ -591,6 +591,7 @@
       const vh = window.innerHeight;
 
       const bg = document.querySelector('.background');
+      const bgStatic = document.querySelector('.background-static');
 
       // Start with base size matching viewport
       const baseW = vw;
@@ -606,18 +607,21 @@
       const adjustedW = bboxW * paddingFactor;
       const adjustedH = bboxH * paddingFactor;
 
-      // Set the background size dynamically
+      // Set the background size dynamically for both video and static
       bg.style.width = `${adjustedW}px`;
       bg.style.height = `${adjustedH}px`;
+      bgStatic.style.width = `${adjustedW}px`;
+      bgStatic.style.height = `${adjustedH}px`;
 
       // Calculate the scale needed (if any)
       const scaleW = vw / bboxW;
       const scaleH = vh / bboxH;
       const scale = Math.max(scaleW, scaleH, 1);
 
-      // Apply transform
+      // Apply transform to both video and static
       const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`;
       bg.style.transform = transform;
+      bgStatic.style.transform = transform;
     }
     setBackgroundTransform();
     window.addEventListener('resize', setBackgroundTransform);
