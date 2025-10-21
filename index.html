@@ -420,7 +420,7 @@
               <div class="carousel-text" style="position: relative; overflow: visible;">
                 <h3 class="carousel-heading">From Structure to Mechanistic Insight</h3>
                 <div class="carousel-media">
-                  <img src="images/sec1_gif.gif" alt="Section 1 Animation" class="carousel-img single-media carousel-media-item" />
+                  <img src="images/sec1.jpg" data-src="images/sec1_gif.gif" alt="Section 1 Animation" class="carousel-img single-media carousel-media-item delayed-gif" />
                 </div>
                 <p class="carousel-textbox">Through the tools of physical organic and synthetic chemistry, we uncover the mechanistic underpinnings of stimuli-responsive molecular systems. Visible light-responsive molecules are especially compelling for their non-invasive activation and their suitability for biologically and technologically relevant environments.</p>
                 <!-- Card1 cartoon removed per request -->
@@ -513,6 +513,16 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
+      // Delay GIF loading until animations complete
+      setTimeout(function() {
+        const delayedGifs = document.querySelectorAll('.delayed-gif');
+        delayedGifs.forEach(function(img) {
+          if (img.hasAttribute('data-src')) {
+            img.src = img.getAttribute('data-src');
+          }
+        });
+      }, 1800); // Wait for hero and carousel animations (1.2s + 1.1s = 2.3s, but start slightly earlier)
+      
       // Carousel logic (fade entire card, only one visible at a time)
       const cards = document.querySelectorAll('.carousel-card');
       const dotsContainer = document.body.querySelector('.carousel-dots');
