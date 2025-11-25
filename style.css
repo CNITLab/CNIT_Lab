@@ -462,37 +462,45 @@ video.card3-gif {
 /* Mobile responsive adjustments - only hide small side images */
 @media (max-width: 700px) {
   .main-gif {
-    max-width: 250px;
-    width: 250px;
-    height: 100px;
+    max-width: 90%;
+    width: auto;
+    height: auto;
   }
   
-  /* Only hide the smaller side GIFs, keep the main GIF */
+  /* Only hide the smaller side GIFs */
   .gif-img-small {
     display: none !important;
   }
   
-  /* Keep Card 3's large GIF but make it smaller */
+  /* Scale down Card 3's large GIF */
   .gif-img {
-    max-width: 280px;
-    width: 280px;
-    height: 240px;
+    max-width: 90%;
+    width: auto;
+    height: auto;
   }
   
   /* Card 3 specific mobile sizing */
   .card3-gif {
-    max-width: 500px !important;
-    width: 500px !important;
-    height: 500px !important;
+    max-width: 90% !important;
+    width: auto !important;
+    height: auto !important;
   }
   
   .card3-cartoon {
-    max-width: 500px !important;
-    width: 500px !important;
+    max-width: 90% !important;
+    width: auto !important;
   }
   
-  .cartoon-img,
-  .carousel-img-sec5-cartoon,
+  .cartoon-img {
+    max-width: 90% !important;
+    width: auto !important;
+    height: auto !important;
+  }
+  
+  .carousel-img-sec5-cartoon {
+    max-width: 300px !important;
+  }
+  
   .abs-cartoon,
   .abs-cartoon-right {
     display: none !important;
