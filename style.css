@@ -403,13 +403,21 @@ video.card3-gif {
   }
 }
 
-/* Hide images on very small screens */
+/* Scale down images on very small screens */
 @media (max-width: 700px) {
   .carousel-img,
   .main-gif,
   .gif-img,
-  .cartoon-img,
-  .carousel-img-sec5-cartoon,
+  .cartoon-img {
+    max-width: 90% !important;
+    width: auto !important;
+    height: auto !important;
+  }
+  
+  .carousel-img-sec5-cartoon {
+    max-width: 300px !important;
+  }
+  
   .abs-cartoon,
   .abs-cartoon-right {
     display: none !important;
