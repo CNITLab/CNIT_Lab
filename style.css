@@ -409,8 +409,17 @@ video.card3-gif {
   .main-gif,
   .gif-img,
   .cartoon-img {
+    display: block !important;
     max-width: 90% !important;
     width: auto !important;
+    height: auto !important;
+  }
+  
+  .carousel-img.single-media,
+  video.single-media {
+    display: block !important;
+    max-width: 90% !important;
+    width: 90% !important;
     height: auto !important;
   }
   
@@ -462,6 +471,7 @@ video.card3-gif {
 /* Mobile responsive adjustments - only hide small side images */
 @media (max-width: 700px) {
   .main-gif {
+    display: block !important;
     max-width: 90%;
     width: auto;
     height: auto;
@@ -474,6 +484,7 @@ video.card3-gif {
   
   /* Scale down Card 3's large GIF */
   .gif-img {
+    display: block !important;
     max-width: 90%;
     width: auto;
     height: auto;
@@ -481,17 +492,20 @@ video.card3-gif {
   
   /* Card 3 specific mobile sizing */
   .card3-gif {
+    display: block !important;
     max-width: 90% !important;
     width: auto !important;
     height: auto !important;
   }
   
   .card3-cartoon {
+    display: block !important;
     max-width: 90% !important;
     width: auto !important;
   }
   
   .cartoon-img {
+    display: block !important;
     max-width: 90% !important;
     width: auto !important;
     height: auto !important;

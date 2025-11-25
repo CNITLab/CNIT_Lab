@@ -316,6 +316,21 @@
         transform: translateZ(0);
       }
     }
+    /* Force carousel images to display on mobile - override any external CSS */
+    @media (max-width: 700px) {
+      .carousel-card.card1 .carousel-img,
+      .carousel-card.card1 .carousel-media img,
+      .carousel-card.card1 video,
+      .carousel-card.card3 .carousel-img,
+      .carousel-card.card3 .carousel-media img,
+      .carousel-card.card3 video {
+        display: block !important;
+        max-width: 90% !important;
+        width: 90% !important;
+        height: auto !important;
+        margin: 1em auto !important;
+      }
+    }
   </style>
   <script>
     // Mobile viewport height fix
