@@ -317,6 +317,43 @@
       }
     }
     /* Force carousel images to display on mobile - override any external CSS */
+    /* Reset card 2 - unified approach for all screen sizes */
+    .carousel-card.card2 .carousel-media {
+      overflow: hidden !important;
+      max-width: 500px !important; /* Reasonable desktop size */
+      width: 100% !important;
+    }
+    .carousel-card.card2 .carousel-img,
+    .carousel-card.card2 .carousel-media img,
+    .carousel-card.card2 video,
+    .carousel-card.card2 .carousel-media-item,
+    .carousel-card.card2 .single-media {
+      left: auto !important;
+      right: auto !important;
+      transform: none !important;
+      position: relative !important;
+      object-fit: contain !important;
+      display: block !important;
+      margin: 0 auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+    }
+    /* Apply mobile sizing to make it smaller on small screens */
+    @media (max-width: 800px) {
+      .carousel-card.card2 .carousel-media {
+        max-width: 85% !important;
+        padding: 0 1em !important;
+      }
+      .carousel-card.card2 .carousel-img,
+      .carousel-card.card2 .carousel-media img,
+      .carousel-card.card2 video,
+      .carousel-card.card2 .carousel-media-item,
+      .carousel-card.card2 .single-media {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
     @media (max-width: 700px) {
       .carousel-card.card1 .carousel-img,
       .carousel-card.card1 .carousel-media img,
