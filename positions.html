@@ -20,7 +20,16 @@
       color: #ffffef !important;
       font-family: 'Segoe UI', 'Arial', sans-serif;
       height: 100vh;
-      overflow: hidden;
+      overflow: visible;
+    }
+    /* Prevent mobile zoom on input focus */
+    @media screen and (max-width: 768px) {
+      input[type="text"],
+      input[type="email"],
+      select,
+      textarea {
+        font-size: 16px !important;
+      }
     }
     body.fade-out {
       opacity: 0;

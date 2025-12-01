@@ -317,6 +317,15 @@
         transform: translateZ(0);
       }
     }
+    /* Prevent mobile zoom on input focus */
+    @media screen and (max-width: 768px) {
+      input[type="text"],
+      input[type="email"],
+      select,
+      textarea {
+        font-size: 16px !important;
+      }
+    }
     /* Force carousel images to display on mobile - override any external CSS */
     /* Reset card 2 - unified approach for all screen sizes */
     .carousel-card.card2 .carousel-media {
