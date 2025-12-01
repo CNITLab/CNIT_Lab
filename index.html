@@ -286,6 +286,8 @@
       position: fixed;
       left: 50%;
       top: 50%;
+      min-width: 100vw;
+      min-height: 100vh;
       width: 100vw;
       height: 100vh;
       z-index: -2;
@@ -470,7 +472,7 @@
 
   <div class="scroll-container">
     <div class="hero-index">
-      <h1>Chemistry with Intent: Adaptive Responses from Molecule to Material</h1>
+      <h1>Chemistry with Intent: Adaptive Responses from Molecules to Materials</h1>
     </div>
     <div class="content">
       <main style="flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0;">
@@ -659,51 +661,42 @@
       }, 15000);
     });
 
-    // Store rotation so it doesn't change on resize
+    // Store rotation and last dimensions to prevent recalculation on zoom
     const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
     window._backgroundRotation = rot;
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
     
     function applyBackgroundTransform() {
-      const angleRad = (rot % 360) * Math.PI / 180;
-
-      const sin = Math.abs(Math.sin(angleRad));
-      const cos = Math.abs(Math.cos(angleRad));
-
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      const currentWidth = window.innerWidth;
+      const currentHeight = window.innerHeight;
+      
+      // Detect zoom by comparing dimension changes - if both dimensions changed by same ratio, it's likely zoom
+      const widthChange = Math.abs(currentWidth - lastWidth);
+      const heightChange = Math.abs(currentHeight - lastHeight);
+      
+      // If changes are minimal (< 5px), it's likely a zoom event, not a real resize
+      if (widthChange < 5 && heightChange < 5) {
+        return; // Skip background recalculation
+      }
+      
+      lastWidth = currentWidth;
+      lastHeight = currentHeight;
 
       const bg = document.querySelector('.background');
       const bgStatic = document.querySelector('.background-static');
 
-      // Start with base size matching viewport
-      const baseW = vw;
-      const baseH = vh;
-
-      // Calculate rotated bounding box dimensions
-      const bboxW = baseW * cos + baseH * sin;
-      const bboxH = baseW * sin + baseH * cos;
-
-      // Add a small margin for safety
-      const paddingFactor = 1.02;
-
-      const adjustedW = bboxW * paddingFactor;
-      const adjustedH = bboxH * paddingFactor;
-
-      // Set the background size dynamically for both video and static
-      bg.style.width = `${adjustedW}px`;
-      bg.style.height = `${adjustedH}px`;
-      bgStatic.style.width = `${adjustedW}px`;
-      bgStatic.style.height = `${adjustedH}px`;
-
-      // Calculate the scale needed (if any)
-      const scaleW = vw / bboxW;
-      const scaleH = vh / bboxH;
-      const scale = Math.max(scaleW, scaleH, 1);
-
-      // Apply transform to both video and static
-      const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`;
-      bg.style.transform = transform;
-      bgStatic.style.transform = transform;
+      // Keep background simple - always cover viewport, no complex transforms
+      if (bg) {
+        bg.style.width = '100vw';
+        bg.style.height = '100vh';
+        bg.style.transform = `translate(-50%, -50%) rotate(${rot}deg)`;
+      }
+      if (bgStatic) {
+        bgStatic.style.width = '100vw';
+        bgStatic.style.height = '100vh';
+        bgStatic.style.transform = `translate(-50%, -50%) rotate(${rot}deg)`;
+      }
     }
     applyBackgroundTransform();
     window.addEventListener('resize', applyBackgroundTransform);

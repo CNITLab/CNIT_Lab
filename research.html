@@ -215,8 +215,10 @@
       position: fixed;
       left: 50%;
       top: 50%;
-      width: 142vw;
-      height: 142vh;
+      min-width: 100vw;
+      min-height: 100vh;
+      width: 100vw;
+      height: 100vh;
       z-index: -2;
       transform: translate(-50%, -50%);
       pointer-events: none;
@@ -235,8 +237,10 @@
       position: fixed;
       left: 50%;
       top: 50%;
-      width: 142vw;
-      height: 142vh;
+      min-width: 100vw;
+      min-height: 100vh;
+      width: 100vw;
+      height: 100vh;
       z-index: -2;
       background: url('images/static_background.png') center center/cover no-repeat;
       background-size: cover;
@@ -351,45 +355,41 @@
           });
         });
 
-        // Dynamic scaling and rotation for background, matching index.html
+        // Dynamic scaling and rotation for background - prevent recalculation on zoom
         const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
         window._backgroundRotation = rot;
         const bg = document.querySelector('.background');
         const bgStatic = document.querySelector('.background-static');
+        let lastWidth = window.innerWidth;
+        let lastHeight = window.innerHeight;
 
         function applyBackgroundTransform() {
-          const vw = window.innerWidth;
-          const vh = window.innerHeight;
+          const currentWidth = window.innerWidth;
+          const currentHeight = window.innerHeight;
+          
+          // Detect zoom by comparing dimension changes
+          const widthChange = Math.abs(currentWidth - lastWidth);
+          const heightChange = Math.abs(currentHeight - lastHeight);
+          
+          // If changes are minimal (< 5px), it's likely a zoom event, not a real resize
+          if (widthChange < 5 && heightChange < 5) {
+            return; // Skip background recalculation
+          }
+          
+          lastWidth = currentWidth;
+          lastHeight = currentHeight;
 
-          // Calculate the bounding box of the rotated rectangle
-          const angle = (rot % 360) * Math.PI / 180;
-          const sin = Math.abs(Math.sin(angle));
-          const cos = Math.abs(Math.cos(angle));
-
-          const baseW = vw;
-          const baseH = vh;
-
-          const bboxW = baseW * cos + baseH * sin;
-          const bboxH = baseW * sin + baseH * cos;
-
-          // Add a small padding factor to ensure no white edges
-          const paddingFactor = 1.02;
-          const adjustedW = bboxW * paddingFactor;
-          const adjustedH = bboxH * paddingFactor;
-
-          bg.style.width = `${adjustedW}px`;
-          bg.style.height = `${adjustedH}px`;
-          bgStatic.style.width = `${adjustedW}px`;
-          bgStatic.style.height = `${adjustedH}px`;
-
-          // Calculate the minimum scale to cover the viewport
-          const scaleW = vw / bboxW;
-          const scaleH = vh / bboxH;
-          const minScale = Math.max(scaleW, scaleH, 1.12);
-
-          const transform = `translate(-50%, -50%) rotate(${rot}deg) scale(${minScale})`;
-          bg.style.transform = transform;
-          bgStatic.style.transform = transform;
+          // Keep background simple - always cover viewport
+          if (bg) {
+            bg.style.width = '100vw';
+            bg.style.height = '100vh';
+            bg.style.transform = `translate(-50%, -50%) rotate(${rot}deg)`;
+          }
+          if (bgStatic) {
+            bgStatic.style.width = '100vw';
+            bgStatic.style.height = '100vh';
+            bgStatic.style.transform = `translate(-50%, -50%) rotate(${rot}deg)`;
+          }
         }
 
         applyBackgroundTransform();
