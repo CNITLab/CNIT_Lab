@@ -323,7 +323,7 @@
     html, body {
       height: 100vh;
       min-height: 100vh;
-      overflow: visible;
+      overflow-x: hidden;
       background: none !important;
       background-color: transparent !important;
     }
@@ -372,15 +372,6 @@
       overflow-y: auto;
       z-index: 0;
       -webkit-overflow-scrolling: touch;
-    }
-    @media (max-width: 768px) {
-      .background-image,
-      .background-static {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: calc(var(--vh, 1vh) * 100) !important;
-        transform: translate(-50%, -50%) !important;
-      }
     }
     @supports (-webkit-touch-callout: none) {
       .background-image video {

@@ -15,7 +15,7 @@
     html, body {
       height: 100vh;
       min-height: 100vh;
-      overflow: visible;
+      overflow-x: hidden;
       background: #111 !important;
       color: #ffffef !important;
       font-family: 'Segoe UI', 'Arial', sans-serif;
@@ -210,15 +210,6 @@
       object-fit: cover;
       object-position: center center;
       -webkit-object-fit: cover;
-    }
-    @media (max-width: 768px) {
-      .background,
-      .background-static {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: calc(var(--vh, 1vh) * 100) !important;
-        transform: translate(-50%, -50%) !important;
-      }
     }
     @supports (-webkit-touch-callout: none) {
       .background video {
@@ -492,12 +483,21 @@
     // Dynamic scaling and rotation for background, matching index.html
     const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
     window._backgroundRotation = rot;
+    
+    // Detect mobile devices
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    
+    // Lock viewport dimensions at page load for mobile (ignore zoom changes)
+    const initialVW = window.innerWidth;
+    const initialVH = window.innerHeight;
+    
     const bg = document.querySelector('.background');
     const bgStatic = document.querySelector('.background-static');
 
     function applyBackgroundTransform() {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      // Use locked dimensions on mobile, live dimensions on desktop
+      const vw = isMobile ? initialVW : window.innerWidth;
+      const vh = isMobile ? initialVH : window.innerHeight;
 
       // Calculate the bounding box of the rotated rectangle
       const angle = (rot % 360) * Math.PI / 180;
@@ -536,9 +536,17 @@
 
     applyBackgroundTransform();
 
-    window.addEventListener('resize', applyBackgroundTransform);
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+    // Only add resize listeners on desktop, not on mobile
+    if (!isMobile) {
+      window.addEventListener('resize', applyBackgroundTransform);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+      }
+    } else {
+      // On mobile: only listen to orientation changes, ignore zoom
+      window.addEventListener('orientationchange', function() {
+        setTimeout(applyBackgroundTransform, 100);
+      });
     }
   });
 </script>

@@ -12,7 +12,7 @@
     html, body {
       height: 100vh;
       min-height: 100vh;
-      overflow: visible;
+      overflow-x: hidden;
     }
     .scroll-container {
       position: relative;
@@ -100,15 +100,6 @@
       object-fit: cover;
       object-position: center center;
       -webkit-object-fit: cover;
-    }
-    @media (max-width: 768px) {
-      .background,
-      .background-static {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: calc(var(--vh, 1vh) * 100) !important;
-        transform: translate(-50%, -50%) !important;
-      }
     }
     @supports (-webkit-touch-callout: none) {
       .background video {
