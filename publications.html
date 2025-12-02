@@ -323,7 +323,8 @@
     html, body {
       height: 100vh;
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow-x: hidden !important;
+      overflow-y: hidden;
       background: none !important;
       background-color: transparent !important;
     }
@@ -790,9 +791,14 @@ document.addEventListener('DOMContentLoaded', function() {
     window._backgroundRotation = rot;
     const bgDiv = document.querySelector('.background-image');
 
+    // Mobile detection and locked viewport dimensions
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    const initialVW = window.innerWidth;
+    const initialVH = window.innerHeight;
+
     function applyBackgroundTransform() {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      const vw = isMobile ? initialVW : window.innerWidth;
+      const vh = isMobile ? initialVH : window.innerHeight;
 
       // Calculate the bounding box of the rotated rectangle
       const angle = (rot % 360) * Math.PI / 180;
@@ -828,9 +834,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     applyBackgroundTransform();
 
-    window.addEventListener('resize', applyBackgroundTransform);
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+    if (!isMobile) {
+      window.addEventListener('resize', applyBackgroundTransform);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', applyBackgroundTransform);
+      }
+    } else {
+      window.addEventListener('orientationchange', function() {
+        setTimeout(applyBackgroundTransform, 100);
+      });
     }
 
       // Numbering logic
