@@ -663,7 +663,22 @@
     const rot = window._backgroundRotation || Math.floor(Math.random() * 360);
     window._backgroundRotation = rot;
     
+    // Only allow background transform on desktop, freeze it on mobile
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
     function applyBackgroundTransform() {
+      // Skip recalculation on mobile during zoom
+      if (isMobile) {
+        // Apply simple fixed transform for mobile
+        const bg = document.querySelector('.background');
+        const bgStatic = document.querySelector('.background-static');
+        const transform = `translate(-50%, -50%) rotate(${rot}deg)`;
+        bg.style.transform = transform;
+        bgStatic.style.transform = transform;
+        return;
+      }
+      
+      // Desktop: full calculation
       const angleRad = (rot % 360) * Math.PI / 180;
 
       const sin = Math.abs(Math.sin(angleRad));
