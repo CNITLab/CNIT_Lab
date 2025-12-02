@@ -665,14 +665,19 @@
     
     // Detect mobile devices
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    
+    // Lock viewport dimensions at page load for mobile (ignore zoom changes)
+    const initialVW = window.innerWidth;
+    const initialVH = window.innerHeight;
 
     function applyBackgroundTransform() {
       const angleRad = (rot % 360) * Math.PI / 180;
       const sin = Math.abs(Math.sin(angleRad));
       const cos = Math.abs(Math.cos(angleRad));
 
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      // Use locked dimensions on mobile, live dimensions on desktop
+      const vw = isMobile ? initialVW : window.innerWidth;
+      const vh = isMobile ? initialVH : window.innerHeight;
 
       const bg = document.querySelector('.background');
       const bgStatic = document.querySelector('.background-static');
