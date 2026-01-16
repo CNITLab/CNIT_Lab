@@ -1474,7 +1474,7 @@ video.single-media {
   width: 200% !important; /* keeps responsive behavior */
   padding: 0 !important; /* remove internal container padding */
   margin: 0.6em auto 0.9em auto !important; /* preserve vertical rhythm but centered */
-  overflow: hidden !important; /* clip any overflow cleanly */
+  overflow: visible !important; /* allow label to show below video */
   background: transparent !important;
 }
 

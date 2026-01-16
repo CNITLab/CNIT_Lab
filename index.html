@@ -191,6 +191,97 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 600px;
+    }
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.3s ease;
+      user-select: none;
+      padding: 10px;
+      width: 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .carousel-arrow::before {
+      content: '';
+      width: 20px;
+      height: 20px;
+      border-top: 3px solid #ffffef;
+      border-right: 3px solid #ffffef;
+      display: block;
+      transition: all 0.3s ease;
+    }
+    .carousel-arrow-left::before {
+      transform: rotate(-135deg);
+      margin-left: 5px;
+    }
+    .carousel-arrow-right::before {
+      transform: rotate(45deg);
+      margin-right: 5px;
+    }
+    .carousel-arrow:hover::before {
+      border-color: #4eeaaf;
+      transform: scale(1.2) rotate(-135deg);
+    }
+    .carousel-arrow-right:hover::before {
+      transform: scale(1.2) rotate(45deg);
+    }
+    .carousel-arrow:active::before {
+      transform: scale(0.9) rotate(-135deg);
+    }
+    .carousel-arrow-right:active::before {
+      transform: scale(0.9) rotate(45deg);
+    }
+    .carousel-arrow-left {
+      left: 20px;
+    }
+    .carousel-arrow-right {
+      right: 20px;
+    }
+    @media (max-width: 768px) {
+      .carousel-arrow {
+        width: 35px;
+        height: 50px;
+        padding: 8px;
+      }
+      .carousel-arrow::before {
+        width: 16px;
+        height: 16px;
+        border-width: 2.5px;
+      }
+      .carousel-arrow-left {
+        left: 15px;
+      }
+      .carousel-arrow-right {
+        right: 15px;
+      }
+    }
+    @media (max-width: 480px) {
+      .carousel-arrow {
+        width: 30px;
+        height: 45px;
+      }
+      .carousel-arrow::before {
+        width: 14px;
+        height: 14px;
+        border-width: 2px;
+      }
+      .carousel-arrow-left {
+        left: 10px;
+      }
+      .carousel-arrow-right {
+        right: 10px;
+      }
     }
     .carousel-side-cartoon {
       position: absolute;
@@ -257,6 +348,10 @@
       opacity: 1;
       pointer-events: auto;
       z-index: 2;
+    }
+    .carousel-card.active .carousel-arrow {
+      opacity: 1;
+      pointer-events: auto;
     }
     .carousel-cards-container {
       min-height: 0;
@@ -334,7 +429,7 @@
     /* Force carousel images to display on mobile - override any external CSS */
     /* Reset card 2 - unified approach for all screen sizes */
     .carousel-card.card2 .carousel-media {
-      overflow: hidden !important;
+      overflow: visible !important;
       max-width: 500px !important; /* Reasonable desktop size */
       width: 100% !important;
     }
@@ -491,10 +586,15 @@
             <img src="images/cartoon_emergence.png" alt="Cartoon Emergence" class="carousel-side-cartoon-right" id="sideCartoonRight" />
             <!-- Card 1: Structure to Mechanistic Insight -->
             <div class="carousel-card active card1">
+              <!-- Navigation Arrows inside card -->
+              <div class="carousel-arrow carousel-arrow-left" onclick="navigateCarousel(-1)"></div>
+              <div class="carousel-arrow carousel-arrow-right" onclick="navigateCarousel(1)"></div>
+              
               <div class="carousel-text" style="position: relative; overflow: visible;">
                 <h3 class="carousel-heading">From Structure to Mechanistic Insight</h3>
-                <div class="carousel-media">
+                <div class="carousel-media" style="display: flex; flex-direction: column; align-items: center;">
                   <video src="images/sec1_gif.mp4" autoplay loop muted playsinline class="carousel-img single-media carousel-media-item"></video>
+                  <p style="margin-top: 0.8em; font-size: 0.85rem; color: #4eeaaf; text-align: center; font-style: normal;">DASA derivatives under irradiation</p>
                 </div>
                 <p class="carousel-textbox">Through the tools of physical organic and synthetic chemistry, we uncover the mechanistic underpinnings of stimuli-responsive molecular systems. Visible light-responsive molecules are especially compelling for their non-invasive activation and their suitability for biologically and technologically relevant environments.</p>
                 <!-- Card1 cartoon removed per request -->
@@ -503,30 +603,42 @@
 
             <!-- Card 2: Molecules to Functional Matter (use right element as central image) -->
             <div class="carousel-card card2">
+              <!-- Navigation Arrows inside card -->
+              <div class="carousel-arrow carousel-arrow-left" onclick="navigateCarousel(-1)"></div>
+              <div class="carousel-arrow carousel-arrow-right" onclick="navigateCarousel(1)"></div>
+              
               <div class="carousel-text" style="position: relative; overflow: visible;">
                 <h3 class="carousel-heading">From Molecules to Functional Matter</h3>
-                <div class="carousel-media">
+                <div class="carousel-media" style="display: flex; flex-direction: column; align-items: center; position: relative;">
                   <video src="images/sec2_gif2.mp4" autoplay loop muted playsinline class="carousel-img single-media carousel-media-item"></video>
+                  <p style="position: absolute; bottom: 1px; left: 50%; transform: translateX(-50%); margin: 0; padding: 0.4em 1em; font-size: 0.85rem; color: #4eeaaf; text-align: center; font-style: normal; background: rgba(0, 0, 0, 0.75); border-radius: 8px; white-space: nowrap; z-index: 10;">Visible light responsive LCE polymer strip under irradiation</p>
                 </div>
-                <p class="carousel-textbox">We translate molecular responsiveness into material performance by guiding how molecules organize, interact, and transform. Through this bottom-up design, emergent properties such as phase change and mechanical adaptation become accessible and tunable.</p>
-                <!-- Left GIF removed per request -->
+                <p class="carousel-textbox" style="margin-top: 1.5em;">By controlling molecular organization and dynamics, we design soft materials that respond to light with predictable changes in shape, stiffness, or optical properties. These materials bridge chemistry and engineering, enabling devices that sense, actuate, and adapt.</p>
               </div>
             </div>
 
             <!-- Card 3: Functional Matter to Emergence (center video, delete cartoon) -->
             <div class="carousel-card card3">
+              <!-- Navigation Arrows inside card -->
+              <div class="carousel-arrow carousel-arrow-left" onclick="navigateCarousel(-1)"></div>
+              <div class="carousel-arrow carousel-arrow-right" onclick="navigateCarousel(1)"></div>
+              
               <div class="carousel-text" style="position: relative; overflow: visible; width: 100%;">
                 <h3 class="card3-title carousel-heading">From Functional Matter to Emergence</h3>
-                <div class="carousel-media">
+                <div class="carousel-media" style="display: flex; flex-direction: column; align-items: center;">
                   <video src="images/vid5.mp4" autoplay loop muted playsinline class="carousel-img single-media carousel-media-item"></video>
+                  <p style="margin-top: 0.8em; font-size: 0.85rem; color: #4eeaaf; text-align: center; font-style: normal;">LCE Micropillar array under irradiation</p>
                 </div>
                 <p class="carousel-textbox card3-textbox">By orchestrating structure and responsiveness across scales, we enable materials to exhibit higher-order functions—such as memory, adaptation, and selective response—rooted in their physical architecture.</p>
-                <!-- Card3 cartoon removed per request -->
               </div>
             </div>
 
             <!-- Card 4: New Voices to New Directions (already good) -->
             <div class="carousel-card">
+              <!-- Navigation Arrows inside card -->
+              <div class="carousel-arrow carousel-arrow-left" onclick="navigateCarousel(-1)"></div>
+              <div class="carousel-arrow carousel-arrow-right" onclick="navigateCarousel(1)"></div>
+              
               <div class="carousel-text">
                 <div style="margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 900px; width: 100%;">
                   <h3 style="margin-bottom: 0.7em; text-align: center; width: 100%; font-size: 3rem; color: #4eeaaf; font-family: 'Segoe UI', 'Arial', sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 12px #1b7c4b, 0 2px 12px #000; font-weight: 600;">From New Voices to New Directions</h3>
@@ -600,7 +712,9 @@
       // Carousel logic (fade entire card, only one visible at a time)
       const cards = document.querySelectorAll('.carousel-card');
       const dotsContainer = document.body.querySelector('.carousel-dots');
-      let current = 0;
+      window.carouselCurrentIndex = 0;
+      let autoplayInterval;
+      
       // Set only first card active
       cards.forEach((card, idx) => {
         if (idx === 0) {
@@ -617,27 +731,43 @@
       }
       // Hide right cartoon initially (card 1 is active by default)
       sideCartoonRight.classList.remove('show');
+      
+      // Create dots
       cards.forEach((_, idx) => {
         const dot = document.createElement('div');
         dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
         dot.addEventListener('click', () => {
-          if (current !== idx) {
-            animateCarouselOut(cards[current]);
-            dotsContainer.children[current].classList.remove('active');
-            current = idx;
+          if (window.carouselCurrentIndex !== idx) {
+            clearInterval(autoplayInterval);
+            animateCarouselOut(cards[window.carouselCurrentIndex]);
+            dotsContainer.children[window.carouselCurrentIndex].classList.remove('active');
+            window.carouselCurrentIndex = idx;
             setTimeout(() => {
-              animateCarouselIn(cards[current]);
-              dotsContainer.children[current].classList.add('active');
+              animateCarouselIn(cards[window.carouselCurrentIndex]);
+              dotsContainer.children[window.carouselCurrentIndex].classList.add('active');
+              startAutoplay();
             }, 400); // fade out before fade in
           }
         });
         dotsContainer.appendChild(dot);
       });
+      
+      function restartVideos(card) {
+        const videos = card.querySelectorAll('video');
+        videos.forEach(video => {
+          video.currentTime = 0;
+          video.play().catch(e => console.log('Video play failed:', e));
+        });
+      }
+      
       function animateCarouselOut(card) {
         card.classList.remove('active');
       }
+      
       function animateCarouselIn(card) {
         card.classList.add('active');
+        restartVideos(card);
+        
         // Show side cartoon only for card 1
         const sideCartoon = document.getElementById('sideCartoon');
         const sideCartoonRight = document.getElementById('sideCartoonRight');
@@ -653,15 +783,35 @@
           sideCartoonRight.classList.remove('show');
         }
       }
-      setInterval(() => {
-        animateCarouselOut(cards[current]);
-        dotsContainer.children[current].classList.remove('active');
-        current = (current + 1) % cards.length;
+      
+      function startAutoplay() {
+        autoplayInterval = setInterval(() => {
+          animateCarouselOut(cards[window.carouselCurrentIndex]);
+          dotsContainer.children[window.carouselCurrentIndex].classList.remove('active');
+          window.carouselCurrentIndex = (window.carouselCurrentIndex + 1) % cards.length;
+          setTimeout(() => {
+            animateCarouselIn(cards[window.carouselCurrentIndex]);
+            dotsContainer.children[window.carouselCurrentIndex].classList.add('active');
+          }, 400);
+        }, 15000);
+      }
+      
+      // Global navigation function
+      window.navigateCarousel = function(direction) {
+        clearInterval(autoplayInterval);
+        animateCarouselOut(cards[window.carouselCurrentIndex]);
+        dotsContainer.children[window.carouselCurrentIndex].classList.remove('active');
+        
+        window.carouselCurrentIndex = (window.carouselCurrentIndex + direction + cards.length) % cards.length;
+        
         setTimeout(() => {
-          animateCarouselIn(cards[current]);
-          dotsContainer.children[current].classList.add('active');
+          animateCarouselIn(cards[window.carouselCurrentIndex]);
+          dotsContainer.children[window.carouselCurrentIndex].classList.add('active');
+          startAutoplay();
         }, 400);
-      }, 15000);
+      };
+      
+      startAutoplay();
     });
 
     // Store rotation so it doesn't change on resize
