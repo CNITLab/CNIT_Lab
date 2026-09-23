@@ -961,13 +961,16 @@ footer a:hover {
 .person-photo {
   width: 180px;
   height: 220px;
+
   object-fit: cover;
-  background: #eee;
-  border-radius: 50% / 45%; /* Oval shape */
-  margin: 0 2.5em 0 1.5em; /* Increased left margin to move image right */
-  box-shadow: 0 0 0 3px rgba(200,200,200,0.25), 0 4px 24px 0 rgba(80,80,80,0.08);
+  object-position: center 10%; /* centred; shift crop slightly upward */
+
+  background: #111;
+  border-radius: 50% / 45%;
+  margin: 0 2.5em 0 1.5em;
+  box-shadow: 0 0 0 3px rgba(200,200,200,0.25),
+              0 4px 24px 0 rgba(80,80,80,0.08);
   border: 3px solid rgba(255,255,255,0.7);
-  /* Soft blend with background */
   filter: drop-shadow(0 0 12px rgba(120,120,120,0.10));
   transition: box-shadow 0.2s;
   align-self: center;
